@@ -1,23 +1,11 @@
-import {Routes, Route} from "react-router-dom";
-import './App.css';
-import {ThemeProvider, createTheme, Theme} from "@mui/material/styles"
-
-import Layout from "./Layouts/Layout";
-
-const bugNetTheme : Theme = createTheme({
-  palette: {
-    mode: "dark"
-  }
-})
+import { useState } from "react";
+import reactLogo from "./assets/react.svg";
+import "./App.css";
 
 function App() {
-  return (
-    <ThemeProvider theme={bugNetTheme}>
-    <Routes>
-      <Route path="/" element={<Layout/>} />
-    </Routes>
-    </ThemeProvider>
-  )
+  const [count, setCount] = useState(0);
+
+  return <div className="App">Hello</div>;
 }
 
-export default App
+export default App;
