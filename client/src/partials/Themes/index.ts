@@ -3,13 +3,13 @@ import "@fontsource/open-sans/300.css";
 import "@fontsource/open-sans/400.css";
 import "@fontsource/open-sans/700.css";
 
-import { Text } from "./components/text";
+import { Text, Button, Input } from "./components";
 
 export const theme: ThemeConfig = extendTheme({
   initialColorMode: "dark",
   colors: {
     primary: {
-      900: "#000000",
+      900: "#0F0F0F",
       800: "#1A1A1A",
       700: "#333333",
       600: "#4D4D4D",
@@ -56,5 +56,7 @@ export const theme: ThemeConfig = extendTheme({
   },
   components: {
     Text,
+    Button,
+    Input,
   },
 });

@@ -5,6 +5,7 @@ import { theme } from "./partials/Themes";
 import { BrowserRouter } from "react-router-dom";
 import { Suspense } from "react";
 import Loader from "./partials/Loader";
+import "./main.css";
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <ChakraProvider theme={theme}>

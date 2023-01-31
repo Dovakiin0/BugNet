@@ -8,6 +8,11 @@ type HeaderRoute = {
 
 export const HeaderRoutes: HeaderRoute[] = [
   {
+    name: "Home",
+    path: "/",
+    access: ["admin", "user"],
+  },
+  {
     name: "Projects",
     path: "/projects",
     access: ["admin", "user"],

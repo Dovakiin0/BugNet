@@ -1,13 +1,64 @@
-import { Flex, Box, Image, Text } from "@chakra-ui/react";
+import {
+  Flex,
+  Box,
+  Image,
+  Text,
+  Button,
+  List,
+  ListItem,
+  ListIcon,
+  Input,
+} from "@chakra-ui/react";
+import { FaBook, FaPlus } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
+import ProjectList from "./ProjectList";
+import RecentBugsList from "./AssignedBugs";
 
 type Props = {};
 
 function SideNav({}: Props) {
+  let projects = [
+    {
+      id: 1,
+      title: "BugNet",
+    },
+    {
+      id: 2,
+      title: "New Project",
+    },
+  ];
+
+  let bugs = [
+    {
+      id: 1,
+      title: "Cannot login",
+      priority: "Low",
+      createdAt: "2023-01-31T15:00:00.000Z",
+    },
+    {
+      id: 2,
+      title: "Cannot Create Bugs please helppp",
+      priority: "High",
+      createdAt: "2023-01-28T12:00:00.000Z",
+    },
+    {
+      id: 3,
+      title: "Cannot Create Bugs",
+      priority: "Low",
+      createdAt: "2023-01-28T12:00:00.000Z",
+    },
+    {
+      id: 4,
+      title: "Cannot Create Bugs",
+      priority: "Critical",
+      createdAt: "2023-01-27T12:00:00.000Z",
+    },
+  ];
+
   return (
     <Flex
       flexDirection={"column"}
-      width="300px"
+      width="400px"
       bgColor={"primary.800"}
       height="100vh"
     >
@@ -29,15 +80,54 @@ function SideNav({}: Props) {
           </Flex>
         </NavLink>
 
-        {/* Navigation Items */}
+        {/* Recent Bugs */}
         <Flex marginTop={"50px"} gap="5" flexDir={"column"}>
-          {/* {sidebarRoutes.map((route) => (
-        <SideBarItem
-          key={route.name}
-          {...route}
-          active={useMatchPath(route.path)}
-        />
-      ))} */}
+          <Text fontWeight={"bold"} color="primary.200">
+            Assigned Tasks
+          </Text>
+          <Box
+            maxHeight={"300px"}
+            height="300px"
+            overflowY="auto"
+            overflowX={"hidden"}
+            padding="5px"
+          >
+            <RecentBugsList bugList={bugs} />
+          </Box>
+        </Flex>
+
+        {/* Projects */}
+        <Flex marginTop={"50px"} gap="5" flexDir={"column"}>
+          <Flex justify={"space-between"} align="center">
+            <Text fontWeight={"bold"} color="primary.200">
+              Projects
+            </Text>
+            <Button
+              leftIcon={<FaPlus />}
+              colorScheme={"brand"}
+              fontSize={"sm"}
+              size="sm"
+            >
+              Create New
+            </Button>
+          </Flex>
+          {/* List Projects */}
+          <Input
+            placeholder="Search Projects"
+            size="sm"
+            borderColor={"primary.600"}
+            borderRadius={"5px"}
+            _hover={{ borderColor: "primary.500" }}
+            _focus={{ borderColor: "brand.200" }}
+          />
+          <Box
+            maxHeight={"300px"}
+            height="300px"
+            overflowY="auto"
+            overflowX={"hidden"}
+          >
+            <ProjectList projects={projects} />
+          </Box>
         </Flex>
       </Box>
     </Flex>
