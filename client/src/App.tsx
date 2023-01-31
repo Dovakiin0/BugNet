@@ -1,8 +1,13 @@
+import React from "react";
 import { Routes, Route } from "react-router-dom";
 
-import Layout from "./partials/Layouts";
-import Home from "./app/Home";
-import Project from "./app/Project";
+const Layout = React.lazy(() => import("./partials/Layouts"));
+
+const Home = React.lazy(() => import("./app/Home"));
+const Project = React.lazy(() => import("./app/Project"));
+const Users = React.lazy(() => import("./app/Users"));
+const CreateBugs = React.lazy(() => import("./app/Bugs/pages/CreateBug"));
+const Bugs = React.lazy(() => import("./app/Bugs"));
 
 function App() {
   return (
@@ -10,6 +15,9 @@ function App() {
       <Route path="/" element={<Layout />}>
         <Route path="/" element={<Home />} />
         <Route path="/projects" element={<Project />} />
+        <Route path="/users" element={<Users />} />
+        <Route path="/bugs" element={<Bugs />} />
+        <Route path="/bugs/create" element={<CreateBugs />} />
       </Route>
     </Routes>
   );

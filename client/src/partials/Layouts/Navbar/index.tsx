@@ -1,4 +1,5 @@
 import { Flex } from "@chakra-ui/react";
+import { Outlet } from "react-router-dom";
 import Header from "./Components/Header";
 import SideNav from "./Components/SideNav";
 
@@ -9,7 +10,9 @@ function Navbar({}: Props) {
     <>
       <Flex>
         <SideNav />
-        <Header />
+        <Header>
+          <Outlet />
+        </Header>
       </Flex>
     </>
   );

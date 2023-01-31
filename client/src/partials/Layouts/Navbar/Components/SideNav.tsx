@@ -1,5 +1,5 @@
-import React from "react";
 import { Flex, Box, Image, Text } from "@chakra-ui/react";
+import { NavLink } from "react-router-dom";
 
 type Props = {};
 
@@ -13,19 +13,21 @@ function SideNav({}: Props) {
     >
       <Box margin={"20px"}>
         {/* Logo */}
-        <Flex justifyContent={"center"} alignItems={"center"}>
-          <Box boxSize={"30px"} marginRight="20px">
-            <Image src="/LogoNoBack.png" alt="logo" />
-          </Box>
-          <Text
-            color="primary.100"
-            fontWeight={"extrabold"}
-            fontSize={"2xl"}
-            letterSpacing="4px"
-          >
-            BUGNET
-          </Text>
-        </Flex>
+        <NavLink to="/">
+          <Flex justifyContent={"center"} alignItems={"center"}>
+            <Box boxSize={"30px"} marginRight="20px">
+              <Image src="/LogoNoBack.png" alt="logo" />
+            </Box>
+            <Text
+              color="primary.100"
+              fontWeight={"extrabold"}
+              fontSize={"2xl"}
+              letterSpacing="4px"
+            >
+              BUGNET
+            </Text>
+          </Flex>
+        </NavLink>
 
         {/* Navigation Items */}
         <Flex marginTop={"50px"} gap="5" flexDir={"column"}>

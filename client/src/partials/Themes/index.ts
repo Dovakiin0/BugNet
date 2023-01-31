@@ -3,6 +3,8 @@ import "@fontsource/open-sans/300.css";
 import "@fontsource/open-sans/400.css";
 import "@fontsource/open-sans/700.css";
 
+import { Text } from "./components/text";
+
 export const theme: ThemeConfig = extendTheme({
   initialColorMode: "dark",
   colors: {
@@ -18,6 +20,17 @@ export const theme: ThemeConfig = extendTheme({
       100: "#FFFFFF",
     },
     brand: {
+      900: "#3F0071",
+      800: "#4D0080",
+      700: "#5C0099",
+      600: "#6A00B3",
+      500: "#7900CC",
+      400: "#8800E6",
+      300: "#A300FF",
+      200: "#BF00FF",
+      100: "#CC00FF",
+    },
+    secondary: {
       900: "#150050",
       800: "#1A0066",
       700: "#1F007F",
@@ -42,10 +55,6 @@ export const theme: ThemeConfig = extendTheme({
     }),
   },
   components: {
-    Text: {
-      baseStyle: {
-        color: "primary.100",
-      },
-    },
+    Text,
   },
 });
