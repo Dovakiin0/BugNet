@@ -13,7 +13,7 @@ function SideBarItem({ BarIcon, name, path, active }: Props) {
   return (
     <NavLink to={path}>
       <Flex
-        bgColor={active ? "brand.200" : "brand.800"}
+        bgColor={active ? "primary.100" : "primary.800"}
         height="40px"
         rounded="md"
         align="center"
@@ -21,11 +21,11 @@ function SideBarItem({ BarIcon, name, path, active }: Props) {
       >
         <Icon
           as={BarIcon}
-          color={active ? "brand.800" : "brand.200"}
+          color={active ? "primary.800" : "primary.100"}
           boxSize="25px"
         />
         <Text
-          color={active ? "brand.800" : "brand.200"}
+          color={active ? "primary.800" : "primary.100"}
           fontWeight={"bold"}
           fontSize={"lg"}
           marginLeft="10px"

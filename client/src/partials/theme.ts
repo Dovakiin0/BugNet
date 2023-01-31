@@ -6,16 +6,27 @@ import "@fontsource/open-sans/700.css";
 export const theme: ThemeConfig = extendTheme({
   initialColorMode: "dark",
   colors: {
+    primary: {
+      900: "#000000",
+      800: "#1A1A1A",
+      700: "#333333",
+      600: "#4D4D4D",
+      500: "#666666",
+      400: "#808080",
+      300: "#999999",
+      200: "#B3B3B3",
+      100: "#FFFFFF",
+    },
     brand: {
-      900: "#222222",
-      800: "#3B3B3B",
-      700: "#515151",
-      600: "#626262",
-      500: "#7E7E7E",
-      400: "#9E9E9E",
-      300: "#B1B1B1",
-      200: "#CFCFCF",
-      100: "#E1E1E1",
+      900: "#150050",
+      800: "#1A0066",
+      700: "#1F007F",
+      600: "#250099",
+      500: "#2A00B3",
+      400: "#3300CC",
+      300: "#4D00E6",
+      200: "#6600FF",
+      100: "#8000FF",
     },
     text: {},
   },
@@ -25,14 +36,15 @@ export const theme: ThemeConfig = extendTheme({
   styles: {
     global: () => ({
       body: {
-        bg: "brand.900",
+        bg: "primary.900",
+        color: "primary.100",
       },
     }),
   },
   components: {
     Text: {
       baseStyle: {
-        color: "brand.100",
+        color: "primary.100",
       },
     },
   },

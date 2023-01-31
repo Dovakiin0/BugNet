@@ -2,8 +2,8 @@ import React from "react";
 
 type Props = {};
 
-function index({}: Props) {
-  return <div>index</div>;
+function Home({}: Props) {
+  return <div>Home</div>;
 }
 
-export default index;
+export default Home;
