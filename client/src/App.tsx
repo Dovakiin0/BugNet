@@ -8,6 +8,7 @@ const Project = React.lazy(() => import("./app/Project"));
 const Users = React.lazy(() => import("./app/Users"));
 const CreateBugs = React.lazy(() => import("./app/Bugs/pages/CreateBug"));
 const Bugs = React.lazy(() => import("./app/Bugs"));
+const Kanban = React.lazy(() => import("./app/Kanban"));
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
         <Route path="/users" element={<Users />} />
         <Route path="/bugs" element={<Bugs />} />
         <Route path="/bugs/create" element={<CreateBugs />} />
+        <Route path="/kanban" element={<Kanban />} />
       </Route>
     </Routes>
   );

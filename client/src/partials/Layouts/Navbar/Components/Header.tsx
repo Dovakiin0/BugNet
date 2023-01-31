@@ -8,6 +8,7 @@ import {
   MenuList,
   MenuItem,
   Menu,
+  MenuDivider,
 } from "@chakra-ui/react";
 import { NavLink } from "react-router-dom";
 import { HeaderRoutes } from "../../../Routes/HeaderRoutes";
@@ -46,6 +47,15 @@ function Header({ children }: Props) {
                 />
               </MenuButton>
               <MenuList bg="primary.700" border="none">
+                <Flex margin="10px" gap="2">
+                  <Text color="primary.300" fontSize={"sm"}>
+                    Signed in as:{" "}
+                  </Text>
+                  <Text color="primary.100" fontSize={"sm"} fontWeight={"bold"}>
+                    Dovakiin0
+                  </Text>
+                </Flex>
+                <MenuDivider color={"brand.200"} />
                 <MenuItem
                   color="primary.100"
                   bg="primary.700"

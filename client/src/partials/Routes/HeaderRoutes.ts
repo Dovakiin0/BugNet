@@ -19,13 +19,13 @@ export const HeaderRoutes: HeaderRoute[] = [
   },
   { name: "Users", path: "/users", access: ["admin"] },
   {
-    name: "Create Bug",
-    path: "/bugs/create",
+    name: "List Bugs",
+    path: "/bugs",
     access: ["admin", "user"],
   },
   {
-    name: "List Bugs",
-    path: "/bugs",
+    name: "Kanban",
+    path: "/kanban",
     access: ["admin", "user"],
   },
 ];

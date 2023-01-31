@@ -32,11 +32,7 @@ function AssignedBugs({ bugList }: Props) {
   return (
     <List spacing={3}>
       {bugList.map((bug) => (
-        <ListItem
-          key={bug.id}
-          fontWeight={"bold"}
-          _hover={{ color: "primary.200" }}
-        >
+        <ListItem key={bug.id} fontWeight={"bold"}>
           <NavLink to={`/bugs/id`}>
             <Flex>
               <ListIcon
@@ -46,15 +42,11 @@ function AssignedBugs({ bugList }: Props) {
               <Tooltip label={bug.title} placement="right">
                 <Text>
                   #{bug.id}/
-                  {bug.title.length > 15
-                    ? `${bug.title.slice(0, 15)}..`
+                  {bug.title.length > 25
+                    ? `${bug.title.slice(0, 24)}..`
                     : bug.title}
                 </Text>
               </Tooltip>
-              <Spacer />
-              <Text fontSize="xs" color="primary.300">
-                {moment(bug.createdAt).fromNow()}
-              </Text>
             </Flex>
           </NavLink>
         </ListItem>
