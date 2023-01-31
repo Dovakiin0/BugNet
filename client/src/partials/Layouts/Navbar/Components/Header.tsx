@@ -8,7 +8,6 @@ import {
   MenuList,
   MenuItem,
   Menu,
-  MenuDivider,
 } from "@chakra-ui/react";
 import { NavLink } from "react-router-dom";
 import { HeaderRoutes } from "../../../Routes/HeaderRoutes";
@@ -36,8 +35,8 @@ function Header({ children }: Props) {
             </NavLink>
           ))}
           <Spacer />
-          <Box>
-            <Menu>
+          <Box marginRight={10}>
+            <Menu offset={[30, 20]}>
               <MenuButton>
                 <Avatar
                   name="Dovakiin0"
