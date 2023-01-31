@@ -1,15 +1,5 @@
-import {
-  Flex,
-  Box,
-  Image,
-  Text,
-  Button,
-  List,
-  ListItem,
-  ListIcon,
-  Input,
-} from "@chakra-ui/react";
-import { FaBook, FaPlus } from "react-icons/fa";
+import { Flex, Box, Image, Text, Button, Input } from "@chakra-ui/react";
+import { FaPlus } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
 import ProjectList from "./ProjectList";
 import RecentBugsList from "./AssignedBugs";
@@ -83,8 +73,16 @@ function SideNav({}: Props) {
         {/* Recent Bugs */}
         <Flex marginTop={"50px"} gap="5" flexDir={"column"}>
           <Text fontWeight={"bold"} color="primary.200">
-            Assigned Tasks
+            Assigned Bugs
           </Text>
+          <Input
+            placeholder="Search Bugs"
+            size="sm"
+            borderColor={"primary.600"}
+            borderRadius={"5px"}
+            _hover={{ borderColor: "primary.500" }}
+            _focus={{ borderColor: "brand.200" }}
+          />
           <Box
             maxHeight={"300px"}
             height="300px"
