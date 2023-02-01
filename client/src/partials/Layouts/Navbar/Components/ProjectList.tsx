@@ -13,10 +13,10 @@ function ProjectList({ projects }: Props) {
         <ListItem
           key={project.id}
           fontWeight={"bold"}
-          _hover={{ color: "primary.200" }}
+          _hover={{ color: "purple.300" }}
         >
           <NavLink to={`/project/${project.id}`}>
-            <ListIcon as={FaBook} color="brand.200" />
+            <ListIcon as={FaBook} />
             {project.title}
           </NavLink>
         </ListItem>

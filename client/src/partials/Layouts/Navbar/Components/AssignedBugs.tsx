@@ -34,13 +34,13 @@ function AssignedBugs({ bugList }: Props) {
       {bugList.map((bug) => (
         <ListItem key={bug.id} fontWeight={"bold"}>
           <NavLink to={`/bugs/id`}>
-            <Flex>
+            <Flex align="center">
               <ListIcon
                 as={FaBug}
                 color={priority[bug.priority as keyof typeof priority]}
               />
               <Tooltip label={bug.title} placement="right">
-                <Text>
+                <Text _hover={{ color: "purple.300" }}>
                   #{bug.id}/
                   {bug.title.length > 25
                     ? `${bug.title.slice(0, 24)}..`

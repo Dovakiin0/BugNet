@@ -8,10 +8,7 @@ type Props = {};
 function Home({}: Props) {
   return (
     <Flex flexGrow={"1"}>
-      <Flex direction={"column"} flexGrow="1">
-        <HighPriorityBugs />
-        <RecentBugs />
-      </Flex>
+      <HighPriorityBugs />
       <RecentActivities />
     </Flex>
   );

@@ -17,9 +17,8 @@ export const HeaderRoutes: HeaderRoute[] = [
     path: "/projects",
     access: ["admin", "user"],
   },
-  { name: "Users", path: "/users", access: ["admin"] },
   {
-    name: "List Bugs",
+    name: "Bugs",
     path: "/bugs",
     access: ["admin", "user"],
   },

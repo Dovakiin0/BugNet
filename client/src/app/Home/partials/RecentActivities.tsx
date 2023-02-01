@@ -5,17 +5,16 @@ type Props = {};
 function RecentActivities({}: Props) {
   return (
     <Box
-      bg="primary.800"
       margin="10px"
       padding="20px"
       rounded={10}
       maxWidth="400px"
       width="400px"
-      overflowX={"hidden"}
-      overflowY="auto"
+      // overflowX={"hidden"}
+      // overflowY="auto"
     >
       <Text fontWeight={"bold"} color="primary.200">
-        Recent Activities
+        Activities
       </Text>
       <Box maxHeight={"10vh"}>
         <Activity />
