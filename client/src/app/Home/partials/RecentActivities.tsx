@@ -1,4 +1,4 @@
-import { Box, Text } from "@chakra-ui/react";
+import { Box, Text, Flex } from "@chakra-ui/react";
 import Activity from "../components/Activity";
 type Props = {};
 
@@ -10,16 +10,15 @@ function RecentActivities({}: Props) {
       rounded={10}
       maxWidth="400px"
       width="400px"
-      // overflowX={"hidden"}
-      // overflowY="auto"
     >
       <Text fontWeight={"bold"} color="primary.200">
         Activities
       </Text>
-      <Box maxHeight={"10vh"}>
+      <Flex flexDir="column" gap="3">
+        {/* Only limited number of recent activities */}
         <Activity />
         <Activity />
-      </Box>
+      </Flex>
     </Box>
   );
 }

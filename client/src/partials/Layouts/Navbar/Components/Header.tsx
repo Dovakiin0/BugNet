@@ -21,8 +21,18 @@ type Props = {
 
 function Header({ children }: Props) {
   return (
-    <Flex direction={"column"} width="full">
-      <Box bgColor={"primary.800"} height="60px" padding="10px">
+    <Flex
+      direction={"column"}
+      width="full"
+      maxHeight={"100vh"}
+      overflowY="auto"
+    >
+      <Box
+        bgColor={"primary.800"}
+        height="60px"
+        padding="10px"
+        position={"sticky"}
+      >
         <Flex align={"center"} gap="5">
           {HeaderRoutes.map((route, i) => (
             <NavLink key={i} to={route.path}>
