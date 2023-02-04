@@ -13,16 +13,6 @@ export const HeaderRoutes: HeaderRoute[] = [
     access: ["admin", "user"],
   },
   {
-    name: "Projects",
-    path: "/projects",
-    access: ["admin", "user"],
-  },
-  {
-    name: "Bugs",
-    path: "/bugs",
-    access: ["admin", "user"],
-  },
-  {
     name: "Kanban",
     path: "/kanban",
     access: ["admin", "user"],
