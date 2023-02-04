@@ -10,7 +10,7 @@ function TextArea({ label, ...props }: any) {
   const [field, meta] = useField(props);
 
   return (
-    <FormControl isInvalid={meta.error !== "" && meta.touched}>
+    <FormControl isInvalid={!!meta.error && meta.touched}>
       <FormLabel>{label}</FormLabel>
       <Field as={Textarea} {...field} {...props} />
       <FormErrorMessage>{meta.error}</FormErrorMessage>

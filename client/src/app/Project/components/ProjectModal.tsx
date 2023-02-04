@@ -1,19 +1,11 @@
-import {
-  Button,
-  Flex,
-  FormControl,
-  FormErrorMessage,
-  FormHelperText,
-  FormLabel,
-  Input,
-  Textarea,
-} from "@chakra-ui/react";
-import { ErrorMessage, Field, Form, Formik } from "formik";
+import { Button, Flex } from "@chakra-ui/react";
+import { Form, Formik } from "formik";
 import { useState } from "react";
 import FullModal from "../../../components/FullModal";
 import * as Yup from "yup";
 import TextField from "../../../components/Forms/TextField";
 import TextArea from "../../../components/Forms/TextArea";
+import useToast from "../../../hooks/useToast";
 
 type Props = {
   isOpen: boolean;
@@ -21,14 +13,17 @@ type Props = {
 };
 
 function ProjectModal({ isOpen, onClose }: Props) {
-  const [initialValues, setInitialValues] = useState({
+  const initialValues = {
     name: "",
     description: "",
-  });
+  };
+  const { successToast } = useToast();
 
   function onSubmit(values: typeof initialValues, { setSubmitting }: any) {
-    console.log(values);
+    // perform api call
     setSubmitting(false);
+    successToast(`Project ${values.name} created successfully`);
+    onClose();
   }
 
   return (
