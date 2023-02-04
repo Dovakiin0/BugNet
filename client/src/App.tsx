@@ -1,5 +1,5 @@
 import React from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 
 const Layout = React.lazy(() => import("./partials/Layouts"));
 
@@ -14,11 +14,12 @@ function App() {
     <Routes>
       <Route path="/" element={<Layout />}>
         <Route path="/" element={<Home />} />
-        <Route path="/projects" element={<Project />} />
+        <Route path="/project/:id" element={<Project />} />
         <Route path="/bugs" element={<Bugs />} />
         <Route path="/bugs/create" element={<CreateBugs />} />
         <Route path="/kanban" element={<Kanban />} />
       </Route>
+      <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );
 }
