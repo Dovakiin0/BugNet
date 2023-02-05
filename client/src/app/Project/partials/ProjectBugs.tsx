@@ -1,9 +1,10 @@
-import { Box, Button, Stack, Text } from "@chakra-ui/react";
-import { NavLink } from "react-router-dom";
+import { Stack, Box, Text, Flex, Button } from "@chakra-ui/react";
+import { FaPlus } from "react-icons/fa";
 import Bugs from "../../../components/Bugs";
+
 type Props = {};
 
-function HighPriorityBugs({}: Props) {
+export default function ProjectBugs({}: Props) {
   let bugs = [
     {
       id: "1",
@@ -40,10 +41,18 @@ function HighPriorityBugs({}: Props) {
   ];
 
   return (
-    <Box margin="10px" padding="20px" rounded={10} width="full">
-      <Text fontWeight={"bold"} color="primary.200">
-        Priority Bugs
-      </Text>
+    <Box rounded={10} width="full">
+      <Flex justify={"space-between"} margin="10px">
+        <Text fontSize={"xl"}>BUGS</Text>
+        <Button
+          leftIcon={<FaPlus />}
+          colorScheme={"brand"}
+          fontSize={"sm"}
+          size="sm"
+        >
+          Create New
+        </Button>
+      </Flex>
       <Stack direction={"column"} spacing="4" padding="10px">
         {bugs.map((bug) => (
           <Bugs key={bug.id} {...bug} />
@@ -52,5 +61,3 @@ function HighPriorityBugs({}: Props) {
     </Box>
   );
 }
-
-export default HighPriorityBugs;
