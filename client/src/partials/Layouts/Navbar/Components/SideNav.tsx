@@ -12,6 +12,7 @@ import { NavLink } from "react-router-dom";
 import ProjectList from "./ProjectList";
 import RecentBugsList from "./AssignedBugs";
 import ProjectModal from "../../../../app/Project/components/ProjectModal";
+import NormalTextField from "../../../../components/Forms/NormalTextField";
 
 type Props = {};
 
@@ -95,14 +96,7 @@ function SideNav({}: Props) {
           <Text fontWeight={"bold"} color="primary.200">
             Assigned Bugs
           </Text>
-          <Input
-            placeholder="Search Bugs"
-            size="sm"
-            borderColor={"primary.600"}
-            borderRadius={"5px"}
-            _hover={{ borderColor: "primary.500" }}
-            _focus={{ borderColor: "brand.200" }}
-          />
+          <NormalTextField placeholder="Search Bugs" />
           <Box
             overflowY="auto"
             overflowX={"hidden"}
@@ -131,14 +125,7 @@ function SideNav({}: Props) {
             </Button>
           </Flex>
           {/* List Projects */}
-          <Input
-            placeholder="Search Projects"
-            size="sm"
-            borderColor={"primary.600"}
-            borderRadius={"5px"}
-            _hover={{ borderColor: "primary.500" }}
-            _focus={{ borderColor: "brand.200" }}
-          />
+          <NormalTextField placeholder="Search Projects" />
           <Box
             overflowY="auto"
             overflowX={"hidden"}

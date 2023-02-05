@@ -7,6 +7,7 @@ import { Text, Button, Input } from "./components";
 
 export const theme: ThemeConfig = extendTheme({
   initialColorMode: "dark",
+  useSystemColorMode: true,
   colors: {
     primary: {
       900: "#0F0F0F",
