@@ -19,14 +19,12 @@ import NormalTextField from "../../../components/Forms/NormalTextField";
 import AvatarChip from "../components/AvatarChip";
 import Chips from "../components/Chips";
 
-type Props = {};
-
 type Category = {
   title: string;
   color: string;
 };
 
-export default function ProjectSettings({}: Props) {
+export default function ProjectSettings() {
   const categoryPopOver = useDisclosure();
   const teamPopOver = useDisclosure();
 

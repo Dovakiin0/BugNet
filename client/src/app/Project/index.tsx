@@ -17,7 +17,7 @@ function Project({}: Props) {
       </Box>
       <Flex gap="5">
         <ProjectBugs />
-        <Divider orientation="vertical" />
+        <Divider orientation="vertical" height="50vh" />
         <ProjectSettings />
       </Flex>
     </Flex>

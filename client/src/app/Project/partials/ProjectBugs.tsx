@@ -1,10 +1,20 @@
-import { Stack, Box, Text, Flex, Button } from "@chakra-ui/react";
+import {
+  Stack,
+  Box,
+  Text,
+  Flex,
+  Button,
+  useDisclosure,
+} from "@chakra-ui/react";
 import { FaPlus } from "react-icons/fa";
 import Bugs from "../../../components/Bugs";
+import NormalTextField from "../../../components/Forms/NormalTextField";
+import CreateBugModal from "../components/BugModal;";
 
 type Props = {};
 
 export default function ProjectBugs({}: Props) {
+  const bugsModal = useDisclosure();
   let bugs = [
     {
       id: "1",
@@ -41,23 +51,31 @@ export default function ProjectBugs({}: Props) {
   ];
 
   return (
-    <Box rounded={10} width="full">
-      <Flex justify={"space-between"} margin="10px">
-        <Text fontSize={"xl"}>BUGS</Text>
-        <Button
-          leftIcon={<FaPlus />}
-          colorScheme={"brand"}
-          fontSize={"sm"}
-          size="sm"
-        >
-          Create New
-        </Button>
-      </Flex>
-      <Stack direction={"column"} spacing="4" padding="10px">
-        {bugs.map((bug) => (
-          <Bugs key={bug.id} {...bug} />
-        ))}
-      </Stack>
-    </Box>
+    <>
+      <CreateBugModal isOpen={bugsModal.isOpen} onClose={bugsModal.onClose} />
+      {/*might need to pass project id*/}
+      <Box rounded={10} width="full">
+        <Flex justify={"space-between"} margin="10px">
+          <Text fontSize={"xl"}>BUGS</Text>
+          <Button
+            leftIcon={<FaPlus />}
+            colorScheme={"brand"}
+            fontSize={"sm"}
+            size="sm"
+            onClick={bugsModal.onOpen}
+          >
+            Create New
+          </Button>
+        </Flex>
+        <Box margin="10px">
+          <NormalTextField placeholder="Search in this project" size="md" />
+        </Box>
+        <Stack direction={"column"} spacing="4" padding="10px">
+          {bugs.map((bug) => (
+            <Bugs key={bug.id} {...bug} />
+          ))}
+        </Stack>
+      </Box>
+    </>
   );
 }

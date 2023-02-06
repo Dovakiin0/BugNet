@@ -12,7 +12,7 @@ function TextArea({ label, ...props }: any) {
   return (
     <FormControl isInvalid={!!meta.error && meta.touched}>
       <FormLabel>{label}</FormLabel>
-      <Field as={Textarea} {...field} {...props} />
+      <Field as={Textarea} resize="vertical" {...field} {...props} />
       <FormErrorMessage>{meta.error}</FormErrorMessage>
     </FormControl>
   );

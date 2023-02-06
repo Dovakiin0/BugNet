@@ -32,7 +32,7 @@ function ProjectModal({ isOpen, onClose }: Props) {
         onSubmit={onSubmit}
         validationSchema={Yup.object({
           name: Yup.string().required("Project name is required"),
-          description: Yup.string().required("Project desctiption is required"),
+          description: Yup.string().required("Project description is required"),
         })}
       >
         {({ isSubmitting }) => (
