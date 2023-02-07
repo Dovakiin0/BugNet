@@ -1,6 +1,5 @@
 import { Flex, Box, Text } from "@chakra-ui/react";
 import moment from "moment";
-import { FaBug } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
 
 type Props = {
@@ -33,7 +32,7 @@ function Bugs({ id, title, project, author, createdAt, priority }: Props) {
       <Flex gap="5" align="center">
         <Flex flexDir="column" gap="1">
           <Flex gap="2" align="center">
-            <NavLink to="/bug/101">
+            <NavLink to="/bugs/1">
               <Text
                 fontWeight={"bold"}
                 fontSize="md"

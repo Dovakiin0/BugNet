@@ -7,7 +7,7 @@ type Props = {};
 function Project({}: Props) {
   return (
     <Flex flexDir="column" gap="10">
-      <Box bg="brand.800" backdropFilter="auto" backdropBlur="10px">
+      <Box bg="brand.800">
         <Flex margin="100px" flexDir={"column"}>
           <Text fontSize={"4xl"}>BugNet</Text>
           <Text fontSize={"sm"}>
