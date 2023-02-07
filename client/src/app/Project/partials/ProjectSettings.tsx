@@ -78,7 +78,7 @@ export default function ProjectSettings() {
                 <Chips
                   key={i}
                   label={cat.title}
-                  onClick={() => {}}
+                  onDelete={() => {}}
                   colorScheme={cat.color}
                 />
               ))}
@@ -104,7 +104,7 @@ export default function ProjectSettings() {
               <PopoverContent bg="primary.900" border="none">
                 <PopoverArrow />
                 <PopoverBody as={Flex} flexDir="column" gap="3">
-                  <Text color="primary.200">Category Title</Text>
+                  <Text>Category Title</Text>
                   <NormalTextField
                     type="text"
                     placeholder="Enter category name"
@@ -128,7 +128,14 @@ export default function ProjectSettings() {
           <Wrap>
             {team.length > 0 &&
               team.map((t, i) => (
-                <AvatarChip key={i} label={t.label} src={t.src} />
+                <AvatarChip
+                  key={i}
+                  label={t.label}
+                  src={t.src}
+                  onDelete={() => {
+                    console.log("Delete pressed");
+                  }}
+                />
               ))}
             <Popover
               isOpen={teamPopOver.isOpen}
@@ -152,7 +159,7 @@ export default function ProjectSettings() {
               <PopoverContent bg="primary.900" border="none">
                 <PopoverArrow />
                 <PopoverBody as={Flex} flexDir="column" gap="3">
-                  <Text color="primary.200">Team</Text>
+                  <Text>Team</Text>
                   <NormalTextField
                     type="text"
                     placeholder="Enter username"
