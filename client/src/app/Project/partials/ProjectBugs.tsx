@@ -9,7 +9,7 @@ import {
 import { FaPlus } from "react-icons/fa";
 import Bugs from "../../../components/Bugs";
 import NormalTextField from "../../../components/Forms/NormalTextField";
-import CreateBugModal from "../components/BugModal;";
+import CreateBugModal from "../components/BugModal";
 
 type Props = {};
 

@@ -61,10 +61,8 @@ export default function ProjectSettings() {
     <Box>
       {/* Category Section */}
       <Flex flexDir="column" align="center">
-        <Flex width="50em" flexDir="column" gap="5">
-          <Text fontSize={"2xl"} letterSpacing={"0.4rem"}>
-            Project Settings
-          </Text>
+        <Flex width="30em" flexDir="column" gap="5">
+          <Text fontSize={"2xl"}>Project Settings</Text>
           <Box>
             <Text fontSize="xl">Categories</Text>
             <Text fontSize="sm" color="primary.200">
@@ -118,7 +116,7 @@ export default function ProjectSettings() {
       </Flex>
       {/* Teams section */}
       <Flex flexDir="column" align="center" marginTop="50px">
-        <Flex width="50em" flexDir="column" gap="5">
+        <Flex width="30em" flexDir="column" gap="5">
           <Box>
             <Text fontSize="xl">Teams</Text>
             <Text fontSize="sm" color="primary.200">

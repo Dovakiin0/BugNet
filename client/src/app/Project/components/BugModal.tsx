@@ -1,10 +1,19 @@
-import { Button, Flex, Text } from "@chakra-ui/react";
+import {
+  Button,
+  Flex,
+  ListItem,
+  Text,
+  UnorderedList,
+  Box,
+} from "@chakra-ui/react";
 import { Form, Formik } from "formik";
 import FullModal from "../../../components/FullModal";
 import * as Yup from "yup";
 import TextField from "../../../components/Forms/TextField";
-import TextArea from "../../../components/Forms/TextArea";
 import useToast from "../../../hooks/useToast";
+import MDEditor from "@uiw/react-md-editor";
+import { useState } from "react";
+import rehypeSanitize from "rehype-sanitize";
 
 type Props = {
   isOpen: boolean;
@@ -14,11 +23,11 @@ type Props = {
 export default function BugModal({ isOpen, onClose }: Props) {
   const initialValues = {
     title: "",
-    reproduction: "",
-    expected: "",
-    actual: "",
   };
   const { successToast } = useToast();
+  const [value, setValue] = useState<any>(
+    "### Bug Description\n\n### Steps to Reproduce\n1. \n2. \n3. \n### Expected Output\n\n### Actual Output\n\n"
+  );
 
   function onSubmit(values: typeof initialValues, { setSubmitting }: any) {
     // perform api call
@@ -34,37 +43,41 @@ export default function BugModal({ isOpen, onClose }: Props) {
         onSubmit={onSubmit}
         validationSchema={Yup.object({
           title: Yup.string().required("Bug Title is required"),
-          reproduction: Yup.string().required("Bug reproduction is required"),
-          expected: Yup.string().required("Expected output is required"),
-          actual: Yup.string().required("Actual output is required"),
         })}
       >
         {({ isSubmitting }) => (
           <Form>
-            <Flex flexDirection={"column"} gap="5">
+            <Flex flexDirection={"column"} gap="5" maxWidth="900px">
               <TextField
                 type="text"
                 name="title"
                 label="Bug Title"
-                width="600px"
+                width="500px"
                 placeholder="Enter a short yet descriptive title for the bug"
               />
-
-              <TextArea
-                name="reproduction"
-                label="Steps to Reproduce"
-                placeholder="Tell us how can we reproduce this behaviour"
-              />
-              <TextArea
-                name="expected"
-                label="Expected Output"
-                placeholder="Tell us what you expected to happen"
-              />
-              <TextArea
-                name="actual"
-                label="Actual Output"
-                placeholder="What was the actual output?"
-              />
+              <Box>
+                <Text>Bug Description</Text>
+                <Text fontSize="sm" color="primary.200">
+                  A Good Bug description should include:
+                  <UnorderedList>
+                    <ListItem>Detailed description of the bug</ListItem>
+                    <ListItem>Steps to reproduce the behaviour</ListItem>
+                    <ListItem>Expected vs Actual output</ListItem>
+                  </UnorderedList>
+                </Text>
+              </Box>
+              <Box width={"900px"}>
+                <MDEditor
+                  data-color-mode="dark"
+                  value={value}
+                  onChange={setValue}
+                  height={500}
+                  previewOptions={{
+                    rehypePlugins: [rehypeSanitize],
+                  }}
+                  preview="edit"
+                />
+              </Box>
               <Flex gap="1">
                 <Text fontSize="sm" color="primary.200">
                   You are creating this bug on Project

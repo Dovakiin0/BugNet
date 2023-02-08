@@ -11,15 +11,21 @@ type Props = {
   src: string;
   label: string;
   onDelete: () => void;
+  props?: any;
 };
 
-export default function AvatarChip({ src, label, onDelete }: Props) {
+export default function AvatarChip({ src, label, onDelete, props }: Props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
-
   return (
-    <Tag size="lg" bg="brand.500" color="primary.100" borderRadius="full">
+    <Tag
+      size="lg"
+      bg="brand.500"
+      color="primary.100"
+      borderRadius="full"
+      {...props}
+    >
       <Avatar src={src} size="xs" name={label} ml={-1} mr={2} />
-      <TagLabel>{label}</TagLabel>
+      <TagLabel fontSize={"sm"}>{label}</TagLabel>
       <DeletePopOver isOpen={isOpen} onClose={onClose} onConfirm={onDelete}>
         <TagCloseButton onClick={onOpen} />
       </DeletePopOver>

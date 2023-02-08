@@ -13,6 +13,7 @@
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",
     "@fontsource/open-sans": "^4.5.14",
+    "@uiw/react-md-editor": "^3.20.2",
     "formik": "^2.2.9",
     "framer-motion": "^8.5.4",
     "moment": "^2.29.4",
@@ -20,6 +21,7 @@
     "react-dom": "^18.2.0",
     "react-icons": "^4.7.1",
     "react-router-dom": "^6.8.0",
+    "rehype-sanitize": "^5.0.1",
     "yup": "^0.32.11",
     "zustand": "^4.3.2"
   },
