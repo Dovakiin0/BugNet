@@ -1,9 +1,13 @@
-import React from "react";
+import { Flex } from "@chakra-ui/react";
 
 type Props = {};
 
 function Kanban({}: Props) {
-  return <div>Kanban</div>;
+  return (
+    <Flex align="center" justify="center">
+      Coming Soon
+    </Flex>
+  );
 }
 
 export default Kanban;

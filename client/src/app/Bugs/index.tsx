@@ -1,7 +1,7 @@
 import {
   Avatar,
-  AvatarGroup,
   Box,
+  Button,
   Divider,
   Flex,
   Popover,
@@ -19,6 +19,7 @@ import {
 import MDEditor from "@uiw/react-md-editor";
 import { useState } from "react";
 import { FaPlus } from "react-icons/fa";
+import rehypeSanitize from "rehype-sanitize";
 import NormalTextField from "../../components/Forms/NormalTextField";
 import AvatarChip from "../Project/components/AvatarChip";
 
@@ -40,8 +41,29 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris convallis laoree
 
 function Bugs({}: Props) {
   const assigneePopover = useDisclosure();
+  const [comment, setComment] = useState<any>("");
+  const [comments, setComments] = useState([
+    {
+      id: 1,
+      comment:
+        "### Nice\nLorem ipsum dolor sit amet, consectetur adipiscing elit.",
+    },
+    {
+      id: 2,
+      comment: "**Lorem ipsum dolor sit amet**, consectetur adipiscing elit.",
+    },
+    {
+      id: 3,
+      comment: "```js\nconsole.log('Hello World');\n```",
+    },
+  ]);
 
   const onAssigneeAdd = () => {};
+
+  const onCommentAdd = () => {
+    setComments([...comments, { id: comments.length + 1, comment }]);
+    setComment("");
+  };
 
   return (
     <Flex flexDir="column">
@@ -97,6 +119,50 @@ function Bugs({}: Props) {
               }}
             />
           </Box>
+          <Divider />
+          <Flex margin="20px" flexDir="column" gap="5">
+            <Text fontSize="2xl" color="primary.200">
+              Comments
+            </Text>
+
+            {comments.map((d) => (
+              <Box bg="primary.800" padding="20px" rounded="10" gap="5">
+                <MDEditor.Markdown
+                  wrapperElement={{ "data-color-mode": "dark" }}
+                  key={d.id}
+                  source={d.comment}
+                  style={{
+                    whiteSpace: "pre-wrap",
+                    background: "none",
+                    color: "white",
+                  }}
+                />
+                <Flex gap="3" align="center" marginTop="10px">
+                  <Avatar src="" name="Dovakiin0" size="sm" />
+                  <Text fontSize="sm">Dovakiin0</Text>
+                  <Text color="primary.200" fontSize={"sm"}>
+                    Commented on 9th feb
+                  </Text>
+                </Flex>
+              </Box>
+            ))}
+            <MDEditor
+              data-color-mode="dark"
+              value={comment}
+              onChange={setComment}
+              previewOptions={{
+                rehypePlugins: [rehypeSanitize],
+              }}
+            />
+            <Button
+              colorScheme={"brand"}
+              fontSize={"sm"}
+              size="sm"
+              onClick={onCommentAdd}
+            >
+              Comment
+            </Button>
+          </Flex>
         </Flex>
         {/* Settings */}
         <Divider orientation="vertical" height="60vh" />
