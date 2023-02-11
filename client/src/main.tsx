@@ -6,12 +6,19 @@ import { BrowserRouter } from "react-router-dom";
 import { Suspense } from "react";
 import Loader from "./partials/Loader";
 import "./main.css";
+import { QueryClient, QueryClientProvider } from "react-query";
+import { ReactQueryDevtools } from "react-query/devtools";
+
+const queryClient = new QueryClient();
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <ChakraProvider theme={theme}>
     <Suspense fallback={<Loader />}>
       <BrowserRouter>
-        <App />
+        <QueryClientProvider client={queryClient}>
+          <App />
+          <ReactQueryDevtools initialIsOpen={false} />
+        </QueryClientProvider>
       </BrowserRouter>
     </Suspense>
   </ChakraProvider>

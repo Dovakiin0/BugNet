@@ -1,12 +1,45 @@
 {
   "bugs": [
     {
-      "id": "1",
-      "title": "Not Working",
-      "openedBy": "Dovakiin0",
-      "createdAt": "2019-10-10T12:00:00.000Z",
+      "id": 1,
+      "title": "Not Working at all",
       "project": "BugNet",
-      "priority": "Critical"
+      "author": "Dovakiin0",
+      "priority": 2,
+      "createdAt": "2023-01-31"
+    },
+    {
+      "id": 2,
+      "title": "Cannot Login",
+      "project": "BugNet",
+      "author": "Dovakiin0",
+      "priority": 2,
+      "createdAt": "2023-01-31"
+    },
+    {
+      "id": 3,
+      "title": "Cannot Register",
+      "project": "BugNet",
+      "author": "Dovakiin0",
+      "priority": 1,
+      "createdAt": "2023-01-31"
+    },
+    {
+      "id": 4,
+      "title": "Cannot import from Github",
+      "project": "BugNet",
+      "author": "Dovakiin0",
+      "priority": 0,
+      "createdAt": "2023-01-31"
+    }
+  ],
+  "projects": [
+    {
+      "id": "1",
+      "name": "BugNet",
+      "description": "BugNet is a bug tracking system",
+      "createdAt": "2019-10-10T12:00:00.000Z",
+      "updatedAt": "2019-10-10T12:00:00.000Z"
     }
   ]
 }

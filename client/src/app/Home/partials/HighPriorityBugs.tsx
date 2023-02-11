@@ -1,55 +1,28 @@
-import { Box, Button, Stack, Text } from "@chakra-ui/react";
-import { NavLink } from "react-router-dom";
+import { Box, Stack, Text } from "@chakra-ui/react";
 import Bugs from "../../../components/Bugs";
+import Skeleton from "../../../components/Skeleton";
+import { BugsProps } from "../../../types/Bugs";
+import { useBugs } from "../hooks/useBugs";
+
 type Props = {};
 
 function HighPriorityBugs({}: Props) {
-  let bugs = [
-    {
-      id: "1",
-      title: "Not Working",
-      project: "BugNet",
-      author: "Dovakiin0",
-      priority: 2,
-      createdAt: "2023-01-31",
-    },
-    {
-      id: "2",
-      title: "Cannot create new project",
-      project: "BugNet",
-      author: "Dovakiin0",
-      priority: 2,
-      createdAt: "2023-01-31",
-    },
-    {
-      id: "3",
-      title: "Cannot create new Board",
-      project: "BugNet",
-      author: "Dovakiin0",
-      priority: 1,
-      createdAt: "2023-01-31",
-    },
-    {
-      id: "4",
-      title: "Cannot create new Bug",
-      project: "BugNet",
-      author: "Dovakiin0",
-      priority: 0,
-      createdAt: "2023-01-31",
-    },
-  ];
+  const { isLoading, data } = useBugs();
 
   return (
-    <Box margin="10px" padding="20px" rounded={10} width="full">
-      <Text fontWeight={"bold"} color="primary.200">
-        Priority Bugs
-      </Text>
-      <Stack direction={"column"} spacing="4" padding="10px">
-        {bugs.map((bug) => (
-          <Bugs key={bug.id} {...bug} />
-        ))}
-      </Stack>
-    </Box>
+    <>
+      <Box margin="10px" padding="20px" rounded={10} width="full">
+        <Text fontWeight={"bold"} color="primary.200">
+          Priority Bugs
+        </Text>
+        <Skeleton isLoading={isLoading}>
+          <Stack direction={"column"} spacing="4" padding="10px">
+            {!isLoading &&
+              data.map((bug: BugsProps) => <Bugs key={bug.id} {...bug} />)}
+          </Stack>
+        </Skeleton>
+      </Box>
+    </>
   );
 }
 
