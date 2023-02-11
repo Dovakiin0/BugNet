@@ -36,7 +36,7 @@
   "projects": [
     {
       "id": "1",
-      "name": "BugNet",
+      "title": "BugNet",
       "description": "BugNet is a bug tracking system",
       "createdAt": "2019-10-10T12:00:00.000Z",
       "updatedAt": "2019-10-10T12:00:00.000Z"

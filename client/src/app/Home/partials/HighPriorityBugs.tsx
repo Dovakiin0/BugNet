@@ -1,8 +1,8 @@
 import { Box, Stack, Text } from "@chakra-ui/react";
 import Bugs from "../../../components/Bugs";
-import Skeleton from "../../../components/Skeleton";
 import { BugsProps } from "../../../types/Bugs";
 import { useBugs } from "../hooks/useBugs";
+import Skeleton from "../../../components/Skeleton";
 
 type Props = {};
 
@@ -15,12 +15,15 @@ function HighPriorityBugs({}: Props) {
         <Text fontWeight={"bold"} color="primary.200">
           Priority Bugs
         </Text>
-        <Skeleton isLoading={isLoading}>
-          <Stack direction={"column"} spacing="4" padding="10px">
-            {!isLoading &&
-              data.map((bug: BugsProps) => <Bugs key={bug.id} {...bug} />)}
-          </Stack>
-        </Skeleton>
+        <Stack direction={"column"} spacing="4" padding="10px">
+          {isLoading ? (
+            <>
+              <Skeleton height="60px" />
+            </>
+          ) : (
+            data.map((bug: BugsProps) => <Bugs key={bug.id} {...bug} />)
+          )}
+        </Stack>
       </Box>
     </>
   );

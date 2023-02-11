@@ -132,7 +132,7 @@ function SideNav({}: Props) {
             padding="5px"
             maxHeight={"300px"}
           >
-            <ProjectList projects={projects} />
+            <ProjectList />
           </Box>
         </Flex>
       </Flex>

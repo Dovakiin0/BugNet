@@ -1,23 +1,26 @@
-import React from "react";
 import { Skeleton as Ske } from "@chakra-ui/react";
 
 type Props = {
-  isLoading: boolean;
-  children: React.ReactNode;
+  height: string;
+  count?: number;
 };
 
-function Skeleton({ isLoading, children }: Props) {
-  return (
-    <Ske
-      isLoaded={!isLoading}
-      height="full"
-      rounded="10"
-      startColor="primary.700"
-      endColor="primary.900"
-    >
-      {children}
-    </Ske>
+function Skeleton({ height, count = 5 }: Props) {
+  let skeletons: any = [];
+
+  Array.from(Array(count).keys()).map((i) =>
+    skeletons.push(
+      <Ske
+        key={i}
+        height={height}
+        startColor="primary.900"
+        endColor="primary.700"
+        rounded="10"
+      />
+    )
   );
+
+  return <>{skeletons}</>;
 }
 
 export default Skeleton;
