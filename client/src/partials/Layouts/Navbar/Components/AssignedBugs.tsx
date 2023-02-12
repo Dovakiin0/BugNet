@@ -40,7 +40,7 @@ function AssignedBugs({ bugList }: Props) {
                 color={priority[bug.priority as keyof typeof priority]}
               />
               <Tooltip label={bug.title} placement="right">
-                <Text _hover={{ color: "purple.300" }}>
+                <Text _hover={{ color: "purple.300" }} fontSize="sm">
                   #{bug.id}/
                   {bug.title.length > 25
                     ? `${bug.title.slice(0, 24)}..`

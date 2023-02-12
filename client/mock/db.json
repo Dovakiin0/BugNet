@@ -6,7 +6,10 @@
       "projectId": 1,
       "author": "Dovakiin0",
       "priority": 2,
-      "createdAt": "2023-01-31"
+      "createdAt": "2023-01-31",
+      "project": {
+        "title": "BugNet"
+      }
     },
     {
       "id": 2,
@@ -14,7 +17,10 @@
       "projectId": 1,
       "author": "Dovakiin0",
       "priority": 2,
-      "createdAt": "2023-01-31"
+      "createdAt": "2023-01-31",
+      "project": {
+        "title": "BugNet"
+      }
     },
     {
       "id": 3,
@@ -22,7 +28,10 @@
       "projectId": 1,
       "author": "Dovakiin0",
       "priority": 1,
-      "createdAt": "2023-01-31"
+      "createdAt": "2023-01-31",
+      "project": {
+        "title": "BugNet"
+      }
     },
     {
       "id": 4,
@@ -30,7 +39,10 @@
       "projectId": 2,
       "author": "Dovakiin0",
       "priority": 0,
-      "createdAt": "2023-01-31"
+      "createdAt": "2023-01-31",
+      "project": {
+        "title": "Tensura: The rise of the tempest"
+      }
     }
   ],
   "projects": [

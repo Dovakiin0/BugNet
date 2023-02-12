@@ -1,17 +1,27 @@
 import { Flex, Box, Text } from "@chakra-ui/react";
 import moment from "moment";
 import { NavLink } from "react-router-dom";
+import { ProjectProps } from "../types/Project";
 
 type Props = {
   id: string;
   title: string;
-  project: string;
+  projectId: string;
+  project: ProjectProps;
   author: string;
   createdAt: string;
   priority: number;
 };
 
-function Bugs({ id, title, project, author, createdAt, priority }: Props) {
+function Bugs({
+  id,
+  title,
+  projectId,
+  project,
+  author,
+  createdAt,
+  priority,
+}: Props) {
   const priorityList = {
     0: {
       color: "gray.300",
@@ -41,14 +51,14 @@ function Bugs({ id, title, project, author, createdAt, priority }: Props) {
                 #{id}/{title}
               </Text>
             </NavLink>
-            <NavLink to="/project/1">
+            <NavLink to={`/project/${projectId}`}>
               <Text
                 fontWeight={"bold"}
                 fontSize="sm"
                 color="primary.200"
                 _hover={{ color: "purple.300" }}
               >
-                -- {project} |
+                -- {project.title} |
               </Text>
             </NavLink>
             <Text

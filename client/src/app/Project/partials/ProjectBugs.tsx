@@ -9,46 +9,16 @@ import {
 import { FaPlus } from "react-icons/fa";
 import Bugs from "../../../components/Bugs";
 import NormalTextField from "../../../components/Forms/NormalTextField";
+import Skeleton from "../../../components/Skeleton";
+import { BugsProps } from "../../../types/Bugs";
+import { useBugs } from "../../Home/hooks/useBugs";
 import CreateBugModal from "../components/BugModal";
 
 type Props = {};
 
 export default function ProjectBugs({}: Props) {
   const bugsModal = useDisclosure();
-  let bugs = [
-    {
-      id: "1",
-      title: "Not Working",
-      project: "BugNet",
-      author: "Dovakiin0",
-      priority: 2,
-      createdAt: "2023-01-31",
-    },
-    {
-      id: "2",
-      title: "Cannot create new project",
-      project: "BugNet",
-      author: "Dovakiin0",
-      priority: 2,
-      createdAt: "2023-01-31",
-    },
-    {
-      id: "3",
-      title: "Cannot create new Board",
-      project: "BugNet",
-      author: "Dovakiin0",
-      priority: 1,
-      createdAt: "2023-01-31",
-    },
-    {
-      id: "4",
-      title: "Cannot create new Bug",
-      project: "BugNet",
-      author: "Dovakiin0",
-      priority: 0,
-      createdAt: "2023-01-31",
-    },
-  ];
+  const { isLoading, data, isError } = useBugs();
 
   return (
     <>
@@ -71,9 +41,12 @@ export default function ProjectBugs({}: Props) {
           <NormalTextField placeholder="Search in this project" size="md" />
         </Box>
         <Stack direction={"column"} spacing="4" padding="10px">
-          {bugs.map((bug) => (
-            <Bugs key={bug.id} {...bug} />
-          ))}
+          {isLoading ? (
+            <Skeleton height="40px" />
+          ) : (
+            !isError &&
+            data.map((bug: BugsProps) => <Bugs key={bug.id} {...bug} />)
+          )}
         </Stack>
       </Box>
     </>
