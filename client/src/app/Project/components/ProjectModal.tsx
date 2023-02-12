@@ -5,6 +5,7 @@ import * as Yup from "yup";
 import TextField from "../../../components/Forms/TextField";
 import TextArea from "../../../components/Forms/TextArea";
 import useToast from "../../../hooks/useToast";
+import { useCreateProject } from "../hooks/useProject";
 
 type Props = {
   isOpen: boolean;
@@ -12,16 +13,23 @@ type Props = {
 };
 
 function ProjectModal({ isOpen, onClose }: Props) {
+  const { mutateAsync, isLoading, isSuccess, isError } = useCreateProject();
   const initialValues = {
-    name: "",
+    title: "",
     description: "",
   };
-  const { successToast } = useToast();
+  const { successToast, errorToast } = useToast();
 
   function onSubmit(values: typeof initialValues, { setSubmitting }: any) {
     // perform api call
-    setSubmitting(false);
-    successToast(`Project ${values.name} created successfully`);
+    mutateAsync(values);
+    if (isSuccess) {
+      successToast(`Project ${values.title} created successfully`);
+      setSubmitting(false);
+    }
+    if (isError) {
+      errorToast(`Something went wrong!`);
+    }
     onClose();
   }
 
@@ -31,7 +39,7 @@ function ProjectModal({ isOpen, onClose }: Props) {
         initialValues={initialValues}
         onSubmit={onSubmit}
         validationSchema={Yup.object({
-          name: Yup.string().required("Project name is required"),
+          title: Yup.string().required("Project name is required"),
           description: Yup.string().required("Project description is required"),
         })}
       >
@@ -40,7 +48,7 @@ function ProjectModal({ isOpen, onClose }: Props) {
             <Flex flexDirection={"column"} gap="5">
               <TextField
                 type="text"
-                name="name"
+                name="title"
                 label="Project Name"
                 width="600px"
                 placeholder="Enter project name"
@@ -51,7 +59,7 @@ function ProjectModal({ isOpen, onClose }: Props) {
                 placeholder="Enter short project description"
               />
               <Button
-                disabled={isSubmitting}
+                disabled={isLoading}
                 type="submit"
                 colorScheme={"brand"}
                 fontSize={"md"}

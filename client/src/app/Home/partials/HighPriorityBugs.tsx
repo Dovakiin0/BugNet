@@ -7,7 +7,7 @@ import Skeleton from "../../../components/Skeleton";
 type Props = {};
 
 function HighPriorityBugs({}: Props) {
-  const { isLoading, data } = useBugs();
+  const { isLoading, data, isError } = useBugs();
 
   return (
     <>
@@ -21,6 +21,7 @@ function HighPriorityBugs({}: Props) {
               <Skeleton height="60px" />
             </>
           ) : (
+            !isError &&
             data.map((bug: BugsProps) => <Bugs key={bug.id} {...bug} />)
           )}
         </Stack>
