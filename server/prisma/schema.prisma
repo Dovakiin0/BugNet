@@ -1,0 +1,113 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Project {
+  id          Int      @id @default(autoincrement())
+  title       String
+  description String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // relations
+  Category Category[]
+  Member   Member[]
+  Bug      Bug[]
+}
+
+model Category {
+  id        Int      @id @default(autoincrement())
+  title     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // relations
+  projectId Int
+  Project   Project @relation(fields: [projectId], references: [id])
+}
+
+model Member {
+  id        Int      @id @default(autoincrement())
+  accepted  Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // relations
+  projectId Int
+  Project   Project    @relation(fields: [projectId], references: [id])
+  userId    Int
+  User      User       @relation(fields: [userId], references: [id])
+  Assignee  Assignee[]
+}
+
+model Bug {
+  id          Int      @id @default(autoincrement())
+  title       String
+  description String
+  priority    Int      @default(0)
+  status      String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // relations
+  projectId Int
+  Project   Project    @relation(fields: [projectId], references: [id])
+  openedBy  Int
+  User      User       @relation(fields: [openedBy], references: [id])
+  Comment   Comment[]
+  Assignee  Assignee[]
+}
+
+model Comment {
+  id        Int      @id @default(autoincrement())
+  content   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // relations
+  bugId  Int
+  Bug    Bug  @relation(fields: [bugId], references: [id])
+  userId Int
+  User   User @relation(fields: [userId], references: [id])
+}
+
+model Assignee {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // relations
+  bugId    Int
+  Bug      Bug    @relation(fields: [bugId], references: [id])
+  memberId Int
+  Member   Member @relation(fields: [memberId], references: [id])
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  name      String
+  email     String   @unique
+  password  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // relations
+  githubId Int       @unique
+  Github   Github    @relation(fields: [githubId], references: [id])
+  Member   Member[]
+  Bug      Bug[]
+  Comment  Comment[]
+}
+
+model Github {
+  id        Int      @id @default(autoincrement())
+  githubId  Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  User      User?
+}
