@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
-import prisma from "../helper/prismaClient";
-import { Project } from "@prisma/client";
+import prisma, { Project } from "../helper/prismaClient";
 
 const getAllProjects = async (req: Request, res: Response) => {
   try {

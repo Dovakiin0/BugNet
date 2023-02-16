@@ -1,5 +1,5 @@
 import supertest from "supertest";
-import app from "../index";
+import app from "../config";
 import prisma, { Project } from "../helper/prismaClient";
 
 describe("Project Controller", () => {
@@ -15,7 +15,6 @@ describe("Project Controller", () => {
   });
 
   afterAll((done) => {
-    app.close();
     done();
   });
 

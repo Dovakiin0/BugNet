@@ -28,7 +28,7 @@ model Category {
 
   // relations
   projectId Int
-  Project   Project @relation(fields: [projectId], references: [id])
+  Project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
 }
 
 model Member {
@@ -56,7 +56,7 @@ model Bug {
 
   // relations
   projectId Int
-  Project   Project    @relation(fields: [projectId], references: [id])
+  Project   Project    @relation(fields: [projectId], references: [id], onDelete: Cascade)
   openedBy  Int
   User      User       @relation(fields: [openedBy], references: [id])
   Comment   Comment[]
@@ -71,7 +71,7 @@ model Comment {
 
   // relations
   bugId  Int
-  Bug    Bug  @relation(fields: [bugId], references: [id])
+  Bug    Bug  @relation(fields: [bugId], references: [id], onDelete: Cascade)
   userId Int
   User   User @relation(fields: [userId], references: [id])
 }
