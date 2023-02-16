@@ -7,8 +7,7 @@
   "scripts": {
     "start": "node dist/index.js",
     "dev": "nodemon src/index.ts",
-    "test": "dotenv-cli -e .env.test jest --watchAll --verbose --coverage",
-    "migrate": "prisma migrate dev --name init",
+    "test": "jest --watchAll --verbose --coverage --forceExit --runInBand --detectOpenHandles",
     "migrate:test": "npx dotenv-cli -e .env.test prisma migrate dev --name init",
     "build": "tsc"
   },
