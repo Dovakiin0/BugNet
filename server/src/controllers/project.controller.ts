@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { Request, Response } from "../types";
 import prisma, { Project } from "../helper/prismaClient";
 
 const getAllProjects = async (req: Request, res: Response) => {

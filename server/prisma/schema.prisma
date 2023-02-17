@@ -15,6 +15,8 @@ model Project {
   updatedAt   DateTime @updatedAt
 
   // relations
+  ownerId  Int
+  User     User       @relation(fields: [ownerId], references: [id])
   Category Category[]
   Member   Member[]
   Bug      Bug[]
@@ -90,15 +92,16 @@ model Assignee {
 
 model User {
   id        Int      @id @default(autoincrement())
-  name      String
+  username  String
   email     String   @unique
   password  String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   // relations
-  githubId Int       @unique
-  Github   Github    @relation(fields: [githubId], references: [id])
+  githubId Int?      @unique
+  Github   Github?   @relation(fields: [githubId], references: [id])
+  Project  Project[]
   Member   Member[]
   Bug      Bug[]
   Comment  Comment[]
