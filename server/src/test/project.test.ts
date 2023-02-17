@@ -2,7 +2,7 @@ import supertest from "supertest";
 import app from "../config";
 import prisma, { Project } from "../helper/prismaClient";
 
-describe("Project Controller", () => {
+describe("Projects", () => {
   let project: Project;
   beforeAll(async () => {
     await prisma.project.deleteMany();
@@ -18,20 +18,20 @@ describe("Project Controller", () => {
     done();
   });
 
-  it("Should fetch all projects", async () => {
+  it("GET /projects - Should fetch all projects", async () => {
     const res = await supertest(app).get("/api/v1/projects");
     expect(res.status).toBe(200);
     expect(Array.isArray(res.body)).toBe(true);
   });
 
-  it("Should fetch a project by id", async () => {
+  it("GET /projects/:id - Should fetch a project by id", async () => {
     const res = await supertest(app).get(`/api/v1/projects/${project.id}`);
     expect(res.status).toBe(200);
     expect(res.body.title).toBe("Test Project");
     expect(res.body.description).toBe("Test Project Description");
   });
 
-  it("Should create a projects", async () => {
+  it("POST /projects - Should create a projects", async () => {
     const res = await supertest(app).post("/api/v1/projects").send({
       title: "Test Project 1",
       description: "Test Project Description 1",
@@ -41,7 +41,7 @@ describe("Project Controller", () => {
     expect(res.body.description).toBe("Test Project Description 1");
   });
 
-  it("Should update a projects", async () => {
+  it("PUT /projects/:id - Should update a projects", async () => {
     const res = await supertest(app)
       .put(`/api/v1/projects/${project.id}`)
       .send({
@@ -53,7 +53,7 @@ describe("Project Controller", () => {
     expect(res.body.description).toBe("Test Project Description 1");
   });
 
-  it("Should delete a projects", async () => {
+  it("DELETE /projects/:id - Should delete a projects", async () => {
     const res = await supertest(app).delete(`/api/v1/projects/${project.id}`);
     expect(res.status).toBe(200);
     expect(res.body.message).toBe("Delete Successfull");

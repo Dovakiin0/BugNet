@@ -1,10 +1,32 @@
 import express, { Express } from "express";
 import dotenv from "dotenv";
-import Bootstrap from "./routes/router";
+import InjectRoutes from "./routes/router";
+import cors from "cors";
+import session from "express-session";
+import passport from "passport";
 dotenv.config();
 
 const app: Express = express();
 
-Bootstrap(app);
+// middlewares for the application
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+  })
+);
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET || "bugnet",
+    resave: false,
+    saveUninitialized: false,
+  })
+);
+app.use(passport.initialize());
+app.use(passport.session());
+
+// add all routes for the application
+InjectRoutes(app);
 
 export default app;
