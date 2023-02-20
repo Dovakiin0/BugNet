@@ -1,4 +1,4 @@
-import { Request, Response } from "../types";
+import { Request, Response } from "express";
 import prisma, { Category } from "../helper/prismaClient";
 
 const getAllCategories = async (req: Request, res: Response) => {

@@ -5,10 +5,10 @@ import CategoryRouter from "./category.route";
 import AuthRouter from "./auth.route";
 
 // middlewares
-import { auth } from "../middleware/auth.ts";
+import { auth } from "../middleware/auth";
 
 export default function InjectRoutes(app: Express) {
-  app.use("/api/v1/projects", auth, PlrojectRouter);
+  app.use("/api/v1/projects", auth, ProjectRouter);
   app.use("/api/v1/categories", CategoryRouter);
   app.use("/api/v1/auth", AuthRouter);
 }
