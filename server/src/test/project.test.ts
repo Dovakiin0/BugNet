@@ -1,21 +1,30 @@
 import supertest from "supertest";
 import app from "../config";
-import prisma, { Project } from "../helper/prismaClient";
+import prisma, { Project, User } from "../helper/prismaClient";
 
 describe("Projects", () => {
+  let user: User;
   let project: Project;
   beforeAll(async () => {
-    await prisma.project.deleteMany();
+    user = await prisma.user.create({
+      data: {
+        username: "Dovakiin0",
+        email: "email@email.com",
+        password: "pwdpwd",
+      },
+    });
     project = await prisma.project.create({
       data: {
         title: "Test Project",
         description: "Test Project Description",
+        ownerId: user.id,
       },
     });
   });
 
-  afterAll((done) => {
-    done();
+  afterAll(async () => {
+    await prisma.user.deleteMany();
+    await prisma.project.deleteMany();
   });
 
   it("GET /projects - Should fetch all projects", async () => {
@@ -35,6 +44,7 @@ describe("Projects", () => {
     const res = await supertest(app).post("/api/v1/projects").send({
       title: "Test Project 1",
       description: "Test Project Description 1",
+      ownerId: user.id,
     });
     expect(res.status).toBe(201);
     expect(res.body.title).toBe("Test Project 1");
@@ -47,6 +57,7 @@ describe("Projects", () => {
       .send({
         title: "Test Project 1",
         description: "Test Project Description 1",
+        ownerId: user.id,
       });
     expect(res.status).toBe(200);
     expect(res.body.title).toBe("Test Project 1");

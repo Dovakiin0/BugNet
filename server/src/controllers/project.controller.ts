@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import prisma, { Project } from "../helper/prismaClient";
+import prisma, { Project, User } from "../helper/prismaClient";
 
 const getAllProjects = async (req: Request, res: Response) => {
   try {
@@ -36,7 +36,7 @@ const createProject = async (req: Request, res: Response) => {
       data: {
         title: projectBody.title,
         description: projectBody.description,
-        ownerId: 1,
+        ownerId: projectBody.ownerId,
       },
     });
     if (!project)

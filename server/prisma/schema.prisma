@@ -15,8 +15,8 @@ model Project {
   updatedAt   DateTime @updatedAt
 
   // relations
-  ownerId  Int
-  User     User       @relation(fields: [ownerId], references: [id])
+  ownerId  Int?
+  User     User?      @relation(fields: [ownerId], references: [id])
   Category Category[]
   Member   Member[]
   Bug      Bug[]

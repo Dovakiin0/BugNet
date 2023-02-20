@@ -1,4 +1,4 @@
-import { Response,Request, NextFunction } from "express";
+import { Response, Request, NextFunction } from "express";
 import * as jwt from "jsonwebtoken";
 import prisma, { User } from "../helper/prismaClient";
 import { JWTPayload } from "../types";
@@ -28,7 +28,6 @@ export const auth = async (req: Request, res: Response, next: NextFunction) => {
       }
 
       req.user = user as User;
-
       next();
     } catch (error) {
       res.status(401).json({ message: "Not Authorized" });
