@@ -1,4 +1,4 @@
-import { Request, Response } from "../types";
+import { Request, Response } from "express";
 import prisma, { Project } from "../helper/prismaClient";
 
 const getAllProjects = async (req: Request, res: Response) => {
@@ -36,6 +36,7 @@ const createProject = async (req: Request, res: Response) => {
       data: {
         title: projectBody.title,
         description: projectBody.description,
+        ownerId: 1,
       },
     });
     if (!project)

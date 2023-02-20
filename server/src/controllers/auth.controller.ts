@@ -1,9 +1,6 @@
-import jwt from "jsonwebtoken";
 import prisma, { User } from "../helper/prismaClient";
-import { hashPassword } from "../helper/util";
-import { Request, Response } from "../types";
-
-const loginUser = async (req: Request, res: Response) => {};
+import { generateJWT, hashPassword, comparePwd } from "../helper/util";
+import { Request, Response } from "express";
 
 const registerUser = async (req: Request, res: Response) => {
   const userBody: User = req.body;
@@ -31,6 +28,29 @@ const registerUser = async (req: Request, res: Response) => {
       password: hshPwd,
     },
   });
+
+  return res.status(201).json({ token: generateJWT(user.id) });
+};
+
+const loginUser = async (req: Request, res: Response) => {
+  const { email, password } = req.body;
+
+  // check if user exist:s
+  const user = await prisma.user.findUnique({
+    where: {
+      email,
+    },
+  });
+
+  if (!user) {
+    return res.status(400).json({ message: "Invalid Credentials" });
+  }
+
+  if (!(await comparePwd(password, user.password))) {
+    return res.status(400).json({ message: "Incorrect Email or Password" });
+  }
+
+  res.status(200).json({ token: generateJWT(user.id) });
 };
 
 export { loginUser, registerUser };

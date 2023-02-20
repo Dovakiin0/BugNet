@@ -1,7 +1,7 @@
-import { Response, NextFunction } from "express";
+import { Response,Request, NextFunction } from "express";
 import * as jwt from "jsonwebtoken";
 import prisma, { User } from "../helper/prismaClient";
-import { Request, JWTPayload } from "../types";
+import { JWTPayload } from "../types";
 
 export const auth = async (req: Request, res: Response, next: NextFunction) => {
   let token;
