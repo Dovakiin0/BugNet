@@ -82,6 +82,8 @@ const deleteProject = async (req: Request, res: Response) => {
   }
 };
 
+// Add members to the project
+
 export {
   getAllProjects,
   getProjectById,
