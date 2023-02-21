@@ -15,8 +15,8 @@ model Project {
   updatedAt   DateTime @updatedAt
 
   // relations
-  ownerId  Int
-  User     User       @relation(fields: [ownerId], references: [id])
+  ownerId  Int?
+  User     User?      @relation(fields: [ownerId], references: [id])
   Category Category[]
   Member   Member[]
   Bug      Bug[]
@@ -31,6 +31,7 @@ model Category {
   // relations
   projectId Int
   Project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  Bug       Bug[]
 }
 
 model Member {
@@ -41,9 +42,9 @@ model Member {
 
   // relations
   projectId Int
-  Project   Project    @relation(fields: [projectId], references: [id])
+  Project   Project    @relation(fields: [projectId], references: [id], onDelete: Cascade)
   userId    Int
-  User      User       @relation(fields: [userId], references: [id])
+  User      User       @relation(fields: [userId], references: [id], onDelete: Cascade)
   Assignee  Assignee[]
 }
 
@@ -57,12 +58,14 @@ model Bug {
   updatedAt   DateTime @updatedAt
 
   // relations
-  projectId Int
-  Project   Project    @relation(fields: [projectId], references: [id], onDelete: Cascade)
-  openedBy  Int
-  User      User       @relation(fields: [openedBy], references: [id])
-  Comment   Comment[]
-  Assignee  Assignee[]
+  categoryId Int?
+  Category   Category?  @relation(fields: [categoryId], references: [id])
+  projectId  Int
+  Project    Project    @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  openedBy   Int
+  User       User       @relation(fields: [openedBy], references: [id])
+  Comment    Comment[]
+  Assignee   Assignee[]
 }
 
 model Comment {

@@ -36,9 +36,7 @@ describe("Members", () => {
   });
 
   it("GET /:pid - Should get 200 and get all the members from a project", async () => {
-    const res = await supertest(app).get(
-      `/api/v1/projects/member/${project.id}`
-    );
+    const res = await supertest(app).get(`/api/v1/projects/team/${project.id}`);
     expect(res.status).toBe(200);
     expect(Array.isArray(res.body)).toBe(true);
   });

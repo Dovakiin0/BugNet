@@ -18,6 +18,7 @@ const getAllMember = async (req: Request, res: Response) => {
     res.status(400).send(JSON.stringify(err));
   }
 };
+
 const createMember = async (req: Request, res: Response) => { };
 
 export { createMember, getAllMember };
