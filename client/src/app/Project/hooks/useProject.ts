@@ -2,17 +2,36 @@ import axios from "axios";
 import { useQuery, useMutation, useQueryClient } from "react-query";
 
 async function fetchProject() {
-  const { data } = await axios.get("http://localhost:3030/projects");
+  const { data } = await axios.get("http://localhost:3030/api/v1/projects", {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+  });
   return data;
 }
 
 async function fetchProjectById(id: number) {
-  const { data } = await axios.get(`http://localhost:3030/projects/${id}`);
+  const { data } = await axios.get(
+    `http://localhost:3030/api/v1/projects/${id}`,
+    {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    }
+  );
   return data;
 }
 
 async function createProject(params: any) {
-  const { data } = await axios.post("http://localhost:3030/projects", params);
+  const { data } = await axios.post(
+    "http://localhost:3030/api/v1/projects",
+    params,
+    {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    }
+  );
   return data;
 }
 

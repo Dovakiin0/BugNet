@@ -18,47 +18,6 @@ type Props = {};
 
 function SideNav({}: Props) {
   const projectModal = useDisclosure();
-  let projects = [
-    {
-      id: 1,
-      title: "BugNet",
-    },
-    {
-      id: 2,
-      title: "New Project",
-    },
-    {
-      id: 2,
-      title: "New Project",
-    },
-  ];
-
-  let bugs = [
-    {
-      id: 1,
-      title: "Cannot login",
-      priority: "Low",
-      createdAt: "2023-01-31T15:00:00.000Z",
-    },
-    {
-      id: 2,
-      title: "Cannot Create Bugs please helppp",
-      priority: "High",
-      createdAt: "2023-01-28T12:00:00.000Z",
-    },
-    {
-      id: 3,
-      title: "Cannot Create Bugs",
-      priority: "Low",
-      createdAt: "2023-01-28T12:00:00.000Z",
-    },
-    {
-      id: 4,
-      title: "Cannot Create Bugs",
-      priority: "Critical",
-      createdAt: "2023-01-27T12:00:00.000Z",
-    },
-  ];
 
   return (
     <>
@@ -104,7 +63,7 @@ function SideNav({}: Props) {
             height={"300px"}
             maxHeight={"300px"}
           >
-            <RecentBugsList bugList={bugs} />
+            {/* <RecentBugsList bugList={bugs} /> */}
           </Box>
         </Flex>
 

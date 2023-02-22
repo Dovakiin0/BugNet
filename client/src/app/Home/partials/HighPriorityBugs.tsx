@@ -13,7 +13,7 @@ function HighPriorityBugs({}: Props) {
     <>
       <Box margin="10px" padding="20px" rounded={10} width="full">
         <Text fontWeight={"bold"} color="primary.200">
-          Priority Bugs
+          Recent Bugs
         </Text>
         <Stack direction={"column"} spacing="4" padding="10px">
           {isLoading ? (
