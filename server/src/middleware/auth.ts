@@ -1,7 +1,7 @@
 import { Response, Request, NextFunction } from "express";
 import * as jwt from "jsonwebtoken";
-import prisma, { User } from "../helper/prismaClient";
-import { JWTPayload } from "../types";
+import prisma, { OmitedUser, User } from "../helper/prismaClient";
+import { JWTPayload } from "../@types/jwt";
 
 export const auth = async (req: Request, res: Response, next: NextFunction) => {
   let token;
@@ -21,13 +21,21 @@ export const auth = async (req: Request, res: Response, next: NextFunction) => {
 
       const user = await prisma.user.findUnique({
         where: { id: decoded.id },
+        select: {
+          id: true,
+          username: true,
+          email: true,
+          createdAt: true,
+          updatedAt: true,
+          Github: true,
+        },
       });
 
+      req.user = user as unknown as OmitedUser;
       if (!user) {
         res.status(401).json({ message: "Not Authorized" });
       }
 
-      req.user = user as User;
       next();
     } catch (error) {
       res.status(401).json({ message: "Not Authorized" });

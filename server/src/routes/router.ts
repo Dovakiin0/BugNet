@@ -8,8 +8,8 @@ import MemberRouter from "./member.route";
 import { auth } from "../middleware/auth";
 
 export default function InjectRoutes(app: Express) {
-  app.use("/api/v1/projects", ProjectRouter);
-  app.use("/api/v1/categories", CategoryRouter);
   app.use("/api/v1/auth", AuthRouter);
-  app.use("/api/v1/projects/team", MemberRouter);
+  app.use("/api/v1/projects", auth, ProjectRouter);
+  app.use("/api/v1/categories", auth, CategoryRouter);
+  app.use("/api/v1/projects/team", auth, MemberRouter);
 }

@@ -9,7 +9,7 @@ const getAllCategories = async (req: Request, res: Response) => {
     }
     res.status(200).json(categories);
   } catch (err) {
-    res.status(400).send(JSON.stringify(err));
+    res.status(400).json({ message: "Something went wrong", error: err });
   }
 };
 
@@ -26,7 +26,7 @@ const createCategory = async (req: Request, res: Response) => {
       return res.status(400).json({ message: "Error creating category" });
     res.status(201).json(category);
   } catch (err) {
-    res.status(400).send(JSON.stringify(err));
+    res.status(400).json({ message: "Something went wrong", error: err });
   }
 };
 
@@ -45,7 +45,7 @@ const updateCategory = async (req: Request, res: Response) => {
       return res.status(400).json({ message: "Error updating category" });
     res.status(200).json(category);
   } catch (err) {
-    res.status(400).send(JSON.stringify(err));
+    res.status(400).json({ message: "Something went wrong", error: err });
   }
 };
 
@@ -60,7 +60,7 @@ const deleteCategory = async (req: Request, res: Response) => {
       return res.status(400).json({ message: "Error deleting category" });
     res.status(200).json({ message: "Delete Successfull" });
   } catch (err) {
-    res.status(400).send(JSON.stringify(err));
+    res.status(400).json({ message: "Something went wrong", error: err });
   }
 };
 
