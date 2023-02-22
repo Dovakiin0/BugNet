@@ -1,25 +1,13 @@
 import { Request, Response } from "express";
 import prisma, { Category } from "../helper/prismaClient";
 
-const getAllCategories = async (req: Request, res: Response) => {
-  try {
-    const categories: Category[] = await prisma.category.findMany();
-    if (categories.length <= 0) {
-      return res.status(404).json({ message: "No categories found" });
-    }
-    res.status(200).json(categories);
-  } catch (err) {
-    res.status(400).json({ message: "Something went wrong", error: err });
-  }
-};
-
 const createCategory = async (req: Request, res: Response) => {
   try {
     const categoryBody: Category = req.body;
     const category = await prisma.category.create({
       data: {
         title: categoryBody.title,
-        projectId: categoryBody.projectId,
+        projectId: Number(req.params.pid),
       },
     });
     if (!category)
@@ -64,4 +52,4 @@ const deleteCategory = async (req: Request, res: Response) => {
   }
 };
 
-export { getAllCategories, createCategory, updateCategory, deleteCategory };
+export { createCategory, updateCategory, deleteCategory };

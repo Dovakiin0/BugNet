@@ -3,8 +3,14 @@ import prisma, { Project, User } from "../helper/prismaClient";
 
 const getAllProjects = async (req: Request, res: Response) => {
   try {
-    console.log((req.user as User).username);
-    const projects: Project[] = await prisma.project.findMany();
+    const projects: Project[] = await prisma.project.findMany({
+      where: {
+        OR: [
+          { ownerId: (req.user as User).id },
+          { Member: { some: { userId: (req.user as User).id } } },
+        ],
+      },
+    });
     if (projects.length <= 0) {
       return res.status(404).json({ message: "No projects found" });
     }
@@ -19,6 +25,11 @@ const getProjectById = async (req: Request, res: Response) => {
     const project = await prisma.project.findUnique({
       where: {
         id: Number(req.params.id),
+      },
+      include: {
+        Category: true,
+        Bug: true,
+        Member: true,
       },
     });
     if (!project) {
@@ -37,7 +48,7 @@ const createProject = async (req: Request, res: Response) => {
       data: {
         title: projectBody.title,
         description: projectBody.description,
-        ownerId: projectBody.ownerId,
+        ownerId: (req.user as User).id,
       },
     });
     if (!project)
@@ -82,8 +93,6 @@ const deleteProject = async (req: Request, res: Response) => {
     res.status(400).json({ message: "Something went wrong", error: err });
   }
 };
-
-// Add members to the project
 
 export {
   getAllProjects,

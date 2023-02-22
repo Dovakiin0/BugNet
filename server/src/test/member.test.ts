@@ -1,18 +1,23 @@
 import supertest from "supertest";
+import { JWTPayload } from "../@types/jwt";
 import app from "../config";
 import prisma, { Project, User, Member } from "../helper/prismaClient";
+import { verifyJWT } from "../helper/util";
 
 describe("Members", () => {
-  let user: User;
+  let user: JWTPayload;
   let project: Project;
+  let token: string;
+
   beforeAll(async () => {
-    user = await prisma.user.create({
-      data: {
-        username: "Test",
-        email: "test@test.com",
-        password: "test",
-      },
+    const res = await supertest(app).post("/api/v1/auth/register").send({
+      email: "email@email.com",
+      password: "pwdpwd",
+      username: "Dovakiin0",
     });
+
+    token = res.body.token;
+    user = verifyJWT(token);
 
     project = await prisma.project.create({
       data: {
@@ -36,7 +41,9 @@ describe("Members", () => {
   });
 
   it("GET /:pid - Should get 200 and get all the members from a project", async () => {
-    const res = await supertest(app).get(`/api/v1/projects/team/${project.id}`);
+    const res = await supertest(app)
+      .get(`/api/v1/projects/team/${project.id}`)
+      .set("Authorization", `Bearer ${token}`);
     expect(res.status).toBe(200);
     expect(Array.isArray(res.body)).toBe(true);
   });

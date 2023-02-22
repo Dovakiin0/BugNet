@@ -8,6 +8,9 @@ const config: Config.InitialOptions = {
   roots: ["<rootDir>/src"],
   testEnvironment: "node",
   setupFiles: ["<rootDir>/src/test/dotenv-config.ts"],
+  globals: {
+    token: "",
+  },
 };
 
 export default config;

@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import prisma, { Member } from "../helper/prismaClient";
+import prisma, { Member, User } from "../helper/prismaClient";
 
 const getAllMember = async (req: Request, res: Response) => {
   try {
@@ -28,6 +28,10 @@ const createMember = async (req: Request, res: Response) => {
         projectId: memberBody.projectId,
       },
     });
+    if (!member) {
+      return res.status(400).json({ message: "Error creating member" });
+    }
+    res.status(201).json(member);
   } catch (err) {
     res.status(400).json({ message: "Something went wrong", error: err });
   }
@@ -51,17 +55,17 @@ const deleteMember = async (req: Request, res: Response) => {
 
 const approveMember = async (req: Request, res: Response) => {
   try {
-    // const member = await prisma.member.update({
-    //   where: {
-    //     id: req.user?.id,
-    //   },
-    //   data: {
-    //     accepted: true,
-    //   },
-    // });
-    // if (!member) {
-    //   return res.status(404).json({ message: "No member found" });
-    // }
+    const member = await prisma.member.update({
+      where: {
+        id: (req.user as User).id,
+      },
+      data: {
+        accepted: true,
+      },
+    });
+    if (!member) {
+      return res.status(404).json({ message: "No member found" });
+    }
     res.status(200).json({ message: "Member approved successfully" });
   } catch (err) {
     res.status(400).json({ message: "Something went wrong", error: err });

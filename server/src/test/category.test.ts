@@ -5,6 +5,16 @@ import prisma, { Category, Project } from "../helper/prismaClient";
 describe("Categories", () => {
   let project: Project;
   let category: Category;
+  let token: string;
+
+  beforeAll(async () => {
+    const res = await supertest(app).post("/api/v1/auth/register").send({
+      email: "email@email.com",
+      password: "pwdpwd",
+      username: "Dovakiin0",
+    });
+    token = res.body.token;
+  });
 
   beforeEach(async () => {
     // create a project to use in the tests
@@ -28,30 +38,18 @@ describe("Categories", () => {
     await prisma.project.deleteMany();
   });
 
-  afterAll((done) => {
-    done();
-  });
-
-  describe("GET /categories", () => {
-    it("Should fetch all categories", async () => {
-      const res = await supertest(app).get("/api/v1/categories");
-      expect(res.status).toBe(200);
-      expect(Array.isArray(res.body)).toBe(true);
-    });
-
-    it("should return 404 if no categories are found", async () => {
-      await prisma.category.deleteMany();
-      const res = await supertest(app).get("/api/v1/categories");
-      expect(res.status).toBe(404);
-    });
+  afterAll(async () => {
+    await prisma.user.deleteMany();
   });
 
   describe("POST /categories", () => {
     it("Should create and add to project", async () => {
-      const res = await supertest(app).post("/api/v1/categories").send({
-        title: "Test Category 1",
-        projectId: project.id,
-      });
+      const res = await supertest(app)
+        .post(`/api/v1/categories/${project.id}`)
+        .send({
+          title: "Test Category 1",
+        })
+        .set("Authorization", `Bearer ${token}`);
       expect(res.status).toBe(201);
       expect(res.body.title).toBe("Test Category 1");
     });
@@ -63,8 +61,8 @@ describe("Categories", () => {
         .put(`/api/v1/categories/${category.id}`)
         .send({
           title: "Test Category 2",
-          projectId: project.id,
-        });
+        })
+        .set("Authorization", `Bearer ${token}`);
       expect(res.status).toBe(200);
       expect(res.body.title).toBe("Test Category 2");
     });
@@ -72,9 +70,9 @@ describe("Categories", () => {
 
   describe("DELETE /categories/:id", () => {
     it("Should delete a category", async () => {
-      const res = await supertest(app).delete(
-        `/api/v1/categories/${category.id}`
-      );
+      const res = await supertest(app)
+        .delete(`/api/v1/categories/${category.id}`)
+        .set("Authorization", `Bearer ${token}`);
       expect(res.status).toBe(200);
       expect(res.body.message).toBe("Delete Successfull");
     });

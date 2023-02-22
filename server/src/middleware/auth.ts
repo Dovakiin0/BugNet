@@ -1,7 +1,6 @@
 import { Response, Request, NextFunction } from "express";
-import * as jwt from "jsonwebtoken";
 import prisma, { OmitedUser, User } from "../helper/prismaClient";
-import { JWTPayload } from "../@types/jwt";
+import { verifyJWT } from "../helper/util";
 
 export const auth = async (req: Request, res: Response, next: NextFunction) => {
   let token;
@@ -12,12 +11,8 @@ export const auth = async (req: Request, res: Response, next: NextFunction) => {
   ) {
     try {
       token = req.headers.authorization.split(" ")[1];
-
       // Verify the token
-      const decoded = jwt.verify(
-        token,
-        process.env.JWT_SECRET as string
-      ) as JWTPayload;
+      const decoded = verifyJWT(token);
 
       const user = await prisma.user.findUnique({
         where: { id: decoded.id },
