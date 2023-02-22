@@ -9,6 +9,7 @@ import {
 import { FaBook } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
 import { useProject } from "../../../../app/Project/hooks/useProject";
+import Empty from "../../../../components/Empty";
 import Skeleton from "../../../../components/Skeleton";
 
 type Props = {};
@@ -20,8 +21,7 @@ function ProjectList({}: Props) {
     <List spacing={3}>
       {isLoading ? (
         <Skeleton height="20px" />
-      ) : (
-        !isError &&
+      ) : !isError && data.length > 0 ? (
         data?.map((project: any) => (
           <ListItem
             key={project.id}
@@ -40,6 +40,8 @@ function ProjectList({}: Props) {
             </NavLink>
           </ListItem>
         ))
+      ) : (
+        <Empty message="Create new projects to get started" />
       )}
     </List>
   );

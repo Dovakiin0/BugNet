@@ -6,6 +6,7 @@ import {
   Button,
   Input,
   useDisclosure,
+  Stack,
 } from "@chakra-ui/react";
 import { FaPlus } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
@@ -13,11 +14,15 @@ import ProjectList from "./ProjectList";
 import RecentBugsList from "./AssignedBugs";
 import ProjectModal from "../../../../app/Project/components/ProjectModal";
 import NormalTextField from "../../../../components/Forms/NormalTextField";
+import { useAssignedBugs } from "../../../../app/Bugs/hooks/useBugs";
+import Empty from "../../../../components/Empty";
+import Skeleton from "../../../../components/Skeleton";
 
 type Props = {};
 
 function SideNav({}: Props) {
   const projectModal = useDisclosure();
+  const { data, isLoading, isError } = useAssignedBugs();
 
   return (
     <>
@@ -63,7 +68,15 @@ function SideNav({}: Props) {
             height={"300px"}
             maxHeight={"300px"}
           >
-            {/* <RecentBugsList bugList={bugs} /> */}
+            {isLoading ? (
+              <Stack>
+                <Skeleton height="20px" />
+              </Stack>
+            ) : !isError && data?.length > 0 ? (
+              <RecentBugsList bugList={data} />
+            ) : (
+              <Empty message="No Bugs assigned to you yet!" />
+            )}
           </Box>
         </Flex>
 

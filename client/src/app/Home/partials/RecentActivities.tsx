@@ -1,5 +1,6 @@
 import { Box, Text, Flex } from "@chakra-ui/react";
 import Activity from "../components/Activity";
+import Empty from "../../../components/Empty";
 type Props = {};
 
 function RecentActivities({}: Props) {
@@ -16,8 +17,7 @@ function RecentActivities({}: Props) {
       </Text>
       <Flex flexDir="column" gap="3">
         {/* Only limited number of recent activities */}
-        <Activity />
-        <Activity />
+        <Empty message="404 Activites not found" />
       </Flex>
     </Box>
   );

@@ -26,7 +26,26 @@ const getAllBugs = async (req: Request, res: Response) => {
         createdAt: "desc",
       },
     });
-    if (!bugs) return res.status(400).json({ message: "Error fetching bugs" });
+    res.status(200).json(bugs);
+  } catch (err) {
+    res.status(400).json({ message: "Something went wrong", error: err });
+  }
+};
+
+const getAssignedBugs = async (req: Request, res: Response) => {
+  try {
+    const bugs = await prisma.bug.findMany({
+      where: {
+        Assignee: {
+          some: {
+            memberId: (req.user as User).id,
+          },
+        },
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
     res.status(200).json(bugs);
   } catch (err) {
     res.status(400).json({ message: "Something went wrong", error: err });
@@ -50,7 +69,7 @@ const getBugById = async (req: Request, res: Response) => {
         User: true,
       },
     });
-    if (!bug) return res.status(400).json({ message: "Error fetching bug" });
+    if (!bug) return res.status(404).json({ message: "No Bug found" });
     res.status(200).json(bug);
   } catch (err) {
     res.status(400).json({ message: "Something went wrong", error: err });
@@ -113,4 +132,11 @@ const deleteBug = async (req: Request, res: Response) => {
   }
 };
 
-export { getAllBugs, getBugById, createBug, updateBug, deleteBug };
+export {
+  getAllBugs,
+  getBugById,
+  createBug,
+  updateBug,
+  deleteBug,
+  getAssignedBugs,
+};

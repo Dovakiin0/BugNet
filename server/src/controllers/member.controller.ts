@@ -8,11 +8,6 @@ const getAllMember = async (req: Request, res: Response) => {
         projectId: Number(req.params.pid),
       },
     });
-
-    if (members.length <= 0) {
-      return res.status(404).json({ message: "No Members found" });
-    }
-
     res.status(200).json(members);
   } catch (err) {
     res.status(400).json({ message: "Something went wrong", error: err });

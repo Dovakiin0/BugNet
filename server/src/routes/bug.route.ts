@@ -7,10 +7,12 @@ import {
   createBug,
   updateBug,
   deleteBug,
+  getAssignedBugs,
 } from "../controllers/bug.controller";
 
 router.get("/", getAllBugs);
 router.get("/:id", getBugById);
+router.get("/@me/assigned", getAssignedBugs);
 router.post("/", createBug);
 router.put("/:id", updateBug);
 router.delete("/:id", deleteBug);

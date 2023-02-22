@@ -11,9 +11,6 @@ const getAllProjects = async (req: Request, res: Response) => {
         ],
       },
     });
-    if (projects.length <= 0) {
-      return res.status(404).json({ message: "No projects found" });
-    }
     res.status(200).json(projects);
   } catch (err) {
     res.status(400).json({ message: "Something went wrong", error: err });

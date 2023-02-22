@@ -1,5 +1,10 @@
 import prisma, { User } from "../helper/prismaClient";
-import { generateJWT, hashPassword, comparePwd } from "../helper/util";
+import {
+  generateJWT,
+  hashPassword,
+  comparePwd,
+  verifyJWT,
+} from "../helper/util";
 import { Request, Response } from "express";
 
 const registerUser = async (req: Request, res: Response) => {
@@ -53,4 +58,8 @@ const loginUser = async (req: Request, res: Response) => {
   res.status(200).json({ token: generateJWT(user.id) });
 };
 
-export { loginUser, registerUser };
+const getMe = async (req: Request, res: Response) => {
+  res.status(200).json(req.user);
+};
+
+export { loginUser, registerUser, getMe };

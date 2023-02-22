@@ -3,11 +3,18 @@ import Bugs from "../../../components/Bugs";
 import { BugsProps } from "../../../types/Bugs";
 import { useBugs } from "../hooks/useBugs";
 import Skeleton from "../../../components/Skeleton";
+import Empty from "../../../components/Empty";
+import useToast from "../../../hooks/useToast";
 
 type Props = {};
 
 function HighPriorityBugs({}: Props) {
-  const { isLoading, data, isError } = useBugs();
+  const { isLoading, data, isError, error } = useBugs();
+  const { errorToast } = useToast();
+
+  if (isError) {
+    errorToast("Error getting results");
+  }
 
   return (
     <>
@@ -20,9 +27,10 @@ function HighPriorityBugs({}: Props) {
             <>
               <Skeleton height="60px" />
             </>
-          ) : (
-            !isError &&
+          ) : data.length > 0 ? (
             data.map((bug: BugsProps) => <Bugs key={bug.id} {...bug} />)
+          ) : (
+            <Empty message="Newly created bugs from across your projects will appear here" />
           )}
         </Stack>
       </Box>

@@ -14,12 +14,23 @@ import { NavLink } from "react-router-dom";
 import { HeaderRoutes } from "../../../Routes/HeaderRoutes";
 import { MdSettings } from "react-icons/md";
 import { FaPowerOff } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
+import useToast from "../../../../hooks/useToast";
 
 type Props = {
   children: any;
 };
 
 function Header({ children }: Props) {
+  const { successToast } = useToast();
+  const navigate = useNavigate();
+
+  const logout = () => {
+    localStorage.removeItem("token");
+    navigate("/login");
+    successToast("Logged out successfully!");
+  };
+
   return (
     <Flex
       direction={"column"}
@@ -79,6 +90,7 @@ function Header({ children }: Props) {
                   _hover={{ bg: "brand.500" }}
                   bg="primary.700"
                   icon={<FaPowerOff size="20" />}
+                  onClick={logout}
                 >
                   Log Out
                 </MenuItem>
