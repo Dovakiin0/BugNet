@@ -1,11 +1,29 @@
 import { Request, Response } from "express";
-import prisma, { User } from "../helper/prismaClient";
+import prisma, { Bug, User } from "../helper/prismaClient";
 
 const getAllBugs = async (req: Request, res: Response) => {
   try {
     const bugs = await prisma.bug.findMany({
       where: {
-        projectId: Number(req.params.pid),
+        OR: [
+          {
+            Project: {
+              ownerId: (req.user as User).id,
+            },
+          },
+          {
+            Project: {
+              Member: {
+                some: {
+                  userId: (req.user as User).id,
+                },
+              },
+            },
+          },
+        ],
+      },
+      orderBy: {
+        createdAt: "desc",
       },
     });
     if (!bugs) return res.status(400).json({ message: "Error fetching bugs" });
@@ -41,12 +59,14 @@ const getBugById = async (req: Request, res: Response) => {
 
 const createBug = async (req: Request, res: Response) => {
   try {
+    const bugBody: Bug = req.body;
     const bug = await prisma.bug.create({
       data: {
-        title: req.body.title,
-        description: req.body.description,
-        projectId: Number(req.params.pid),
-        priority: Number(req.body.priority),
+        title: bugBody.title,
+        description: bugBody.description,
+        projectId: Number(bugBody.projectId),
+        priority: Number(bugBody.priority),
+        categoryId: Number(bugBody.categoryId) || null,
         status: "Open",
         openedBy: (req.user as User).id,
       },

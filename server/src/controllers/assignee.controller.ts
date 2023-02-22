@@ -23,8 +23,8 @@ const deleteAssignee = async (req: Request, res: Response) => {
       where: { id: Number(req.params.id) },
     });
     if (!assignee)
-      return res.status(400).json({ message: "Error deleting assignee" });
-    res.status(200).json({ message: "Assignee deleted successfully" });
+      return res.status(400).json({ message: "Error Removing assignee" });
+    res.status(200).json({ message: "Assignee Removed from Bug" });
   } catch (err) {
     res.status(400).json({ message: "Something went wrong", error: err });
   }

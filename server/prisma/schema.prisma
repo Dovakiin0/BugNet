@@ -88,9 +88,9 @@ model Assignee {
 
   // relations
   bugId    Int
-  Bug      Bug    @relation(fields: [bugId], references: [id])
+  Bug      Bug    @relation(fields: [bugId], references: [id], onDelete: Cascade)
   memberId Int
-  Member   Member @relation(fields: [memberId], references: [id])
+  Member   Member @relation(fields: [memberId], references: [id], onDelete: Cascade)
 }
 
 model User {
