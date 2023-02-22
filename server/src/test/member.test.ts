@@ -1,13 +1,14 @@
 import supertest from "supertest";
 import { JWTPayload } from "../@types/jwt";
 import app from "../config";
-import prisma, { Project, User, Member } from "../helper/prismaClient";
+import prisma, { Project, Member } from "../helper/prismaClient";
 import { verifyJWT } from "../helper/util";
 
 describe("Members", () => {
   let user: JWTPayload;
   let project: Project;
   let token: string;
+  let member: Member;
 
   beforeAll(async () => {
     const res = await supertest(app).post("/api/v1/auth/register").send({
@@ -27,7 +28,7 @@ describe("Members", () => {
       },
     });
 
-    const member = await prisma.member.create({
+    member = await prisma.member.create({
       data: {
         projectId: project.id,
         userId: user.id,
@@ -47,8 +48,34 @@ describe("Members", () => {
     expect(res.status).toBe(200);
     expect(Array.isArray(res.body)).toBe(true);
   });
-  it.todo("POST /:pid - Should get 201 and add a member to a project");
-  it.todo(
-    "DELETE /:pid/:id - Should get 200 and remove a member from a project"
-  );
+
+  it("POST /:pid - Should get 201 and add a member to a project", async () => {
+    let payload = {
+      projectId: project.id,
+      userId: user.id,
+    };
+    const res = await supertest(app)
+      .post(`/api/v1/projects/team/${project.id}`)
+      .set("Authorization", `Bearer ${token}`)
+      .send(payload);
+    expect(res.status).toBe(201);
+    expect(res.body).toHaveProperty("id");
+  });
+
+  it("DELETE /:id - Should get 200 and remove a member from a project", async () => {
+    const res = await supertest(app)
+      .delete(`/api/v1/projects/team/${member.id}`)
+      .set("Authorization", `Bearer ${token}`);
+    expect(res.status).toBe(200);
+    expect(res.body.message).toBe("Member deleted successfully");
+  });
+
+  it("PUT /approve - Should get 200 and approves request from a project", async () => {
+    const res = await supertest(app)
+      .put(`/api/v1/projects/team/approve`)
+      .set("Authorization", `Bearer ${token}`)
+      .send({});
+    expect(res.status).toBe(200);
+    expect(res.body.message).toBe("Member approved successfully");
+  });
 });

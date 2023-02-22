@@ -55,17 +55,22 @@ const deleteMember = async (req: Request, res: Response) => {
 
 const approveMember = async (req: Request, res: Response) => {
   try {
-    const member = await prisma.member.update({
+    const member = await prisma.member.findFirst({
       where: {
-        id: (req.user as User).id,
-      },
-      data: {
-        accepted: true,
+        userId: (req.user as User).id,
       },
     });
     if (!member) {
       return res.status(404).json({ message: "No member found" });
     }
+    await prisma.member.update({
+      where: {
+        id: member.id,
+      },
+      data: {
+        accepted: true,
+      },
+    });
     res.status(200).json({ message: "Member approved successfully" });
   } catch (err) {
     res.status(400).json({ message: "Something went wrong", error: err });

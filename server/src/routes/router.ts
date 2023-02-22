@@ -1,5 +1,5 @@
 import { Express } from "express";
-
+// Routes
 import ProjectRouter from "./project.route";
 import CategoryRouter from "./category.route";
 import AuthRouter from "./auth.route";
@@ -11,6 +11,7 @@ import CommentRouter from "./comment.route";
 import { auth } from "../middleware/auth";
 
 export default function InjectRoutes(app: Express) {
+  // Endpoints
   app.use("/api/v1/auth", AuthRouter);
   app.use("/api/v1/projects", auth, ProjectRouter);
   app.use("/api/v1/categories", auth, CategoryRouter);
