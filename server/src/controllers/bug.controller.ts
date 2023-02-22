@@ -63,7 +63,15 @@ const getBugById = async (req: Request, res: Response) => {
         id: Number(req.params.id),
       },
       include: {
-        Assignee: true,
+        Assignee: {
+          include: {
+            Member: {
+              include: {
+                User: true,
+              },
+            },
+          },
+        },
         Comment: {
           include: {
             User: true,

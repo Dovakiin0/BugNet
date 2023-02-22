@@ -26,6 +26,19 @@ async function createBug(params: any) {
   return data;
 }
 
+async function fetchBugsById(id: number) {
+  const { data } = await axios.get(`http://localhost:3030/api/v1/bugs/${id}`, {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+  });
+  return data;
+}
+
+export function useFetchBugById(id: number) {
+  return useQuery(["bugs", id], () => fetchBugsById(id));
+}
+
 export function useAssignedBugs() {
   return useQuery(["bugs", "@me", "assigned"], fetchAssignedBugs);
 }

@@ -13,8 +13,6 @@ import NormalTextField from "../../../components/Forms/NormalTextField";
 import Skeleton from "../../../components/Skeleton";
 import CreateBugModal from "../components/BugModal";
 
-type Props = {};
-
 export default function ProjectBugs({ isLoading, project }: any) {
   const bugsModal = useDisclosure();
 
