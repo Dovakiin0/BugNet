@@ -7,7 +7,7 @@ type Props = {
   id: string;
   title: string;
   projectId: string;
-  project: ProjectProps;
+  Project: ProjectProps;
   author: string;
   createdAt: string;
   priority: number;
@@ -17,11 +17,11 @@ function Bugs({
   id,
   title,
   projectId,
-  project,
+  projectTitle,
   author,
   createdAt,
   priority,
-}: Props) {
+}: any) {
   const priorityList = {
     0: {
       color: "gray.300",
@@ -42,7 +42,7 @@ function Bugs({
       <Flex gap="5" align="center">
         <Flex flexDir="column" gap="1">
           <Flex gap="2" align="center">
-            <NavLink to="/bugs/1">
+            <NavLink to={`/bugs/${id}`}>
               <Text
                 fontWeight={"bold"}
                 fontSize="md"
@@ -58,7 +58,7 @@ function Bugs({
                 color="primary.200"
                 _hover={{ color: "purple.300" }}
               >
-                -- {project.title} |
+                -- {projectTitle} |
               </Text>
             </NavLink>
             <Text

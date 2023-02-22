@@ -13,48 +13,46 @@ import {
   Box,
   useDisclosure,
 } from "@chakra-ui/react";
-import { useState } from "react";
 import { FaPlus } from "react-icons/fa";
 import NormalTextField from "../../../components/Forms/NormalTextField";
 import AvatarChip from "../components/AvatarChip";
 import Chips from "../components/Chips";
+import { useCreateCategory, useDeleteCategory } from "../hooks/useCategory";
+import { useCreateTeam, useDeleteTeam } from "../hooks/useTeam";
 
-type Category = {
-  title: string;
-  color: string;
-};
-
-export default function ProjectSettings() {
+export default function ProjectSettings({ categories, teams, pid }: any) {
   const categoryPopOver = useDisclosure();
   const teamPopOver = useDisclosure();
 
-  const [categories, setCategories] = useState<Category[]>([
-    {
-      title: "Backend",
-      color: "brand",
-    },
-  ]);
-
-  const [team, setTeam] = useState([
-    {
-      id: 1,
-      src: "https://avatars.githubusercontent.com/u/50291191?v=4",
-      label: "Dovakiin0",
-    },
-  ]);
+  // category queries
+  const categoryMutate = useCreateCategory();
+  const categoryDelete = useDeleteCategory();
+  // team queries
+  const teamMuteate = useCreateTeam();
+  const teamDelete = useDeleteTeam();
 
   const onCategoryAdd = (e: any) => {
     if (e.key === "Enter" && e.target.value !== "") {
-      setCategories([...categories, { title: e.target.value, color: "brand" }]);
+      categoryMutate.mutateAsync({ pid, title: e.target.value });
       categoryPopOver.onClose();
       e.target.value = "";
     }
   };
 
+  const onCategoryRemove = (id: number) => {
+    categoryDelete.mutateAsync(id);
+  };
+
   const onTeamAdd = (e: any) => {
     if (e.key === "Enter" && e.target.value !== "") {
-      console.log();
+      teamMuteate.mutateAsync({ pid, email: e.target.value });
+      teamPopOver.onClose();
+      e.target.value = "";
     }
+  };
+
+  const onTeamRemove = (id: number) => {
+    teamDelete.mutateAsync(id);
   };
 
   return (
@@ -72,12 +70,14 @@ export default function ProjectSettings() {
           </Box>
           <Wrap>
             {categories.length > 0 &&
-              categories.map((cat, i) => (
+              categories.map((cat: any, i: any) => (
                 <Chips
                   key={i}
                   label={cat.title}
-                  onDelete={() => {}}
-                  colorScheme={cat.color}
+                  onDelete={() => {
+                    onCategoryRemove(cat.id);
+                  }}
+                  colorScheme={"brand"}
                 />
               ))}
             <Popover
@@ -124,14 +124,14 @@ export default function ProjectSettings() {
             </Text>
           </Box>
           <Wrap>
-            {team.length > 0 &&
-              team.map((t, i) => (
+            {teams.length > 0 &&
+              teams.map((t: any, i: number) => (
                 <AvatarChip
                   key={i}
-                  label={t.label}
+                  label={t.User.username}
                   src={t.src}
                   onDelete={() => {
-                    console.log("Delete pressed");
+                    onTeamRemove(t.id);
                   }}
                 />
               ))}
@@ -160,7 +160,7 @@ export default function ProjectSettings() {
                   <Text>Team</Text>
                   <NormalTextField
                     type="text"
-                    placeholder="Enter username"
+                    placeholder="Enter username of the user"
                     onKeyDown={onTeamAdd}
                   />
                 </PopoverBody>

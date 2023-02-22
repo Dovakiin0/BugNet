@@ -5,6 +5,7 @@ import {
   Text,
   UnorderedList,
   Box,
+  Select,
 } from "@chakra-ui/react";
 import { Form, Formik } from "formik";
 import FullModal from "../../../components/FullModal";
@@ -14,27 +15,58 @@ import useToast from "../../../hooks/useToast";
 import MDEditor from "@uiw/react-md-editor";
 import { useState } from "react";
 import rehypeSanitize from "rehype-sanitize";
+import SelectField from "../../../components/Forms/SelectField";
+import { useCreateBug } from "../../Bugs/hooks/useBugs";
 
 type Props = {
   isOpen: boolean;
   onClose: () => void;
+  project: any;
 };
 
-export default function BugModal({ isOpen, onClose }: Props) {
+export default function BugModal({ isOpen, onClose, project }: Props) {
   const initialValues = {
     title: "",
   };
-  const { successToast } = useToast();
+  const [categoryId, setCategoryId] = useState<number | null>(null);
+  const [priority, setPriority] = useState<number | null>(0);
+  const { successToast, errorToast } = useToast();
   const [value, setValue] = useState<any>(
     "### Bug Description\n\n### Steps to Reproduce\n1. \n2. \n3. \n### Expected Output\n\n### Actual Output\n\n"
   );
 
+  // BugMutate
+  const { mutateAsync } = useCreateBug();
+
   function onSubmit(values: typeof initialValues, { setSubmitting }: any) {
     // perform api call
+    let payload = {
+      title: values.title,
+      projectId: project.id,
+      description: value,
+      priority: priority,
+      categoryId: categoryId,
+    };
+    mutateAsync(payload, {
+      onSuccess: () => {
+        successToast(`Bug ${values.title} created successfully`);
+      },
+      onError: () => {
+        errorToast(`Error creating bug`);
+      },
+    });
     setSubmitting(false);
-    successToast(`Bug ${values.title} created successfully`);
     onClose();
   }
+
+  const onCategoryChange = (e: any) => {
+    if (e.target.value === "") return setCategoryId(null);
+    setCategoryId(e.target.value);
+  };
+
+  const onPriorityChange = (e: any) => {
+    setPriority(e.target.value);
+  };
 
   return (
     <FullModal isOpen={isOpen} onClose={onClose} header="Create New Bug">
@@ -55,6 +87,61 @@ export default function BugModal({ isOpen, onClose }: Props) {
                 width="500px"
                 placeholder="Enter a short yet descriptive title for the bug"
               />
+              <Flex align="center" gap="3">
+                <Box>
+                  <Text>Assign Category</Text>
+                  <Select
+                    name="categoryId"
+                    fontSize={"sm"}
+                    width={"250px"}
+                    onChange={onCategoryChange}
+                  >
+                    <option
+                      style={{ backgroundColor: "black", color: "white" }}
+                      value=""
+                    >
+                      Assign Category for bug
+                    </option>
+                    {project.Category.map((cat: any) => (
+                      <option
+                        style={{ backgroundColor: "black", color: "white" }}
+                        key={cat.id}
+                        value={cat.id}
+                      >
+                        {cat.title}
+                      </option>
+                    ))}
+                  </Select>
+                </Box>
+                <Box>
+                  <Text>Set Priority</Text>
+                  <Select
+                    name="pririty"
+                    fontSize={"sm"}
+                    width={"250px"}
+                    onChange={onPriorityChange}
+                  >
+                    <option
+                      style={{ backgroundColor: "black", color: "white" }}
+                      value={0}
+                    >
+                      Low
+                    </option>
+                    <option
+                      style={{ backgroundColor: "black", color: "white" }}
+                      value={1}
+                    >
+                      High
+                    </option>
+                    <option
+                      style={{ backgroundColor: "black", color: "white" }}
+                      value={2}
+                    >
+                      Critical
+                    </option>
+                  </Select>
+                </Box>
+              </Flex>
               <Box>
                 <Text>Bug Description</Text>
                 <Text fontSize="sm" color="primary.200">
@@ -83,7 +170,7 @@ export default function BugModal({ isOpen, onClose }: Props) {
                   You are creating this bug on Project
                 </Text>
                 <Text fontSize={"sm"} fontWeight="bold">
-                  : BugNet
+                  : {project.title}
                 </Text>
               </Flex>
               <Button

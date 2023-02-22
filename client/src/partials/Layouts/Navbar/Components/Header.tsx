@@ -16,6 +16,7 @@ import { MdSettings } from "react-icons/md";
 import { FaPowerOff } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import useToast from "../../../../hooks/useToast";
+import { useAuthStore } from "../../../../store/useStore";
 
 type Props = {
   children: any;
@@ -23,6 +24,7 @@ type Props = {
 
 function Header({ children }: Props) {
   const { successToast } = useToast();
+  const user = useAuthStore((state) => state.user);
   const navigate = useNavigate();
 
   const logout = () => {
@@ -61,8 +63,9 @@ function Header({ children }: Props) {
             <Menu offset={[30, 20]}>
               <MenuButton>
                 <Avatar
-                  name="Dovakiin0"
-                  src="https://avatars.githubusercontent.com/u/50291191?v=4"
+                  bg="primary.100"
+                  color="black"
+                  name={user?.username}
                   width={10}
                   height={10}
                 />
@@ -73,7 +76,7 @@ function Header({ children }: Props) {
                     Signed in as:{" "}
                   </Text>
                   <Text color="primary.100" fontSize={"sm"} fontWeight={"bold"}>
-                    Dovakiin0
+                    {user?.username}
                   </Text>
                 </Flex>
                 <MenuDivider color={"brand.200"} />

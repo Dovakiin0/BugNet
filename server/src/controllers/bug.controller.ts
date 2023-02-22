@@ -22,6 +22,10 @@ const getAllBugs = async (req: Request, res: Response) => {
           },
         ],
       },
+      include: {
+        Project: true,
+        User: true,
+      },
       orderBy: {
         createdAt: "desc",
       },
@@ -34,7 +38,7 @@ const getAllBugs = async (req: Request, res: Response) => {
 
 const getAssignedBugs = async (req: Request, res: Response) => {
   try {
-    const bugs = await prisma.bug.findMany({
+    const bugs: Bug[] = await prisma.bug.findMany({
       where: {
         Assignee: {
           some: {

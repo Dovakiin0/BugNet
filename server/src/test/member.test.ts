@@ -41,18 +41,9 @@ describe("Members", () => {
     await prisma.user.deleteMany();
   });
 
-  it("GET /:pid - Should get 200 and get all the members from a project", async () => {
-    const res = await supertest(app)
-      .get(`/api/v1/projects/team/${project.id}`)
-      .set("Authorization", `Bearer ${token}`);
-    expect(res.status).toBe(200);
-    expect(Array.isArray(res.body)).toBe(true);
-  });
-
   it("POST /:pid - Should get 201 and add a member to a project", async () => {
     let payload = {
-      projectId: project.id,
-      userId: user.id,
+      email: "email@email.com",
     };
     const res = await supertest(app)
       .post(`/api/v1/projects/team/${project.id}`)

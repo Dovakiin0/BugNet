@@ -8,21 +8,23 @@ import {
 } from "@chakra-ui/react";
 import { FaPlus } from "react-icons/fa";
 import Bugs from "../../../components/Bugs";
+import Empty from "../../../components/Empty";
 import NormalTextField from "../../../components/Forms/NormalTextField";
 import Skeleton from "../../../components/Skeleton";
-import { BugsProps } from "../../../types/Bugs";
-import { useBugs } from "../../Home/hooks/useBugs";
 import CreateBugModal from "../components/BugModal";
 
 type Props = {};
 
-export default function ProjectBugs({}: Props) {
+export default function ProjectBugs({ isLoading, project }: any) {
   const bugsModal = useDisclosure();
-  const { isLoading, data, isError } = useBugs();
 
   return (
     <>
-      <CreateBugModal isOpen={bugsModal.isOpen} onClose={bugsModal.onClose} />
+      <CreateBugModal
+        isOpen={bugsModal.isOpen}
+        onClose={bugsModal.onClose}
+        project={project}
+      />
       {/*might need to pass project id*/}
       <Box rounded={10} width="full">
         <Flex justify={"space-between"} margin="10px">
@@ -43,9 +45,17 @@ export default function ProjectBugs({}: Props) {
         <Stack direction={"column"} spacing="4" padding="10px">
           {isLoading ? (
             <Skeleton height="40px" />
+          ) : project.Bug.length > 0 ? (
+            project.Bug.map((bug: any) => (
+              <Bugs
+                key={bug.id}
+                projectTitle={project.title}
+                author={bug.User.username}
+                {...bug}
+              />
+            ))
           ) : (
-            !isError &&
-            data.map((bug: BugsProps) => <Bugs key={bug.id} {...bug} />)
+            <Empty message="Create a new bug to get started!" />
           )}
         </Stack>
       </Box>

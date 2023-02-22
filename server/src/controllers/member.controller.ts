@@ -1,26 +1,26 @@
 import { Request, Response } from "express";
 import prisma, { Member, User } from "../helper/prismaClient";
 
-const getAllMember = async (req: Request, res: Response) => {
-  try {
-    const members = await prisma.member.findMany({
-      where: {
-        projectId: Number(req.params.pid),
-      },
-    });
-    res.status(200).json(members);
-  } catch (err) {
-    res.status(400).json({ message: "Something went wrong", error: err });
-  }
-};
-
 const createMember = async (req: Request, res: Response) => {
   try {
-    const memberBody: Member = req.body;
+    const { email } = req.body;
+    const user = await prisma.user.findUnique({
+      where: {
+        email: email,
+      },
+      select: {
+        id: true,
+      },
+    });
+
+    if (!user) {
+      return res.status(400).json({ message: "User not found" });
+    }
+
     const member: Member = await prisma.member.create({
       data: {
-        userId: memberBody.userId,
-        projectId: memberBody.projectId,
+        userId: user.id,
+        projectId: Number(req.params.pid),
       },
     });
     if (!member) {
@@ -72,4 +72,4 @@ const approveMember = async (req: Request, res: Response) => {
   }
 };
 
-export { createMember, getAllMember, deleteMember, approveMember };
+export { createMember, deleteMember, approveMember };

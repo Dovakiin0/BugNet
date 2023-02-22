@@ -28,7 +28,14 @@ function HighPriorityBugs({}: Props) {
               <Skeleton height="60px" />
             </>
           ) : data.length > 0 ? (
-            data.map((bug: BugsProps) => <Bugs key={bug.id} {...bug} />)
+            data.map((bug: any) => (
+              <Bugs
+                key={bug.id}
+                projectTitle={bug.Project.title}
+                author={bug.User.username}
+                {...bug}
+              />
+            ))
           ) : (
             <Empty message="Newly created bugs from across your projects will appear here" />
           )}

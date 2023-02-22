@@ -13,10 +13,6 @@ function Layout({}: Props) {
   const navigate = useNavigate();
   const { data, isLoading, isError, isSuccess } = useAuth();
 
-  if (isLoading) {
-    return <Loader />;
-  }
-
   if (isError) {
     navigate("/login");
   }
@@ -24,12 +20,7 @@ function Layout({}: Props) {
   if (isSuccess) {
     setUser(data);
   }
-
-  return (
-    <>
-      <Navbar />
-    </>
-  );
+  return isLoading ? <Loader /> : <Navbar />;
 }
 
 export default Layout;

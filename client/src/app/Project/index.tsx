@@ -9,26 +9,36 @@ type Props = {};
 
 function Project({}: Props) {
   const { id } = useParams();
-  const projectQuery = useProjectById(Number(id));
+  const { data, isLoading, isError } = useProjectById(Number(id));
 
   return (
     <Flex flexDir="column" gap="10">
       <Box bg="brand.800">
-        {projectQuery.isLoading ? (
+        {isLoading ? (
           <Skeleton height="50px" />
         ) : (
-          !projectQuery.isError && (
+          !isError && (
             <Flex margin="100px" flexDir={"column"}>
-              <Text fontSize={"4xl"}>{projectQuery.data.title}</Text>
-              <Text fontSize={"sm"}>{projectQuery.data.description}</Text>
+              <Text fontSize={"4xl"}>{data.title}</Text>
+              <Text fontSize={"sm"}>{data.description}</Text>
             </Flex>
           )
         )}
       </Box>
       <Flex gap="5">
-        <ProjectBugs />
-        <Divider orientation="vertical" height="50vh" />
-        <ProjectSettings />
+        {isLoading ? (
+          <Skeleton height="50px" />
+        ) : (
+          <>
+            <ProjectBugs isLoading={isLoading} project={data} />
+            <Divider orientation="vertical" height="50vh" />
+            <ProjectSettings
+              categories={data.Category}
+              teams={data.Member}
+              pid={data.id}
+            />
+          </>
+        )}
       </Flex>
     </Flex>
   );
