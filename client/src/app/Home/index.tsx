@@ -9,7 +9,7 @@ function Home({}: Props) {
   return (
     <Flex flexGrow={"1"}>
       <HighPriorityBugs />
-      <RecentActivities />
+      {/* <RecentActivities /> */}
     </Flex>
   );
 }

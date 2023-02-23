@@ -33,7 +33,7 @@ function AssignedBugs({ bugList }: Props) {
     <List spacing={3}>
       {bugList.map((bug) => (
         <ListItem key={bug.id} fontWeight={"bold"}>
-          <NavLink to={`/bugs/id`}>
+          <NavLink to={`/bugs/${bug.id}`}>
             <Flex align="center">
               <ListIcon
                 as={FaBug}

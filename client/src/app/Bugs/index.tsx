@@ -15,6 +15,7 @@ import {
   Text,
   useDisclosure,
   Wrap,
+  Select,
 } from "@chakra-ui/react";
 import MDEditor from "@uiw/react-md-editor";
 import { useState } from "react";
@@ -22,7 +23,13 @@ import { FaPlus } from "react-icons/fa";
 import { useParams } from "react-router-dom";
 import rehypeSanitize from "rehype-sanitize";
 import NormalTextField from "../../components/Forms/NormalTextField";
+import useToast from "../../hooks/useToast";
 import Loader from "../../partials/Loader";
+import {
+  useCreateAssignee,
+  useDeleteAssignee,
+} from "../Home/hooks/useAssignee";
+import { useCreateComment } from "../Home/hooks/useComments";
 import AvatarChip from "../Project/components/AvatarChip";
 import { useFetchBugById } from "./hooks/useBugs";
 
@@ -30,6 +37,14 @@ function Bugs({}) {
   const assigneePopover = useDisclosure();
   const { id } = useParams();
   const [comment, setComment] = useState<any>("");
+  const [memberId, setMemberId] = useState<number | null>(null);
+
+  // queries
+  const commentMutate = useCreateComment();
+  const assigneeMutate = useCreateAssignee();
+  const assigneeDelete = useDeleteAssignee();
+
+  const { successToast, errorToast } = useToast();
 
   const priorityList = {
     0: {
@@ -46,9 +61,45 @@ function Bugs({}) {
     },
   };
 
-  const onAssigneeAdd = () => {};
+  const onMemberAdd = (e: any) => {
+    if (e.target.value === "") return setMemberId(null);
+    setMemberId(Number(e.target.value));
+  };
 
-  const onCommentAdd = () => {};
+  const onAssigneeAdd = () => {
+    if (memberId !== null) {
+      let payload = {
+        bugId: Number(id),
+        memberId: memberId,
+      };
+      assigneeMutate.mutateAsync(payload, {
+        onSuccess: () => {
+          successToast(`Member assigned successfully`);
+          assigneePopover.onClose();
+        },
+        onError: ({ response }: any) => {
+          errorToast(response.data.message);
+        },
+      });
+    }
+  };
+
+  const onAssigneeDelete = (id: number) => {
+    assigneeDelete.mutateAsync(id, {
+      onSuccess: () => {
+        successToast(`Member removed successfully`);
+      },
+    });
+  };
+
+  const onCommentAdd = (e: any) => {
+    let payload = {
+      bid: Number(id),
+      content: comment,
+    };
+    commentMutate.mutateAsync(payload);
+    setComment("");
+  };
 
   const { data, isLoading, isError } = useFetchBugById(Number(id));
 
@@ -122,11 +173,17 @@ function Bugs({}) {
                 </Text>
 
                 {data.Comment.map((d: any) => (
-                  <Box bg="primary.800" padding="20px" rounded="10" gap="5">
+                  <Box
+                    key={d.id}
+                    bg="primary.800"
+                    padding="20px"
+                    rounded="10"
+                    gap="5"
+                  >
                     <MDEditor.Markdown
                       wrapperElement={{ "data-color-mode": "dark" }}
                       key={d.id}
-                      source={d.comment}
+                      source={d.content}
                       style={{
                         whiteSpace: "pre-wrap",
                         background: "none",
@@ -134,7 +191,7 @@ function Bugs({}) {
                       }}
                     />
                     <Flex gap="3" align="center" marginTop="10px">
-                      <Avatar src="" name="Dovakiin0" size="sm" />
+                      <Avatar src="" name={d.User.username} size="sm" />
                       <Text fontSize="sm">{d.User.username}</Text>
                       <Text color="primary.200" fontSize={"sm"}>
                         {new Date(d.createdAt).toDateString()}
@@ -176,7 +233,7 @@ function Bugs({}) {
                   <AvatarChip
                     src=""
                     label={assign.Member.User.username}
-                    onDelete={() => {}}
+                    onDelete={() => onAssigneeDelete(assign.id)}
                     props={{ bg: "primary.900" }}
                   />
                 ))}
@@ -203,11 +260,43 @@ function Bugs({}) {
                     <PopoverArrow />
                     <PopoverBody as={Flex} flexDir="column" gap="3">
                       <Text>Assign to</Text>
-                      <NormalTextField
-                        type="text"
-                        placeholder="Enter username"
-                        onKeyDown={onAssigneeAdd}
-                      />
+                      <Select
+                        name="memberId"
+                        fontSize={"sm"}
+                        onChange={onMemberAdd}
+                      >
+                        <option
+                          style={{ backgroundColor: "black", color: "white" }}
+                          value=""
+                        >
+                          Assign member to this bug
+                        </option>
+                        {data.Project.Member.map(
+                          (member: any) =>
+                            !data.Assignee.some(
+                              (a: any) => a.Member.User.id === member.User.id
+                            ) && (
+                              <option
+                                style={{
+                                  backgroundColor: "black",
+                                  color: "white",
+                                }}
+                                key={member.id}
+                                value={member.id}
+                              >
+                                {member.User.username}
+                              </option>
+                            )
+                        )}
+                      </Select>
+                      <Button
+                        colorScheme={"brand"}
+                        fontSize={"sm"}
+                        size="sm"
+                        onClick={onAssigneeAdd}
+                      >
+                        Add
+                      </Button>
                     </PopoverBody>
                   </PopoverContent>
                 </Popover>

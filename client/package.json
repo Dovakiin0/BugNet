@@ -20,6 +20,7 @@
     "framer-motion": "^8.5.4",
     "moment": "^2.29.4",
     "react": "^18.2.0",
+    "react-autocomplete": "^1.8.1",
     "react-dom": "^18.2.0",
     "react-icons": "^4.7.1",
     "react-query": "^3.39.3",
@@ -30,6 +31,7 @@
   },
   "devDependencies": {
     "@types/react": "^18.0.26",
+    "@types/react-autocomplete": "^1.8.6",
     "@types/react-dom": "^18.0.9",
     "@types/react-syntax-highlighter": "^15.5.6",
     "@vitejs/plugin-react-swc": "^3.0.0",

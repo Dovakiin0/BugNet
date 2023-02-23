@@ -15,8 +15,8 @@ import useToast from "../../../hooks/useToast";
 import MDEditor from "@uiw/react-md-editor";
 import { useState } from "react";
 import rehypeSanitize from "rehype-sanitize";
-import SelectField from "../../../components/Forms/SelectField";
 import { useCreateBug } from "../../Bugs/hooks/useBugs";
+import Autocomplete from "react-autocomplete";
 
 type Props = {
   isOpen: boolean;
@@ -34,6 +34,7 @@ export default function BugModal({ isOpen, onClose, project }: Props) {
   const [value, setValue] = useState<any>(
     "### Bug Description\n\n### Steps to Reproduce\n1. \n2. \n3. \n### Expected Output\n\n### Actual Output\n\n"
   );
+  const [categoryValue, setCategoryValue] = useState<any>("");
 
   // BugMutate
   const { mutateAsync } = useCreateBug();
