@@ -18,14 +18,23 @@ type Props = {
 type Bug = {
   id: number;
   title: string;
-  priority: string;
+  priority: number;
   createdAt: string;
 };
 
-const priority = {
-  Low: "gray.300",
-  High: "yellow.300",
-  Critical: "red.300",
+const priorityList = {
+  0: {
+    color: "gray.300",
+    title: "Low",
+  },
+  1: {
+    color: "orange.300",
+    title: "High",
+  },
+  2: {
+    color: "red.300",
+    title: "Critical",
+  },
 };
 
 function AssignedBugs({ bugList }: Props) {
@@ -37,7 +46,9 @@ function AssignedBugs({ bugList }: Props) {
             <Flex align="center">
               <ListIcon
                 as={FaBug}
-                color={priority[bug.priority as keyof typeof priority]}
+                color={
+                  priorityList[bug.priority as keyof typeof priorityList].color
+                }
               />
               <Tooltip label={bug.title} placement="right">
                 <Text _hover={{ color: "purple.300" }} fontSize="sm">

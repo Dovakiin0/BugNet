@@ -12,9 +12,16 @@ type Props = {
   label: string;
   onDelete: () => void;
   props?: any;
+  isOwner?: boolean;
 };
 
-export default function AvatarChip({ src, label, onDelete, props }: Props) {
+export default function AvatarChip({
+  src,
+  label,
+  onDelete,
+  props,
+  isOwner = true,
+}: Props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   return (
     <Tag
@@ -26,9 +33,11 @@ export default function AvatarChip({ src, label, onDelete, props }: Props) {
     >
       <Avatar src={src} size="xs" name={label} ml={-1} mr={2} />
       <TagLabel fontSize={"sm"}>{label}</TagLabel>
-      <DeletePopOver isOpen={isOpen} onClose={onClose} onConfirm={onDelete}>
-        <TagCloseButton onClick={onOpen} />
-      </DeletePopOver>
+      {isOwner && (
+        <DeletePopOver isOpen={isOpen} onClose={onClose} onConfirm={onDelete}>
+          <TagCloseButton onClick={onOpen} />
+        </DeletePopOver>
+      )}
     </Tag>
   );
 }

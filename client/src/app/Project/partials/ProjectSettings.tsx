@@ -20,7 +20,12 @@ import Chips from "../components/Chips";
 import { useCreateCategory, useDeleteCategory } from "../hooks/useCategory";
 import { useCreateTeam, useDeleteTeam } from "../hooks/useTeam";
 
-export default function ProjectSettings({ categories, teams, pid }: any) {
+export default function ProjectSettings({
+  categories,
+  teams,
+  pid,
+  isOwner,
+}: any) {
   const categoryPopOver = useDisclosure();
   const teamPopOver = useDisclosure();
 
@@ -73,6 +78,7 @@ export default function ProjectSettings({ categories, teams, pid }: any) {
               categories.map((cat: any, i: any) => (
                 <Chips
                   key={i}
+                  isOwner={isOwner}
                   label={cat.title}
                   onDelete={() => {
                     onCategoryRemove(cat.id);
@@ -80,37 +86,39 @@ export default function ProjectSettings({ categories, teams, pid }: any) {
                   colorScheme={"brand"}
                 />
               ))}
-            <Popover
-              isOpen={categoryPopOver.isOpen}
-              onClose={categoryPopOver.onClose}
-              placement="bottom"
-            >
-              <PopoverTrigger>
-                <Tag
-                  size={"lg"}
-                  key={"sm"}
-                  variant="subtle"
-                  colorScheme="gray"
-                  borderRadius={"full"}
-                  _hover={{ cursor: "pointer" }}
-                  onClick={categoryPopOver.onOpen}
-                >
-                  <TagLeftIcon boxSize="12px" as={FaPlus} />
-                  <TagLabel>Add</TagLabel>
-                </Tag>
-              </PopoverTrigger>
-              <PopoverContent bg="primary.900" border="none">
-                <PopoverArrow />
-                <PopoverBody as={Flex} flexDir="column" gap="3">
-                  <Text>Category Title</Text>
-                  <NormalTextField
-                    type="text"
-                    placeholder="Enter category name"
-                    onKeyDown={onCategoryAdd}
-                  />
-                </PopoverBody>
-              </PopoverContent>
-            </Popover>
+            {isOwner && (
+              <Popover
+                isOpen={categoryPopOver.isOpen}
+                onClose={categoryPopOver.onClose}
+                placement="bottom"
+              >
+                <PopoverTrigger>
+                  <Tag
+                    size={"lg"}
+                    key={"sm"}
+                    variant="subtle"
+                    colorScheme="gray"
+                    borderRadius={"full"}
+                    _hover={{ cursor: "pointer" }}
+                    onClick={categoryPopOver.onOpen}
+                  >
+                    <TagLeftIcon boxSize="12px" as={FaPlus} />
+                    <TagLabel>Add</TagLabel>
+                  </Tag>
+                </PopoverTrigger>
+                <PopoverContent bg="primary.900" border="none">
+                  <PopoverArrow />
+                  <PopoverBody as={Flex} flexDir="column" gap="3">
+                    <Text>Category Title</Text>
+                    <NormalTextField
+                      type="text"
+                      placeholder="Enter category name"
+                      onKeyDown={onCategoryAdd}
+                    />
+                  </PopoverBody>
+                </PopoverContent>
+              </Popover>
+            )}
           </Wrap>
         </Flex>
       </Flex>
@@ -128,6 +136,7 @@ export default function ProjectSettings({ categories, teams, pid }: any) {
               teams.map((t: any, i: number) => (
                 <AvatarChip
                   key={i}
+                  isOwner={isOwner}
                   label={t.User.username}
                   src={t.src}
                   onDelete={() => {
@@ -135,37 +144,39 @@ export default function ProjectSettings({ categories, teams, pid }: any) {
                   }}
                 />
               ))}
-            <Popover
-              isOpen={teamPopOver.isOpen}
-              onClose={teamPopOver.onClose}
-              placement="bottom"
-            >
-              <PopoverTrigger>
-                <Tag
-                  size={"lg"}
-                  key={"sm"}
-                  variant="subtle"
-                  colorScheme="gray"
-                  borderRadius={"full"}
-                  _hover={{ cursor: "pointer" }}
-                  onClick={teamPopOver.onOpen}
-                >
-                  <TagLeftIcon boxSize="12px" as={FaPlus} />
-                  <TagLabel>Add</TagLabel>
-                </Tag>
-              </PopoverTrigger>
-              <PopoverContent bg="primary.900" border="none">
-                <PopoverArrow />
-                <PopoverBody as={Flex} flexDir="column" gap="3">
-                  <Text>Team</Text>
-                  <NormalTextField
-                    type="text"
-                    placeholder="Enter username of the user"
-                    onKeyDown={onTeamAdd}
-                  />
-                </PopoverBody>
-              </PopoverContent>
-            </Popover>
+            {isOwner && (
+              <Popover
+                isOpen={teamPopOver.isOpen}
+                onClose={teamPopOver.onClose}
+                placement="bottom"
+              >
+                <PopoverTrigger>
+                  <Tag
+                    size={"lg"}
+                    key={"sm"}
+                    variant="subtle"
+                    colorScheme="gray"
+                    borderRadius={"full"}
+                    _hover={{ cursor: "pointer" }}
+                    onClick={teamPopOver.onOpen}
+                  >
+                    <TagLeftIcon boxSize="12px" as={FaPlus} />
+                    <TagLabel>Add</TagLabel>
+                  </Tag>
+                </PopoverTrigger>
+                <PopoverContent bg="primary.900" border="none">
+                  <PopoverArrow />
+                  <PopoverBody as={Flex} flexDir="column" gap="3">
+                    <Text>Team</Text>
+                    <NormalTextField
+                      type="text"
+                      placeholder="Enter email address of the User"
+                      onKeyDown={onTeamAdd}
+                    />
+                  </PopoverBody>
+                </PopoverContent>
+              </Popover>
+            )}
           </Wrap>
         </Flex>
       </Flex>

@@ -20,7 +20,7 @@ import {
 import MDEditor from "@uiw/react-md-editor";
 import { useState } from "react";
 import { FaPlus } from "react-icons/fa";
-import { useParams } from "react-router-dom";
+import { NavLink, useParams } from "react-router-dom";
 import rehypeSanitize from "rehype-sanitize";
 import NormalTextField from "../../components/Forms/NormalTextField";
 import useToast from "../../hooks/useToast";
@@ -111,7 +111,9 @@ function Bugs({}) {
         <>
           <Box bg="brand.800" padding="30px">
             <Flex flexDir={"column"}>
-              <Text fontSize={"2xl"}>{data.Project.title}</Text>
+              <NavLink to={`/project/${data.Project.id}`}>
+                <Text fontSize={"2xl"}>{data.Project.title}</Text>
+              </NavLink>
             </Flex>
           </Box>
           <Flex padding="50px" flexDir="column">

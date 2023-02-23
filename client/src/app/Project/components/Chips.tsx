@@ -6,9 +6,10 @@ type Props = {
   label: string;
   colorScheme: string;
   onDelete: () => void;
+  isOwner: boolean;
 };
 
-function Chips({ key, label, onDelete, colorScheme }: Props) {
+function Chips({ key, label, onDelete, colorScheme, isOwner = true }: Props) {
   const { isOpen, onClose, onOpen } = useDisclosure();
   return (
     <Tag
@@ -19,9 +20,11 @@ function Chips({ key, label, onDelete, colorScheme }: Props) {
       colorScheme={colorScheme}
     >
       <TagLabel>{label}</TagLabel>
-      <DeletePopOver isOpen={isOpen} onClose={onClose} onConfirm={onDelete}>
-        <TagCloseButton onClick={onOpen} />
-      </DeletePopOver>
+      {isOwner && (
+        <DeletePopOver isOpen={isOpen} onClose={onClose} onConfirm={onDelete}>
+          <TagCloseButton onClick={onOpen} />
+        </DeletePopOver>
+      )}
     </Tag>
   );
 }
