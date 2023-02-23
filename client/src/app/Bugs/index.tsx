@@ -16,10 +16,11 @@ import {
   useDisclosure,
   Wrap,
   Select,
+  IconButton,
 } from "@chakra-ui/react";
 import MDEditor from "@uiw/react-md-editor";
 import { useState } from "react";
-import { FaPlus } from "react-icons/fa";
+import { FaPlus, FaTrash } from "react-icons/fa";
 import { NavLink, useParams } from "react-router-dom";
 import rehypeSanitize from "rehype-sanitize";
 import NormalTextField from "../../components/Forms/NormalTextField";
@@ -29,18 +30,23 @@ import {
   useCreateAssignee,
   useDeleteAssignee,
 } from "../Home/hooks/useAssignee";
-import { useCreateComment } from "../Home/hooks/useComments";
+import { useCreateComment, useDeleteComment } from "./hooks/useComments";
 import AvatarChip from "../Project/components/AvatarChip";
 import { useFetchBugById } from "./hooks/useBugs";
+import { useAuthStore } from "../../store/useStore";
+import DeletePopOver from "../../components/DeletePopOver";
 
 function Bugs({}) {
   const assigneePopover = useDisclosure();
+  const deletePopover = useDisclosure();
   const { id } = useParams();
   const [comment, setComment] = useState<any>("");
   const [memberId, setMemberId] = useState<number | null>(null);
+  const user = useAuthStore((state) => state.user);
 
   // queries
   const commentMutate = useCreateComment();
+  const commentDelete = useDeleteComment();
   const assigneeMutate = useCreateAssignee();
   const assigneeDelete = useDeleteAssignee();
 
@@ -99,6 +105,15 @@ function Bugs({}) {
     };
     commentMutate.mutateAsync(payload);
     setComment("");
+  };
+
+  const onCommentDelete = (id: number) => {
+    commentDelete.mutateAsync(id, {
+      onSuccess: () => {
+        successToast(`Comment deleted successfully`);
+        deletePopover.onClose();
+      },
+    });
   };
 
   const { data, isLoading, isError } = useFetchBugById(Number(id));
@@ -174,7 +189,7 @@ function Bugs({}) {
                   Comments
                 </Text>
 
-                {data.Comment.map((d: any) => (
+                {data.Comment.map((d: any, i: number) => (
                   <Box
                     key={d.id}
                     bg="primary.800"
@@ -182,16 +197,34 @@ function Bugs({}) {
                     rounded="10"
                     gap="5"
                   >
-                    <MDEditor.Markdown
-                      wrapperElement={{ "data-color-mode": "dark" }}
-                      key={d.id}
-                      source={d.content}
-                      style={{
-                        whiteSpace: "pre-wrap",
-                        background: "none",
-                        color: "white",
-                      }}
-                    />
+                    <Flex justify={"space-between"}>
+                      <MDEditor.Markdown
+                        wrapperElement={{ "data-color-mode": "dark" }}
+                        key={i}
+                        source={d.content}
+                        style={{
+                          whiteSpace: "pre-wrap",
+                          background: "none",
+                          color: "white",
+                        }}
+                      />
+                      {d.User.id === user?.id && (
+                        <DeletePopOver
+                          isOpen={deletePopover.isOpen}
+                          onClose={() => deletePopover.onClose()}
+                          onConfirm={() => onCommentDelete(d.id)}
+                        >
+                          <IconButton
+                            aria-label="Delete"
+                            bg="primary.800"
+                            color="red.300"
+                            _hover={{ bg: "primary.900" }}
+                            icon={<FaTrash />}
+                            onClick={() => deletePopover.onOpen()}
+                          />
+                        </DeletePopOver>
+                      )}
+                    </Flex>
                     <Flex gap="3" align="center" marginTop="10px">
                       <Avatar src="" name={d.User.username} size="sm" />
                       <Text fontSize="sm">{d.User.username}</Text>
