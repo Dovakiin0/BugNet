@@ -35,6 +35,19 @@ async function fetchBugsById(id: number) {
   return data;
 }
 
+async function editBug(params: any) {
+  const { data } = await axios.put(
+    `http://localhost:3030/api/v1/bugs/${params.id}`,
+    params,
+    {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    }
+  );
+  return data;
+}
+
 export function useFetchBugById(id: number) {
   return useQuery(["bugs", id], () => fetchBugsById(id));
 }
@@ -46,11 +59,20 @@ export function useAssignedBugs() {
 export function useCreateBug() {
   const client = useQueryClient();
   return useMutation(createBug, {
-    onSuccess: (data, variables) => {
+    onSuccess: (data) => {
       Promise.all([
         client.invalidateQueries(["bugs"]),
         client.invalidateQueries(["project", data.projectId]),
       ]);
+    },
+  });
+}
+
+export function useUpdateBug() {
+  const client = useQueryClient();
+  return useMutation(editBug, {
+    onSuccess: (data) => {
+      client.invalidateQueries(["bugs", data.id]);
     },
   });
 }

@@ -89,6 +89,7 @@ const getBugById = async (req: Request, res: Response) => {
           },
         },
         User: true,
+        Category: true,
       },
     });
     if (!bug) return res.status(404).json({ message: "No Bug found" });
@@ -129,7 +130,6 @@ const updateBug = async (req: Request, res: Response) => {
         title: req.body.title,
         description: req.body.description,
         priority: Number(req.body.priority),
-        status: req.body.status,
         categoryId: Number(req.body.categoryId),
       },
     });

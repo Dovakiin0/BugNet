@@ -103,7 +103,7 @@ function Bugs({ }) {
   };
 
   const { data, isLoading } = useFetchBugById(Number(id));
-
+  console.log(data);
   return (
     <Flex flexDir="column">
       {isLoading ? (
@@ -148,6 +148,18 @@ function Bugs({ }) {
               >
                 {data.status}
               </Tag>
+              {data.categoryId !== null ? (
+                <Tag
+                  size="lg"
+                  colorScheme="brand"
+                  borderRadius={"full"}
+                  variant="solid"
+                >
+                  {data.Category?.title}
+                </Tag>
+              ) : (
+                ""
+              )}
             </Flex>
           </Flex>
           <Flex
