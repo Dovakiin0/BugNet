@@ -8,17 +8,21 @@ import Loader from "../Loader";
 
 type Props = {};
 
-function Layout({}: Props) {
+function Layout({ }: Props) {
   const setUser = useAuthStore((state) => state.setUser, shallow);
   const navigate = useNavigate();
-  const { data, isLoading, isError, isSuccess } = useAuth();
+  const { data, isLoading, isError, isSuccess, error } = useAuth();
 
   if (isError) {
-    navigate("/login");
+    console.log((error as any).response.message);
   }
 
   if (isSuccess) {
-    setUser(data);
+    if (data.status === 401) {
+      navigate("/login");
+    } else {
+      setUser(data);
+    }
   }
   return isLoading ? <Loader /> : <Navbar />;
 }

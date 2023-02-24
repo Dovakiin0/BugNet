@@ -8,7 +8,7 @@ import { useAuthStore } from "../../store/useStore";
 
 type Props = {};
 
-function Project({}: Props) {
+function Project({ }: Props) {
   const { id } = useParams();
   const { data, isLoading, isError } = useProjectById(Number(id));
   const user = useAuthStore((state) => state.user);
@@ -27,7 +27,7 @@ function Project({}: Props) {
           <Skeleton height="50px" />
         ) : (
           !isError && (
-            <Flex align="center" justify={"space-between"}>
+            <Flex align="center" justify={"space-between"} height={200}>
               <Flex margin="100px" flexDir={"column"}>
                 <Text fontSize={"4xl"}>{data.title}</Text>
                 <Text fontSize={"sm"}>{data.description}</Text>

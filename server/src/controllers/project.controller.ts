@@ -58,6 +58,11 @@ const createProject = async (req: Request, res: Response) => {
         title: projectBody.title,
         description: projectBody.description,
         ownerId: (req.user as User).id,
+        Member: {
+          create: {
+            userId: (req.user as User).id,
+          },
+        },
       },
     });
     if (!project)

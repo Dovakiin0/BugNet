@@ -3,6 +3,17 @@ import prisma from "../helper/prismaClient";
 
 const createAssignee = async (req: Request, res: Response) => {
   try {
+    const count = await prisma.assignee.count({
+      where: {
+        bugId: Number(req.body.bugId),
+      },
+    });
+
+    if (count >= 4)
+      return res
+        .status(400)
+        .json({ message: "Bug can only have max 4 assignees" });
+
     const assignee = await prisma.assignee.create({
       data: {
         memberId: Number(req.body.memberId),

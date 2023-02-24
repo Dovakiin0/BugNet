@@ -42,7 +42,9 @@ const getAssignedBugs = async (req: Request, res: Response) => {
       where: {
         Assignee: {
           some: {
-            memberId: (req.user as User).id,
+            Member: {
+              userId: (req.user as User).id,
+            },
           },
         },
       },
@@ -77,7 +79,15 @@ const getBugById = async (req: Request, res: Response) => {
             User: true,
           },
         },
-        Project: true,
+        Project: {
+          include: {
+            Member: {
+              include: {
+                User: true,
+              },
+            },
+          },
+        },
         User: true,
       },
     });
