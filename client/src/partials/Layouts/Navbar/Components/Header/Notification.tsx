@@ -22,7 +22,10 @@ export default function Notification() {
       </MenuButton>
       <MenuList bg="primary.700" border="none">
         <Flex padding="10px">
-          <Text color="primary.200">Notifications</Text>
+          <Text color="primary.200" fontSize="sm">
+            Notifications
+          </Text>
+          {/* Custom Noticiations component based on notification type */}
         </Flex>
       </MenuList>
     </Menu>

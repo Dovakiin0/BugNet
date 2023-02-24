@@ -42,10 +42,7 @@ export const useDeleteAssignee = () => {
   const client = useQueryClient();
   return useMutation(deleteAssignee, {
     onSuccess: (data, variables) => {
-      Promise.all([
-        client.invalidateQueries(["bugs", data.bugId]),
-        client.invalidateQueries(["bugs", "@me", "assigned"]),
-      ]);
+      client.invalidateQueries(["bugs"]);
     },
   });
 };

@@ -1,5 +1,4 @@
 import {
-  Avatar,
   Box,
   Button,
   Divider,
@@ -16,29 +15,26 @@ import {
   useDisclosure,
   Wrap,
   Select,
-  IconButton,
 } from "@chakra-ui/react";
 import MDEditor from "@uiw/react-md-editor";
 import { useState } from "react";
-import { FaPlus, FaTrash } from "react-icons/fa";
+import { FaPlus } from "react-icons/fa";
 import { NavLink, useParams } from "react-router-dom";
 import rehypeSanitize from "rehype-sanitize";
-import NormalTextField from "../../components/Forms/NormalTextField";
 import useToast from "../../hooks/useToast";
 import Loader from "../../partials/Loader";
 import {
   useCreateAssignee,
   useDeleteAssignee,
 } from "../Home/hooks/useAssignee";
-import { useCreateComment, useDeleteComment } from "./hooks/useComments";
+import { useCreateComment } from "./hooks/useComments";
 import AvatarChip from "../Project/components/AvatarChip";
 import { useFetchBugById } from "./hooks/useBugs";
 import { useAuthStore } from "../../store/useStore";
-import DeletePopOver from "../../components/DeletePopOver";
+import Comment from "./components/Comment";
 
-function Bugs({}) {
+function Bugs({ }) {
   const assigneePopover = useDisclosure();
-  const deletePopover = useDisclosure();
   const { id } = useParams();
   const [comment, setComment] = useState<any>("");
   const [memberId, setMemberId] = useState<number | null>(null);
@@ -46,7 +42,6 @@ function Bugs({}) {
 
   // queries
   const commentMutate = useCreateComment();
-  const commentDelete = useDeleteComment();
   const assigneeMutate = useCreateAssignee();
   const assigneeDelete = useDeleteAssignee();
 
@@ -107,16 +102,7 @@ function Bugs({}) {
     setComment("");
   };
 
-  const onCommentDelete = (id: number) => {
-    commentDelete.mutateAsync(id, {
-      onSuccess: () => {
-        successToast(`Comment deleted successfully`);
-        deletePopover.onClose();
-      },
-    });
-  };
-
-  const { data, isLoading, isError } = useFetchBugById(Number(id));
+  const { data, isLoading } = useFetchBugById(Number(id));
 
   return (
     <Flex flexDir="column">
@@ -190,49 +176,7 @@ function Bugs({}) {
                 </Text>
 
                 {data.Comment.map((d: any, i: number) => (
-                  <Box
-                    key={d.id}
-                    bg="primary.800"
-                    padding="20px"
-                    rounded="10"
-                    gap="5"
-                  >
-                    <Flex justify={"space-between"}>
-                      <MDEditor.Markdown
-                        wrapperElement={{ "data-color-mode": "dark" }}
-                        key={i}
-                        source={d.content}
-                        style={{
-                          whiteSpace: "pre-wrap",
-                          background: "none",
-                          color: "white",
-                        }}
-                      />
-                      {d.User.id === user?.id && (
-                        <DeletePopOver
-                          isOpen={deletePopover.isOpen}
-                          onClose={() => deletePopover.onClose()}
-                          onConfirm={() => onCommentDelete(d.id)}
-                        >
-                          <IconButton
-                            aria-label="Delete"
-                            bg="primary.800"
-                            color="red.300"
-                            _hover={{ bg: "primary.900" }}
-                            icon={<FaTrash />}
-                            onClick={() => deletePopover.onOpen()}
-                          />
-                        </DeletePopOver>
-                      )}
-                    </Flex>
-                    <Flex gap="3" align="center" marginTop="10px">
-                      <Avatar src="" name={d.User.username} size="sm" />
-                      <Text fontSize="sm">{d.User.username}</Text>
-                      <Text color="primary.200" fontSize={"sm"}>
-                        {new Date(d.createdAt).toDateString()}
-                      </Text>
-                    </Flex>
-                  </Box>
+                  <Comment comment={d} user={user} />
                 ))}
                 <MDEditor
                   data-color-mode="dark"
