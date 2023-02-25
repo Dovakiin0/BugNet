@@ -35,6 +35,7 @@ import Comment from "./components/Comment";
 
 function Bugs({ }) {
   const assigneePopover = useDisclosure();
+  const editModal = useDisclosure();
   const { id } = useParams();
   const [comment, setComment] = useState<any>("");
   const [memberId, setMemberId] = useState<number | null>(null);
@@ -103,7 +104,6 @@ function Bugs({ }) {
   };
 
   const { data, isLoading } = useFetchBugById(Number(id));
-  console.log(data);
   return (
     <Flex flexDir="column">
       {isLoading ? (
@@ -198,18 +198,29 @@ function Bugs({ }) {
                     rehypePlugins: [rehypeSanitize],
                   }}
                 />
-                <Button
-                  colorScheme={"brand"}
-                  fontSize={"sm"}
-                  size="sm"
-                  onClick={onCommentAdd}
-                >
-                  Comment
-                </Button>
+                <Flex justify="space-between">
+                  <Button
+                    colorScheme={"brand"}
+                    fontSize={"sm"}
+                    size="sm"
+                    onClick={onCommentAdd}
+                  >
+                    Comment
+                  </Button>
+                  {data.openedBy === user?.id && (
+                    <Button
+                      colorScheme={"red"}
+                      fontSize={"sm"}
+                      size="sm"
+                      onClick={() => { }}
+                    >
+                      Close Bug
+                    </Button>
+                  )}
+                </Flex>
               </Flex>
             </Flex>
             {/* Settings */}
-            <Divider orientation="vertical" height="60vh" />
             <Flex flexDir="column" gap="4" width="400px">
               <Box>
                 <Text fontSize="xl" color="primary.200">

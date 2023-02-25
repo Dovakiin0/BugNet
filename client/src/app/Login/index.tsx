@@ -1,14 +1,15 @@
-import { Box, Flex, Text, Image, Button } from "@chakra-ui/react";
+import { Box, Flex, Text, Image, Button, Divider } from "@chakra-ui/react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { Formik, Form } from "formik";
 import TextField from "../../components/Forms/TextField";
 import * as Yup from "yup";
 import { useLogin } from "./hooks/useLogin";
 import useToast from "../../hooks/useToast";
+import { FaGithub } from "react-icons/fa";
 
 type Props = {};
 
-function Login({}: Props) {
+function Login({ }: Props) {
   const { successToast, errorToast } = useToast();
   const navigate = useNavigate();
   const { mutateAsync } = useLogin();
@@ -107,7 +108,7 @@ function Login({}: Props) {
                   placeholder="Your password"
                 />
                 <Button
-                  // disabled={isLoading}
+                  disabled={isSubmitting}
                   type="submit"
                   colorScheme={"brand"}
                   fontSize={"md"}
@@ -119,6 +120,14 @@ function Login({}: Props) {
             </Form>
           )}
         </Formik>
+        <Divider />
+        <Button
+          bg="primary.800"
+          _hover={{ bg: "primary.900" }}
+          leftIcon={<FaGithub />}
+        >
+          Login With Github
+        </Button>
       </Flex>
     </Flex>
   );

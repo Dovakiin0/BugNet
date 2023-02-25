@@ -1,14 +1,15 @@
-import { Box, Flex, Text, Image, Button } from "@chakra-ui/react";
+import { Box, Flex, Text, Image, Button, Divider } from "@chakra-ui/react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { Formik, Form } from "formik";
 import TextField from "../../components/Forms/TextField";
 import * as Yup from "yup";
 import { useRegister } from "./hooks/useRegister";
 import useToast from "../../hooks/useToast";
+import { FaGithub } from "react-icons/fa";
 
 type Props = {};
 
-function Register({}: Props) {
+function Register({ }: Props) {
   const { mutateAsync } = useRegister();
   const { successToast, errorToast } = useToast();
   const navigate = useNavigate();
@@ -141,6 +142,14 @@ function Register({}: Props) {
             </Form>
           )}
         </Formik>
+        <Divider />
+        <Button
+          bg="primary.800"
+          _hover={{ bg: "primary.900" }}
+          leftIcon={<FaGithub />}
+        >
+          Sigup With Github
+        </Button>
       </Flex>
     </Flex>
   );

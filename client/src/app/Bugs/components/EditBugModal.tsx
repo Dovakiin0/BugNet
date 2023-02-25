@@ -23,7 +23,7 @@ type Props = {
   project: any;
 };
 
-export default function BugModal({ isOpen, onClose, project }: Props) {
+export default function EditBugModal({ isOpen, onClose, project }: Props) {
   const initialValues = {
     title: "",
   };
