@@ -97,7 +97,7 @@ model User {
   id        Int      @id @default(autoincrement())
   username  String
   email     String   @unique
-  password  String
+  password  String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -112,7 +112,7 @@ model User {
 
 model Github {
   id        Int      @id @default(autoincrement())
-  githubId  Int
+  githubId  String   @unique
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   User      User?
