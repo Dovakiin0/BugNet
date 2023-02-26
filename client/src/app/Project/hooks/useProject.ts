@@ -35,6 +35,21 @@ async function createProject(params: any) {
   return data;
 }
 
+async function editProject(params: any) {
+  const { data } = await axios.put(
+    `http://localhost:3030/api/v1/projects/${params.pid}`,
+    {
+      ...params.values,
+    },
+    {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    }
+  );
+  return data;
+}
+
 export const useProject = () => {
   return useQuery(["project"], () => fetchProject());
 };
@@ -43,11 +58,20 @@ export const useProjectById = (id: number) => {
   return useQuery(["project", id], () => fetchProjectById(id));
 };
 
+export const useEditProject = () => {
+  const query = useQueryClient();
+  return useMutation(editProject, {
+    onSuccess: (data) => {
+      query.invalidateQueries(["project", data.id]);
+    },
+  });
+};
+
 export const useCreateProject = () => {
   const query = useQueryClient();
   return useMutation(createProject, {
     onSuccess: () => {
-      query.invalidateQueries("project");
+      query.invalidateQueries(["project"]);
     },
   });
 };

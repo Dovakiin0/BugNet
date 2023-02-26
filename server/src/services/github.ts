@@ -32,11 +32,6 @@ passport.use(
           });
           done(null, user as any);
         } else {
-          const new_user = await prisma.user.create({
-            data: {
-              email: profile.emails[0].value,
-            },
-          });
         }
       } catch (err) {
         done(err as any);

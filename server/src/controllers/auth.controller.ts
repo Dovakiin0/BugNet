@@ -51,7 +51,7 @@ const loginUser = async (req: Request, res: Response) => {
     return res.status(400).json({ message: "Invalid Credentials" });
   }
 
-  if (!(await comparePwd(password, user.password))) {
+  if (user.password && !(await comparePwd(password, user.password))) {
     return res.status(400).json({ message: "Incorrect Email or Password" });
   }
 

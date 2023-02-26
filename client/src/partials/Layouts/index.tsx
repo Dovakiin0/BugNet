@@ -18,7 +18,7 @@ function Layout({ }: Props) {
   }
 
   if (isSuccess) {
-    if (data.status === 401) {
+    if (data?.status === 401) {
       navigate("/login");
     } else {
       setUser(data);
