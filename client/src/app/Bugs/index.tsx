@@ -15,10 +15,11 @@ import {
   useDisclosure,
   Wrap,
   Select,
+  IconButton,
 } from "@chakra-ui/react";
 import MDEditor from "@uiw/react-md-editor";
 import { useState } from "react";
-import { FaPlus } from "react-icons/fa";
+import { FaPen, FaPlus } from "react-icons/fa";
 import { NavLink, useParams } from "react-router-dom";
 import rehypeSanitize from "rehype-sanitize";
 import useToast from "../../hooks/useToast";
@@ -35,7 +36,7 @@ import Comment from "./components/Comment";
 
 function Bugs({ }) {
   const assigneePopover = useDisclosure();
-  const editModal = useDisclosure();
+
   const { id } = useParams();
   const [comment, setComment] = useState<any>("");
   const [memberId, setMemberId] = useState<number | null>(null);
@@ -94,7 +95,7 @@ function Bugs({ }) {
     });
   };
 
-  const onCommentAdd = (e: any) => {
+  const onCommentAdd = () => {
     let payload = {
       bid: Number(id),
       content: comment,
@@ -122,7 +123,16 @@ function Bugs({ }) {
               <Text fontSize="4xl" color="primary.200">
                 #{data.id}
               </Text>
-              <Text fontSize="4xl">{data.title}</Text>
+              <Flex gap="3" align="center">
+                <Text fontSize="4xl">{data.title}</Text>
+                <IconButton
+                  icon={<FaPen />}
+                  aria-label="bug-edit-btn"
+                  bg="primary.900"
+                  color="primary.100"
+                  _hover={{ bg: "primary.800", color: "primary.200" }}
+                />
+              </Flex>
             </Flex>
             <Flex gap="3" align="center">
               <Text fontSize="lg" color="primary.200">

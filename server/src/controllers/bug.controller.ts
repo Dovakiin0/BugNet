@@ -81,6 +81,7 @@ const getBugById = async (req: Request, res: Response) => {
         },
         Project: {
           include: {
+            Category: true,
             Member: {
               include: {
                 User: true,
