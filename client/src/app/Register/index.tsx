@@ -6,6 +6,8 @@ import * as Yup from "yup";
 import { useRegister } from "./hooks/useRegister";
 import useToast from "../../hooks/useToast";
 import { FaGithub } from "react-icons/fa";
+import { useOauth } from "../Login/hooks/useOauth";
+import { useEffect } from "react";
 
 type Props = {};
 
@@ -21,6 +23,10 @@ function Register({ }: Props) {
     password2: "",
   };
 
+  useEffect(() => {
+    if (localStorage.getItem("token")) navigate("/");
+  });
+
   function onSubmit(values: typeof initialValues, { setSubmitting }: any) {
     // perform api call
     mutateAsync(values, {
@@ -34,6 +40,11 @@ function Register({ }: Props) {
     });
     setSubmitting(false);
   }
+
+  const oauthHandler = () => {
+    const oauth = useOauth();
+    oauth.call();
+  };
 
   return (
     <Flex
@@ -147,6 +158,7 @@ function Register({ }: Props) {
           bg="primary.800"
           _hover={{ bg: "primary.900" }}
           leftIcon={<FaGithub />}
+          onClick={oauthHandler}
         >
           Sigup With Github
         </Button>

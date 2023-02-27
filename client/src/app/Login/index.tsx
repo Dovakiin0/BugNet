@@ -1,5 +1,5 @@
 import { Box, Flex, Text, Image, Button, Divider } from "@chakra-ui/react";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { Formik, Form } from "formik";
 import TextField from "../../components/Forms/TextField";
 import * as Yup from "yup";
@@ -7,6 +7,7 @@ import { useLogin } from "./hooks/useLogin";
 import useToast from "../../hooks/useToast";
 import { FaGithub } from "react-icons/fa";
 import { useOauth } from "./hooks/useOauth";
+import { useEffect } from "react";
 
 type Props = {};
 
@@ -18,6 +19,10 @@ function Login({ }: Props) {
     email: "",
     password: "",
   };
+
+  useEffect(() => {
+    if (localStorage.getItem("token")) navigate("/", { replace: true });
+  });
 
   function onSubmit(values: typeof initialValues, { setSubmitting }: any) {
     // perform api call
