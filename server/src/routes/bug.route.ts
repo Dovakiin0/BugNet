@@ -8,12 +8,14 @@ import {
   updateBug,
   deleteBug,
   getAssignedBugs,
+  bulkCreateMany,
 } from "../controllers/bug.controller";
 
 router.get("/", getAllBugs);
 router.get("/:id", getBugById);
 router.get("/@me/assigned", getAssignedBugs);
 router.post("/", createBug);
+router.post("/bulk", bulkCreateMany);
 router.put("/:id", updateBug);
 router.delete("/:id", deleteBug);
 

@@ -85,6 +85,31 @@ describe("Bugs", () => {
     expect(res.body.title).toBe(payload.title);
   });
 
+  it("POST /bulk - Should get 201 and bulk add many bugs to a project", async () => {
+    let payload = [
+      {
+        title: "test bug 101",
+        description: "## test description",
+        projectId: project.id,
+        priority: 0,
+        categoryId: category.id,
+      },
+      {
+        title: "test bug 102",
+        description: "## test description",
+        projectId: project.id,
+        priority: 0,
+        categoryId: category.id,
+      },
+    ];
+    const res = await supertest(app)
+      .post("/api/v1/bugs/bulk")
+      .set("Authorization", `Bearer ${token}`)
+      .send({ payload });
+    expect(res.status).toBe(201);
+    expect(res.body.message).toBe("Bugs created Successfully");
+  });
+
   it("PUT /:id - Should get 200 and update a bug from a project", async () => {
     let payload = {
       title: "test bug 2",

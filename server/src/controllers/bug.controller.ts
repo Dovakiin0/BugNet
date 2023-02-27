@@ -121,6 +121,43 @@ const createBug = async (req: Request, res: Response) => {
   }
 };
 
+const bulkCreateMany = async (req: Request, res: Response) => {
+  try {
+    const { payload } = req.body;
+
+    /*
+    payload: {
+     projectId: number,
+     title: string,
+     description: string,
+     status: "open",
+     openedBy: number
+   }
+     */
+
+    const data = payload?.map((bug: Bug) => {
+      return {
+        projectId: bug.projectId,
+        title: bug.title,
+        description: bug.description,
+        status: "Open",
+        openedBy: (req.user as any).id,
+      };
+    });
+
+    const bugs = await prisma.bug.createMany({
+      data,
+    });
+
+    if (bugs.count <= 0) {
+      return res.status(400).json({ message: "Error creating bugs" });
+    }
+    return res.status(201).json({ message: "Bugs created Successfully" });
+  } catch (err) {
+    res.status(400).json({ message: "Something went wrong", error: err });
+  }
+};
+
 const updateBug = async (req: Request, res: Response) => {
   try {
     const bug = await prisma.bug.update({
@@ -162,4 +199,5 @@ export {
   updateBug,
   deleteBug,
   getAssignedBugs,
+  bulkCreateMany,
 };
