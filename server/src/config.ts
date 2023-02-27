@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import InjectRoutes from "./routes/router";
 import cors from "cors";
 import session from "express-session";
+import passport from "passport";
 dotenv.config();
 
 const app: Express = express();
@@ -22,6 +23,8 @@ app.use(
     saveUninitialized: false,
   })
 );
+app.use(passport.initialize());
+app.use(passport.session());
 
 // add all routes for the application
 InjectRoutes(app);

@@ -1,5 +1,5 @@
 import passport from "passport";
-import Strategy from "passport-github";
+import Strategy from "passport-github2";
 import prisma, { User, Github } from "../helper/prismaClient";
 
 const GithubStrategy = Strategy.Strategy;
@@ -11,9 +11,13 @@ passport.use(
       clientSecret: process.env.GITHUB_SECRET as string,
       callbackURL: process.env.GITHUB_CALLBACK as string,
     },
-    async function(accessToken, refreshToken, profile, done) {
+    async function(
+      accessToken: string,
+      refreshToken: string,
+      profile: any,
+      done: any
+    ) {
       try {
-        console.log(profile);
         const githubUser = await prisma.github.findUnique({
           where: {
             githubId: profile.id,
