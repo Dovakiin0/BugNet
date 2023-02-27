@@ -62,4 +62,9 @@ const getMe = async (req: Request, res: Response) => {
   res.status(200).json(req.user);
 };
 
-export { loginUser, registerUser, getMe };
+const loginOauth = (req: Request, res: Response) => {
+  const token = generateJWT((req.user as any).id);
+  res.redirect(`${process.env.GITHUB_CALLBACK}?token=${token}`);
+};
+
+export { loginUser, registerUser, getMe, loginOauth };

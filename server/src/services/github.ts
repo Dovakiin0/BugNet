@@ -13,6 +13,7 @@ passport.use(
     },
     async function(accessToken, refreshToken, profile, done) {
       try {
+        console.log(profile);
         const githubUser = await prisma.github.findUnique({
           where: {
             githubId: profile.id,
@@ -32,6 +33,24 @@ passport.use(
           });
           done(null, user as any);
         } else {
+          // Create a new user and assigne it to github model
+          if (profile.emails && profile.username) {
+            const new_user = await prisma.github.create({
+              data: {
+                githubId: profile.id,
+                User: {
+                  create: {
+                    username: profile.username,
+                    email: profile.emails[0].value,
+                  },
+                },
+              },
+            });
+
+            if (new_user) {
+              done(null, new_user);
+            }
+          }
         }
       } catch (err) {
         done(err as any);
@@ -41,5 +60,20 @@ passport.use(
 );
 
 passport.serializeUser((user, done) => {
-  // done(null, user.id)
+  done(null, (user as any).id);
 });
+
+passport.deserializeUser(async (id: number, done) => {
+  try {
+    const user = await prisma.user.findUnique({
+      where: { id },
+    });
+    if (user) {
+      done(null, user);
+    }
+  } catch (err) {
+    done(err);
+  }
+});
+
+export { passport };

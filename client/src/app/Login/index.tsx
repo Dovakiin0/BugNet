@@ -6,6 +6,7 @@ import * as Yup from "yup";
 import { useLogin } from "./hooks/useLogin";
 import useToast from "../../hooks/useToast";
 import { FaGithub } from "react-icons/fa";
+import { useOauth } from "./hooks/useOauth";
 
 type Props = {};
 
@@ -32,6 +33,11 @@ function Login({ }: Props) {
     });
     setSubmitting(false);
   }
+
+  const oauthHandler = () => {
+    const oauth = useOauth();
+    oauth.call();
+  };
 
   return (
     <Flex
@@ -125,6 +131,7 @@ function Login({ }: Props) {
           bg="primary.800"
           _hover={{ bg: "primary.900" }}
           leftIcon={<FaGithub />}
+          onClick={oauthHandler}
         >
           Login With Github
         </Button>
