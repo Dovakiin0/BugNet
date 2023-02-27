@@ -19,6 +19,7 @@ function Layout({ }: Props) {
 
   if (isSuccess) {
     if (data?.status === 401) {
+      localStorage.removeItem("token");
       navigate("/login");
     } else {
       setUser(data);

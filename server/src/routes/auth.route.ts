@@ -19,6 +19,7 @@ router.get(
   passport.authenticate("github", { failureRedirect: "/login" }),
   loginOauth
 );
+
 router.post("/", loginUser);
 router.post("/register", registerUser);
 router.get("/@me", auth, getMe);

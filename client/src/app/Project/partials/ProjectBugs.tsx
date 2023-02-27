@@ -18,9 +18,11 @@ import Empty from "../../../components/Empty";
 import NormalTextField from "../../../components/Forms/NormalTextField";
 import Skeleton from "../../../components/Skeleton";
 import CreateBugModal from "../components/BugModal";
+import ImportGithub from "../components/ImportGithub";
 
 export default function ProjectBugs({ isLoading, project }: any) {
   const bugsModal = useDisclosure();
+  const importModal = useDisclosure();
 
   return (
     <>
@@ -29,6 +31,7 @@ export default function ProjectBugs({ isLoading, project }: any) {
         onClose={bugsModal.onClose}
         project={project}
       />
+      <ImportGithub isOpen={importModal.isOpen} onClose={importModal.onClose} />
       {/*might need to pass project id*/}
       <Box rounded={10} width="full">
         <Flex justify={"space-between"} margin="10px">
@@ -52,6 +55,7 @@ export default function ProjectBugs({ isLoading, project }: any) {
                   bg="primary.700"
                   _hover={{ bg: "brand.500" }}
                   icon={<FaGithub size="20" />}
+                  onClick={importModal.onOpen}
                 >
                   Import from Github
                 </MenuItem>

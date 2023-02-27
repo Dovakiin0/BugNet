@@ -42,6 +42,7 @@ passport.use(
             const new_user = await prisma.github.create({
               data: {
                 githubId: profile.id,
+                accessToken: accessToken,
                 User: {
                   create: {
                     username: profile.username,

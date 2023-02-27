@@ -26,11 +26,11 @@ export const auth = async (req: Request, res: Response, next: NextFunction) => {
         },
       });
 
-      req.user = user as unknown as OmitedUser;
       if (!user) {
-        res.status(401).json({ message: "Not Authorized" });
+        return res.status(401).json({ message: "Not Authorized" });
       }
 
+      req.user = user as unknown as OmitedUser;
       next();
     } catch (error) {
       res.status(401).json({ message: "Not Authorized" });
