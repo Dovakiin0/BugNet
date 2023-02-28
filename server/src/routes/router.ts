@@ -7,6 +7,7 @@ import MemberRouter from "./member.route";
 import BugRouter from "./bug.route";
 import AssigneeRouter from "./assignee.route";
 import CommentRouter from "./comment.route";
+import GithubRouter from "./github.route";
 // middlewares
 import { auth } from "../middleware/auth";
 
@@ -19,4 +20,5 @@ export default function InjectRoutes(app: Express) {
   app.use("/api/v1/bugs", auth, BugRouter);
   app.use("/api/v1/bugs/assignee", auth, AssigneeRouter);
   app.use("/api/v1/bugs/comment", auth, CommentRouter);
+  app.use("/api/v1/github", auth, GithubRouter);
 }

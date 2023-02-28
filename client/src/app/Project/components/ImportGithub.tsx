@@ -1,6 +1,16 @@
-import { Text, Flex, Box, Select, Checkbox, Button } from "@chakra-ui/react";
+import {
+  Text,
+  Flex,
+  Box,
+  Select,
+  Checkbox,
+  Button,
+  Spinner,
+} from "@chakra-ui/react";
 import { useState } from "react";
+import { useQueryClient } from "react-query";
 import FullModal from "../../../components/FullModal";
+import Loader from "../../../partials/Loader";
 import { useAuthStore } from "../../../store/useStore";
 import { useGetIssues, useGetRepos } from "../hooks/useGithub";
 
@@ -14,20 +24,21 @@ export default function ImportGithub({ isOpen, onClose }: props) {
   const [selectedIssues, setSelectedIssues] = useState<any | null>(null);
 
   const user = useAuthStore((state) => state.user);
-  const repoQuery = useGetRepos({
-    bearer: user?.Github?.accessToken,
-    username: user?.username,
-  });
+  const repoQuery = useGetRepos();
+  const client = useQueryClient();
 
   const issuesQuery = useGetIssues({
-    bearer: user?.Github?.accessToken,
-    username: user?.username,
     repo: selectedRepo,
     enabled: selectedRepo !== null,
   });
 
   const onRepoSelect = (e: any) => {
+    if (e.target.value === "none") return;
     setSelectedRepo(e.target.value);
+    Promise.all([
+      client.invalidateQueries(["repos"]),
+      client.invalidateQueries(["issues"]),
+    ]);
   };
 
   return (
@@ -47,12 +58,16 @@ export default function ImportGithub({ isOpen, onClose }: props) {
             width={"600px"}
             onChange={onRepoSelect}
           >
-            <option style={{ backgroundColor: "black", color: "white" }}>
+            <option
+              style={{ backgroundColor: "black", color: "white" }}
+              value="none"
+            >
               Select your repo
             </option>
             {repoQuery.data &&
-              repoQuery.data.data.items.map((repo: any) => (
+              repoQuery.data.data.items.map((repo: any, i: number) => (
                 <option
+                  key={i}
                   value={repo.name}
                   style={{ backgroundColor: "black", color: "white" }}
                 >
@@ -93,7 +108,17 @@ export default function ImportGithub({ isOpen, onClose }: props) {
               maxHeight="500px"
               overflowY="auto"
             >
-              <Checkbox>Title</Checkbox>
+              {issuesQuery.isLoading ? (
+                <Loader />
+              ) : issuesQuery.data && issuesQuery.data?.data.length > 0 ? (
+                issuesQuery.data.data.map((issue: any, i: number) => (
+                  <Checkbox colorScheme="brand" key={i}>
+                    <Text fontSize="sm">{issue.title}</Text>
+                  </Checkbox>
+                ))
+              ) : (
+                <Text color="primary.200">No Issues found</Text>
+              )}
             </Flex>
           )}
         </Box>{" "}

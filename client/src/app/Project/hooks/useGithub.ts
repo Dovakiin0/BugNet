@@ -1,41 +1,35 @@
 import { useQuery } from "react-query";
 import axios from "axios";
 
-async function getRepos({ bearer, username }: any) {
+async function getRepos() {
   // fetch all the repos from the user
-  const data = await axios.get(
-    `https://api.github.com/search/repositories?q=user:${username}`,
-    {
-      headers: {
-        Accept: "application/vnd.github+json",
-        Authorization: `token ${bearer}`,
-      },
-    }
-  );
+  const data = await axios.get(`http://localhost:3030/api/v1/github/repo`, {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+  });
   return data;
 }
 
-async function getIssues({ bearer, username, repo }: any) {
+async function getIssues({ repo }: any) {
   // fetch all the issues from the repo
   const data = await axios.get(
-    `https://api.github.com/repos/${username}/${repo}/issues`,
+    `http://localhost:3030/api/v1/github/issue/${repo}`,
     {
       headers: {
-        Accept: "application/vnd.github+json",
-        Authorization: `Bearer ${bearer}`,
-        "X-GitHub-Api-Version": "2022-11-28",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
     }
   );
   return data;
 }
 
-export const useGetRepos = (params: any) => {
-  return useQuery(["repos"], () => getRepos(params));
+export const useGetRepos = () => {
+  return useQuery(["repos"], () => getRepos());
 };
 
 export const useGetIssues = (params: any) => {
-  return useQuery(["issues"], () => getIssues(params), {
+  return useQuery(["issues", params], () => getIssues(params), {
     enabled: params.enabled,
   });
 };
