@@ -31,7 +31,11 @@ export default function ProjectBugs({ isLoading, project }: any) {
         onClose={bugsModal.onClose}
         project={project}
       />
-      <ImportGithub isOpen={importModal.isOpen} onClose={importModal.onClose} />
+      <ImportGithub
+        isOpen={importModal.isOpen}
+        onClose={importModal.onClose}
+        pid={project.id}
+      />
       {/*might need to pass project id*/}
       <Box rounded={10} width="full">
         <Flex justify={"space-between"} margin="10px">

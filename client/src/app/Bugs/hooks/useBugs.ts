@@ -26,6 +26,19 @@ async function createBug(params: any) {
   return data;
 }
 
+async function createBulkBug(params: any) {
+  const { data } = await axios.post(
+    "http://localhost:3030/api/v1/bugs/bulk",
+    { payload: params.payload },
+    {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    }
+  );
+  return data;
+}
+
 async function fetchBugsById(id: number) {
   const { data } = await axios.get(`http://localhost:3030/api/v1/bugs/${id}`, {
     headers: {
@@ -63,6 +76,18 @@ export function useCreateBug() {
       Promise.all([
         client.invalidateQueries(["bugs"]),
         client.invalidateQueries(["project", data.projectId]),
+      ]);
+    },
+  });
+}
+
+export function useBulkCreateBug() {
+  const client = useQueryClient();
+  return useMutation(createBulkBug, {
+    onSuccess: (data, variable) => {
+      Promise.all([
+        client.invalidateQueries(["bugs"]),
+        client.invalidateQueries(["project", variable.pid]),
       ]);
     },
   });
