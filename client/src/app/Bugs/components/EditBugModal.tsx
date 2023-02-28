@@ -92,6 +92,7 @@ export default function EditBugModal({ isOpen, onClose, data }: Props) {
                     fontSize={"sm"}
                     width={"250px"}
                     onChange={onCategoryChange}
+                    defaultValue={categoryId?.toString()}
                   >
                     <option
                       style={{ backgroundColor: "black", color: "white" }}
@@ -117,6 +118,7 @@ export default function EditBugModal({ isOpen, onClose, data }: Props) {
                     fontSize={"sm"}
                     width={"250px"}
                     onChange={onPriorityChange}
+                    defaultValue={priority?.toString()}
                   >
                     <option
                       style={{ backgroundColor: "black", color: "white" }}

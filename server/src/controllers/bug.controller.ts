@@ -73,6 +73,7 @@ const getBugById = async (req: Request, res: Response) => {
                   select: {
                     username: true,
                     email: true,
+                    id: true,
                   },
                 },
               },
@@ -85,6 +86,7 @@ const getBugById = async (req: Request, res: Response) => {
               select: {
                 username: true,
                 email: true,
+                id: true,
               },
             },
           },
@@ -98,6 +100,7 @@ const getBugById = async (req: Request, res: Response) => {
                   select: {
                     username: true,
                     email: true,
+                    id: true,
                   },
                 },
               },
@@ -106,6 +109,7 @@ const getBugById = async (req: Request, res: Response) => {
         },
         User: {
           select: {
+            id: true,
             username: true,
           },
         },
@@ -179,7 +183,6 @@ const bulkCreateMany = async (req: Request, res: Response) => {
 
 const updateBug = async (req: Request, res: Response) => {
   try {
-    console.log(req.body);
     const bug = await prisma.bug.update({
       where: {
         id: Number(req.params.id),
@@ -213,11 +216,30 @@ const deleteBug = async (req: Request, res: Response) => {
   }
 };
 
+const toggleBugStatus = async (req: Request, res: Response) => {
+  try {
+    const bug = await prisma.bug.update({
+      where: {
+        id: Number(req.params.id),
+      },
+      data: {
+        status: req.body.status === "Open" ? "Open" : "Closed",
+      },
+    });
+
+    if (!bug) return res.status(400).json({ message: "Error updating bug" });
+    res.status(200).json(bug);
+  } catch (err) {
+    res.status(400).json({ message: "Something went wrong", error: err });
+  }
+};
+
 export {
   getAllBugs,
   getBugById,
   createBug,
   updateBug,
+  toggleBugStatus,
   deleteBug,
   getAssignedBugs,
   bulkCreateMany,

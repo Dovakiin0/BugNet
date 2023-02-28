@@ -61,12 +61,34 @@ async function editBug(params: any) {
   return data;
 }
 
+async function toggleBug(params: any) {
+  const { data } = await axios.put(
+    `http://localhost:3030/api/v1/bugs/status/${params.id}`,
+    params,
+    {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    }
+  );
+  return data;
+}
+
 export function useFetchBugById(id: number) {
   return useQuery(["bugs", id], () => fetchBugsById(id));
 }
 
 export function useAssignedBugs() {
   return useQuery(["bugs", "@me", "assigned"], fetchAssignedBugs);
+}
+
+export function useToggleBug() {
+  const client = useQueryClient();
+  return useMutation(toggleBug, {
+    onSuccess: (data) => {
+      client.invalidateQueries(["bugs", data.id]);
+    },
+  });
 }
 
 export function useCreateBug() {

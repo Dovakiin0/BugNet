@@ -8,12 +8,13 @@ import {
 } from "@chakra-ui/react";
 import DeletePopOver from "../../../components/DeletePopOver";
 import MDEditor from "@uiw/react-md-editor";
-import { FaTrash } from "react-icons/fa";
+import { FaTrash, FaPen } from "react-icons/fa";
 import useToast from "../../../hooks/useToast";
 import { useDeleteComment } from "../hooks/useComments";
 
 export default function Comment({ comment, user }: any) {
   const { isOpen, onClose, onOpen } = useDisclosure();
+  // const [editMode, setEditMode] = useState(false);
   const { successToast } = useToast();
   const commentDelete = useDeleteComment();
 
@@ -41,20 +42,22 @@ export default function Comment({ comment, user }: any) {
           />
         </Box>
         {comment.User.id === user?.id && (
-          <DeletePopOver
-            isOpen={isOpen}
-            onClose={() => onClose()}
-            onConfirm={() => onCommentDelete(comment.id)}
-          >
-            <IconButton
-              aria-label="Delete"
-              bg="primary.800"
-              color="red.300"
-              _hover={{ bg: "primary.900" }}
-              icon={<FaTrash />}
-              onClick={() => onOpen()}
-            />
-          </DeletePopOver>
+          <Flex align="center" flexDir="column">
+            <DeletePopOver
+              isOpen={isOpen}
+              onClose={() => onClose()}
+              onConfirm={() => onCommentDelete(comment.id)}
+            >
+              <IconButton
+                aria-label="Delete"
+                bg="primary.800"
+                color="red.300"
+                _hover={{ bg: "primary.900" }}
+                icon={<FaTrash />}
+                onClick={() => onOpen()}
+              />
+            </DeletePopOver>
+          </Flex>
         )}
       </Flex>
       <Flex gap="3" align="center" marginTop="10px">

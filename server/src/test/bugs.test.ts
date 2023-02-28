@@ -126,6 +126,18 @@ describe("Bugs", () => {
     expect(res.body.title).toBe(payload.title);
   });
 
+  it("PUT /status/:id - Should get 200 and toggle status of a bug", async () => {
+    let payload = {
+      status: "Closed",
+    };
+    const res = await supertest(app)
+      .put(`/api/v1/bugs/status/${bug.id}`)
+      .set("Authorization", `Bearer ${token}`)
+      .send(payload);
+    expect(res.status).toBe(200);
+    expect(res.body.status).toBe("Closed");
+  });
+
   it("DELETE /:id - Should get 200 and remove a bug from a project", async () => {
     const res = await supertest(app)
       .delete(`/api/v1/bugs/${bug.id}`)

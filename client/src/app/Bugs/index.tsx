@@ -19,7 +19,7 @@ import {
 } from "@chakra-ui/react";
 import MDEditor from "@uiw/react-md-editor";
 import { useState } from "react";
-import { FaPen, FaPlus } from "react-icons/fa";
+import { FaChevronLeft, FaPen, FaPlus } from "react-icons/fa";
 import { NavLink, useParams } from "react-router-dom";
 import rehypeSanitize from "rehype-sanitize";
 import useToast from "../../hooks/useToast";
@@ -30,7 +30,7 @@ import {
 } from "../Home/hooks/useAssignee";
 import { useCreateComment } from "./hooks/useComments";
 import AvatarChip from "../Project/components/AvatarChip";
-import { useFetchBugById } from "./hooks/useBugs";
+import { useFetchBugById, useToggleBug } from "./hooks/useBugs";
 import { useAuthStore } from "../../store/useStore";
 import Comment from "./components/Comment";
 import EditBugModal from "./components/EditBugModal";
@@ -49,7 +49,9 @@ function Bugs({ }) {
   const assigneeMutate = useCreateAssignee();
   const assigneeDelete = useDeleteAssignee();
 
+  const { data, isLoading } = useFetchBugById(Number(id));
   const { successToast, errorToast } = useToast();
+  const { mutateAsync } = useToggleBug();
 
   const priorityList = {
     0: {
@@ -106,7 +108,17 @@ function Bugs({ }) {
     setComment("");
   };
 
-  const { data, isLoading } = useFetchBugById(Number(id));
+  const onCloseBug = () => {
+    let payload = {
+      id: id,
+      status: data.status === "Open" ? "Closed" : "Open",
+    };
+    mutateAsync(payload, {
+      onSuccess: () => {
+        successToast(`Bug Updated Successfully`);
+      },
+    });
+  };
   return (
     <Flex flexDir="column">
       {isLoading ? (
@@ -121,7 +133,10 @@ function Bugs({ }) {
           <Box bg="brand.800" padding="30px">
             <Flex flexDir={"column"}>
               <NavLink to={`/project/${data.Project.id}`}>
-                <Text fontSize={"2xl"}>{data.Project.title}</Text>
+                <Flex align="center" gap="3">
+                  <FaChevronLeft />
+                  <Text fontSize={"2xl"}>{data.Project.title}</Text>
+                </Flex>
               </NavLink>
             </Flex>
           </Box>
@@ -160,7 +175,7 @@ function Bugs({ }) {
               </Text>
               <Tag
                 size="lg"
-                colorScheme="green"
+                colorScheme={data.status === "Open" ? "green" : "red"}
                 borderRadius={"full"}
                 variant="subtle"
               >
@@ -209,7 +224,7 @@ function Bugs({ }) {
                   Comments
                 </Text>
 
-                {data.Comment.map((d: any, i: number) => (
+                {data.Comment.map((d: any) => (
                   <Comment comment={d} user={user} />
                 ))}
                 <MDEditor
@@ -220,7 +235,7 @@ function Bugs({ }) {
                     rehypePlugins: [rehypeSanitize],
                   }}
                 />
-                <Flex justify="space-between">
+                <Flex gap="3">
                   <Button
                     colorScheme={"brand"}
                     fontSize={"sm"}
@@ -231,12 +246,12 @@ function Bugs({ }) {
                   </Button>
                   {data.openedBy === user?.id && (
                     <Button
-                      colorScheme={"red"}
+                      colorScheme={data.status === "Open" ? "red" : "green"}
                       fontSize={"sm"}
                       size="sm"
-                      onClick={() => { }}
+                      onClick={onCloseBug}
                     >
-                      Close Bug
+                      {data.status === "Open" ? "Close Bug" : "Reopen Bug"}
                     </Button>
                   )}
                 </Flex>

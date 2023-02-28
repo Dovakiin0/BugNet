@@ -6,6 +6,7 @@ import {
   getBugById,
   createBug,
   updateBug,
+  toggleBugStatus,
   deleteBug,
   getAssignedBugs,
   bulkCreateMany,
@@ -17,6 +18,7 @@ router.get("/@me/assigned", getAssignedBugs);
 router.post("/", createBug);
 router.post("/bulk", bulkCreateMany);
 router.put("/:id", updateBug);
+router.put("/status/:id", toggleBugStatus);
 router.delete("/:id", deleteBug);
 
 export default router;
