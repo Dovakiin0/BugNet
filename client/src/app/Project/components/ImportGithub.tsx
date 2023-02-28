@@ -1,6 +1,8 @@
 import { Text, Flex, Box, Select, Checkbox, Button } from "@chakra-ui/react";
 import { useState } from "react";
 import FullModal from "../../../components/FullModal";
+import { useAuthStore } from "../../../store/useStore";
+import { useGetIssues, useGetRepos } from "../hooks/useGithub";
 
 type props = {
   isOpen: boolean;
@@ -8,7 +10,25 @@ type props = {
 };
 
 export default function ImportGithub({ isOpen, onClose }: props) {
-  const [selectedRepo, setSelectedRepo] = useState<any | null>(null);
+  const [selectedRepo, setSelectedRepo] = useState<string | null>(null);
+  const [selectedIssues, setSelectedIssues] = useState<any | null>(null);
+
+  const user = useAuthStore((state) => state.user);
+  const repoQuery = useGetRepos({
+    bearer: user?.Github?.accessToken,
+    username: user?.username,
+  });
+
+  const issuesQuery = useGetIssues({
+    bearer: user?.Github?.accessToken,
+    username: user?.username,
+    repo: selectedRepo,
+    enabled: selectedRepo !== null,
+  });
+
+  const onRepoSelect = (e: any) => {
+    setSelectedRepo(e.target.value);
+  };
 
   return (
     <FullModal
@@ -21,8 +41,24 @@ export default function ImportGithub({ isOpen, onClose }: props) {
           <Text color="primary.200" size="sm" marginBottom="5px">
             Select Repository
           </Text>
-          <Select name="repo" fontSize={"sm"} width={"600px"}>
-            <option>issue tracker</option>
+          <Select
+            name="repo"
+            fontSize={"sm"}
+            width={"600px"}
+            onChange={onRepoSelect}
+          >
+            <option style={{ backgroundColor: "black", color: "white" }}>
+              Select your repo
+            </option>
+            {repoQuery.data &&
+              repoQuery.data.data.items.map((repo: any) => (
+                <option
+                  value={repo.name}
+                  style={{ backgroundColor: "black", color: "white" }}
+                >
+                  {repo.full_name}
+                </option>
+              ))}
           </Select>
         </Box>
         <Box>
@@ -57,12 +93,7 @@ export default function ImportGithub({ isOpen, onClose }: props) {
               maxHeight="500px"
               overflowY="auto"
             >
-              <Checkbox>
-                <Text fontSize="sm">#2/NewOne</Text>
-              </Checkbox>
-              <Checkbox>
-                <Text fontSize="sm">#2/NewOne</Text>
-              </Checkbox>
+              <Checkbox>Title</Checkbox>
             </Flex>
           )}
         </Box>{" "}

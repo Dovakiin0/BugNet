@@ -4,8 +4,15 @@ interface User {
   id: number;
   username: string;
   email: string;
+  Github?: Github | null;
   createdAt: Date;
   updatedAt: Date;
+}
+
+interface Github {
+  id: number;
+  githubId: string;
+  accessToken: string;
 }
 
 interface UserStore {

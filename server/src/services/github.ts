@@ -35,6 +35,15 @@ passport.use(
               Github: true,
             },
           });
+
+          await prisma.github.update({
+            where: {
+              githubId: profile.id,
+            },
+            data: {
+              accessToken,
+            },
+          });
           done(null, user as any);
         } else {
           // Create a new user and assigne it to github model
