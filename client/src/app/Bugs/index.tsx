@@ -183,7 +183,11 @@ function Bugs({ }) {
               {/* Description */}
               <Box bg="primary.800" padding="20px" rounded="10">
                 <MDEditor.Markdown
-                  source={data.description}
+                  source={
+                    data.description === ""
+                      ? "*No Description*"
+                      : data.description
+                  }
                   style={{
                     whiteSpace: "pre-wrap",
                     background: "none",

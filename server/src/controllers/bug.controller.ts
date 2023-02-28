@@ -135,8 +135,6 @@ const bulkCreateMany = async (req: Request, res: Response) => {
    }
      */
 
-    console.log(payload);
-
     const data = payload?.map((bug: Bug) => {
       return {
         projectId: bug.projectId,

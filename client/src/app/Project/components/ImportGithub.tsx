@@ -1,9 +1,11 @@
 import { Text, Flex, Box, Select, Checkbox, Button } from "@chakra-ui/react";
 import { useState } from "react";
+import { FaGithub } from "react-icons/fa";
 import { useQueryClient } from "react-query";
 import FullModal from "../../../components/FullModal";
 import useToast from "../../../hooks/useToast";
 import Loader from "../../../partials/Loader";
+import { useAuthStore } from "../../../store/useStore";
 import { useBulkCreateBug } from "../../Bugs/hooks/useBugs";
 import { useGetIssues, useGetRepos } from "../hooks/useGithub";
 
@@ -16,6 +18,7 @@ type props = {
 export default function ImportGithub({ isOpen, onClose, pid }: props) {
   const [selectedRepo, setSelectedRepo] = useState<string | null>(null);
   const [selectedIssues, setSelectedIssues] = useState<any | null>(null);
+  const user = useAuthStore((state) => state.user);
 
   const repoQuery = useGetRepos();
   const client = useQueryClient();
@@ -76,6 +79,7 @@ export default function ImportGithub({ isOpen, onClose, pid }: props) {
       }
     );
   };
+  const oauthHandler = () => { };
 
   return (
     <FullModal
@@ -83,95 +87,109 @@ export default function ImportGithub({ isOpen, onClose, pid }: props) {
       onClose={onClose}
       header={"Import Issues from Github"}
     >
-      <Flex flexDir="column" gap="5" maxWidth="900px" marginTop="5">
-        <Box>
-          <Text color="primary.200" size="sm" marginBottom="5px">
-            Select Repository
-          </Text>
-          <Select
-            name="repo"
-            fontSize={"sm"}
-            width={"600px"}
-            onChange={onRepoSelect}
-          >
-            <option
-              style={{ backgroundColor: "black", color: "white" }}
-              value="none"
+      {user?.Github ? (
+        <Flex flexDir="column" gap="5" maxWidth="900px" marginTop="5">
+          <Box>
+            <Text color="primary.200" size="sm" marginBottom="5px">
+              Select Repository
+            </Text>
+            <Select
+              name="repo"
+              fontSize={"sm"}
+              width={"600px"}
+              onChange={onRepoSelect}
             >
-              Select your repo
-            </option>
-            {repoQuery.data &&
-              repoQuery.data.data.items.map((repo: any, i: number) => (
-                <option
-                  key={i}
-                  value={repo.name}
-                  style={{ backgroundColor: "black", color: "white" }}
-                >
-                  {repo.full_name}
-                </option>
-              ))}
-          </Select>
-        </Box>
-        <Box>
-          <Text color="primary.200" size="sm" marginBottom="5px">
-            Select all Issues that you want to import
-          </Text>
-          {selectedRepo === null ? (
-            <Flex
-              flexDir="column"
-              gap="2"
-              border="1px solid gray"
-              rounded="10"
-              padding="10px"
-              borderStyle={"dotted"}
-              height="500px"
-              maxHeight="500px"
-              overflowY="auto"
-              justify="center"
-              align="center"
-            >
-              <Text color="primary.200">Select a repository</Text>
-            </Flex>
-          ) : (
-            <Flex
-              flexDir="column"
-              gap="2"
-              border="1px solid gray"
-              rounded="10"
-              padding="10px"
-              borderStyle={"dotted"}
-              height="500px"
-              maxHeight="500px"
-              overflowY="auto"
-            >
-              {issuesQuery.isLoading ? (
-                <Loader />
-              ) : issuesQuery.data && issuesQuery.data?.data.length > 0 ? (
-                issuesQuery.data.data.map((issue: any, i: number) => (
-                  <Checkbox
-                    colorScheme="brand"
+              <option
+                style={{ backgroundColor: "black", color: "white" }}
+                value="none"
+              >
+                Select your repo
+              </option>
+              {repoQuery.data &&
+                repoQuery.data.data.items.map((repo: any, i: number) => (
+                  <option
                     key={i}
-                    onChange={(e) => onHandleIssueCheck(e, issue)}
+                    value={repo.name}
+                    style={{ backgroundColor: "black", color: "white" }}
                   >
-                    <Text fontSize="sm">{issue.title}</Text>
-                  </Checkbox>
-                ))
-              ) : (
-                <Text color="primary.200">No Issues found</Text>
-              )}
-            </Flex>
-          )}
-        </Box>
-        <Button
-          type="submit"
-          colorScheme={"brand"}
-          fontSize={"md"}
-          size="md"
-          onClick={onSubmit}
-        >
-          Import
-        </Button>
-      </Flex>
+                    {repo.full_name}
+                  </option>
+                ))}
+            </Select>
+          </Box>
+          <Box>
+            <Text color="primary.200" size="sm" marginBottom="5px">
+              Select all Issues that you want to import
+            </Text>
+            {selectedRepo === null ? (
+              <Flex
+                flexDir="column"
+                gap="2"
+                border="1px solid gray"
+                rounded="10"
+                padding="10px"
+                borderStyle={"dotted"}
+                height="500px"
+                maxHeight="500px"
+                overflowY="auto"
+                justify="center"
+                align="center"
+              >
+                <Text color="primary.200">Select a repository</Text>
+              </Flex>
+            ) : (
+              <Flex
+                flexDir="column"
+                gap="2"
+                border="1px solid gray"
+                rounded="10"
+                padding="10px"
+                borderStyle={"dotted"}
+                height="500px"
+                maxHeight="500px"
+                overflowY="auto"
+              >
+                {issuesQuery.isLoading ? (
+                  <Loader />
+                ) : issuesQuery.data && issuesQuery.data?.data.length > 0 ? (
+                  issuesQuery.data.data.map((issue: any, i: number) => (
+                    <Checkbox
+                      colorScheme="brand"
+                      key={i}
+                      onChange={(e) => onHandleIssueCheck(e, issue)}
+                    >
+                      <Text fontSize="sm">{issue.title}</Text>
+                    </Checkbox>
+                  ))
+                ) : (
+                  <Text color="primary.200">No Issues found</Text>
+                )}
+              </Flex>
+            )}
+          </Box>
+          <Button
+            type="submit"
+            colorScheme={"brand"}
+            fontSize={"md"}
+            size="md"
+            onClick={onSubmit}
+          >
+            Import
+          </Button>
+        </Flex>
+      ) : (
+        <Flex align="center" justify="center" height="90vh" width="full">
+          <Button
+            bg="primary.500"
+            _hover={{ bg: "primary.900" }}
+            leftIcon={<FaGithub />}
+            onClick={oauthHandler}
+            width="200px"
+          >
+            Connect Github
+          </Button>{" "}
+        </Flex>
+      )}
     </FullModal>
   );
 }
