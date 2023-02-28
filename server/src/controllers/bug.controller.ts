@@ -69,14 +69,24 @@ const getBugById = async (req: Request, res: Response) => {
           include: {
             Member: {
               include: {
-                User: true,
+                User: {
+                  select: {
+                    username: true,
+                    email: true,
+                  },
+                },
               },
             },
           },
         },
         Comment: {
           include: {
-            User: true,
+            User: {
+              select: {
+                username: true,
+                email: true,
+              },
+            },
           },
         },
         Project: {
@@ -84,12 +94,21 @@ const getBugById = async (req: Request, res: Response) => {
             Category: true,
             Member: {
               include: {
-                User: true,
+                User: {
+                  select: {
+                    username: true,
+                    email: true,
+                  },
+                },
               },
             },
           },
         },
-        User: true,
+        User: {
+          select: {
+            username: true,
+          },
+        },
         Category: true,
       },
     });
@@ -160,6 +179,7 @@ const bulkCreateMany = async (req: Request, res: Response) => {
 
 const updateBug = async (req: Request, res: Response) => {
   try {
+    console.log(req.body);
     const bug = await prisma.bug.update({
       where: {
         id: Number(req.params.id),
@@ -168,7 +188,8 @@ const updateBug = async (req: Request, res: Response) => {
         title: req.body.title,
         description: req.body.description,
         priority: Number(req.body.priority),
-        categoryId: Number(req.body.categoryId),
+        categoryId:
+          req.body.categoryId === null ? null : Number(req.body.categoryId),
       },
     });
     if (!bug) return res.status(400).json({ message: "Error updating bug" });

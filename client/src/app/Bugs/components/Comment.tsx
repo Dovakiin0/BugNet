@@ -28,16 +28,18 @@ export default function Comment({ comment, user }: any) {
   return (
     <Box key={comment.id} bg="primary.800" padding="20px" rounded="10" gap="5">
       <Flex justify={"space-between"}>
-        <MDEditor.Markdown
-          wrapperElement={{ "data-color-mode": "dark" }}
-          key={comment.id}
-          source={comment.content}
-          style={{
-            whiteSpace: "pre-wrap",
-            background: "none",
-            color: "white",
-          }}
-        />
+        <Box flexGrow="1">
+          <MDEditor.Markdown
+            wrapperElement={{ "data-color-mode": "dark" }}
+            key={comment.id}
+            source={comment.content}
+            style={{
+              whiteSpace: "pre-wrap",
+              background: "none",
+              color: "white",
+            }}
+          />
+        </Box>
         {comment.User.id === user?.id && (
           <DeletePopOver
             isOpen={isOpen}

@@ -33,9 +33,11 @@ import AvatarChip from "../Project/components/AvatarChip";
 import { useFetchBugById } from "./hooks/useBugs";
 import { useAuthStore } from "../../store/useStore";
 import Comment from "./components/Comment";
+import EditBugModal from "./components/EditBugModal";
 
 function Bugs({ }) {
   const assigneePopover = useDisclosure();
+  const editModal = useDisclosure();
 
   const { id } = useParams();
   const [comment, setComment] = useState<any>("");
@@ -111,6 +113,11 @@ function Bugs({ }) {
         <Loader />
       ) : (
         <>
+          <EditBugModal
+            isOpen={editModal.isOpen}
+            onClose={editModal.onClose}
+            data={data}
+          />
           <Box bg="brand.800" padding="30px">
             <Flex flexDir={"column"}>
               <NavLink to={`/project/${data.Project.id}`}>
@@ -131,6 +138,7 @@ function Bugs({ }) {
                   bg="primary.900"
                   color="primary.100"
                   _hover={{ bg: "primary.800", color: "primary.200" }}
+                  onClick={editModal.onOpen}
                 />
               </Flex>
             </Flex>
@@ -245,8 +253,9 @@ function Bugs({ }) {
                 </Text>
               </Box>
               <Wrap>
-                {data.Assignee.map((assign: any) => (
+                {data.Assignee.map((assign: any, i: number) => (
                   <AvatarChip
+                    key={i}
                     src=""
                     label={assign.Member.User.username}
                     onDelete={() => onAssigneeDelete(assign.id)}
