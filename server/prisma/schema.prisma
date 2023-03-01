@@ -102,12 +102,14 @@ model User {
   updatedAt DateTime @updatedAt
 
   // relations
-  githubId Int?      @unique
-  Github   Github?   @relation(fields: [githubId], references: [id])
+  githubId Int?           @unique
+  Github   Github?        @relation(fields: [githubId], references: [id])
   Project  Project[]
   Member   Member[]
   Bug      Bug[]
   Comment  Comment[]
+  From     Notification[] @relation("from_user")
+  To       Notification[] @relation("to_user")
 }
 
 model Github {
@@ -117,4 +119,16 @@ model Github {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
   User        User?
+}
+
+model Notification {
+  id   Int @id @default(autoincrement())
+  from Int
+  to   Int
+
+  From User @relation("from_user", fields: [from], references: [id])
+  To   User @relation("to_user", fields: [to], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
