@@ -7,7 +7,6 @@ import {
   Flex,
   Avatar,
   AvatarBadge,
-  Box,
   Spacer,
   Divider,
 } from "@chakra-ui/react";
@@ -16,28 +15,56 @@ import { useEffect, useState } from "react";
 import { FaBell, FaCheck } from "react-icons/fa";
 import { RxCross2 } from "react-icons/rx";
 import io from "socket.io-client";
+import { useApproveTeam } from "../../../../../app/Project/hooks/useTeam";
+import useToast from "../../../../../hooks/useToast";
+import { NotificationType } from "../../../../../types/Notification";
+import {
+  useFetchNotification,
+  useReadNotification,
+} from "./hooks/useNotification";
 
-import bellSound from "/bell.mp3";
-
-export default function Notification() {
-  let [notifications, setNotifications] = useState<any | any[]>([]);
+export default function Notification({ user }: any) {
+  let [notifications, setNotifications] = useState<NotificationType[]>([]);
+  const { data, isSuccess, isLoading } = useFetchNotification();
+  const notificationQuery = useReadNotification();
+  const teamQuery = useApproveTeam();
   let socket: any = null;
+  const { successToast } = useToast();
+
+  useEffect(() => {
+    if (isSuccess) setNotifications(data);
+  }, [isSuccess, isLoading]);
 
   useEffect(() => {
     socket = io("ws://localhost:3030");
     socket.on("TEAM_ADD_RESPONSE", (data: any) => {
-      setNotifications((prev: any) => [...prev, data]);
+      if (data.To.id !== user?.id) return;
+      setNotifications([data, ...notifications]);
       const audio = new Audio("/bell.mp3");
       audio.muted = true;
       audio.play();
     });
   }, [socket]);
 
+  const updateNotification = (id: number, pid: number, status: string) => {
+    notificationQuery.mutateAsync(id, {
+      onSuccess: (data) => {
+        setNotifications(notifications.filter((n) => n.id !== data.id));
+        successToast(
+          status === "Accepted" ? "Invitation Accepted" : "Invitation Rejected"
+        );
+      },
+    });
+    teamQuery.mutateAsync({ pid, status });
+  };
+
   return (
     <Menu offset={[30, 30]}>
       <MenuButton>
         <Avatar icon={<FaBell />} bg="primary.900">
-          <AvatarBadge boxSize="1em" bg="red.500" borderColor="primary.900" />
+          {notifications?.some((el: any) => !el.read) && (
+            <AvatarBadge boxSize="1em" bg="red.500" borderColor="primary.900" />
+          )}
         </Avatar>
       </MenuButton>
       <MenuList
@@ -53,10 +80,19 @@ export default function Notification() {
           </Text>
           <Divider />
           {/* Custom Noticiations component based on notification type */}
-          {notifications.length > 0 ? (
-            notifications.map((n: any, i: number) => (
-              <NotificationList notification={n} key={i} />
-            ))
+          {notifications?.length > 0 ? (
+            notifications
+              .slice(0, 5)
+              .map(
+                (n: any, i: number) =>
+                  !n.read && (
+                    <NotificationList
+                      notification={n}
+                      key={i}
+                      updateNotification={updateNotification}
+                    />
+                  )
+              )
           ) : (
             <Flex height="200px" align="center" justify="center">
               <Text color="primary.200">No New Notification</Text>
@@ -68,7 +104,7 @@ export default function Notification() {
   );
 }
 
-function NotificationList({ notification, props }: any) {
+function NotificationList({ updateNotification, notification, props }: any) {
   return (
     <Flex
       {...props}
@@ -80,8 +116,7 @@ function NotificationList({ notification, props }: any) {
     >
       <Flex gap="2" align="center">
         <Text fontSize="sm">
-          {notification.User.username} invited you to Project
-          {notification.Project.title}
+          {notification.message}
           <Text color="primary.200">
             {moment(notification.createdAt).fromNow()}
           </Text>
@@ -94,6 +129,13 @@ function NotificationList({ notification, props }: any) {
           variant="outline"
           color="green.500"
           _hover={{ bg: "green.500", color: "white" }}
+          onClick={() =>
+            updateNotification(
+              notification.id,
+              notification.target_id,
+              "Accepted"
+            )
+          }
         />
 
         <IconButton
@@ -103,6 +145,13 @@ function NotificationList({ notification, props }: any) {
           variant="outline"
           color="red.500"
           _hover={{ bg: "red.500", color: "white" }}
+          onClick={() =>
+            updateNotification(
+              notification.id,
+              notification.target_id,
+              "Rejected"
+            )
+          }
         />
       </Flex>
     </Flex>

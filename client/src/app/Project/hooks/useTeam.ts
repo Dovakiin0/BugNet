@@ -26,9 +26,12 @@ async function deleteTeam(id: number) {
   return data;
 }
 
-async function approveInvitation() {
+async function updateTeamInvite(params: any) {
   const { data } = await axios.put(
-    `http://localhost:3030/api/v1/projects/team/approve`,
+    `http://localhost:3030/api/v1/projects/team/approve/${params.pid}`,
+    {
+      status: params.status,
+    },
     {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -41,8 +44,8 @@ async function approveInvitation() {
 export const useDeleteTeam = () => {
   const query = useQueryClient();
   return useMutation(deleteTeam, {
-    onSuccess: (data, variables, context: any) => {
-      query.invalidateQueries(["project", variables]);
+    onSuccess: () => {
+      query.invalidateQueries(["project"]);
     },
   });
 };
@@ -50,7 +53,7 @@ export const useDeleteTeam = () => {
 export const useCreateTeam = () => {
   const query = useQueryClient();
   return useMutation(createTeam, {
-    onSuccess: (data, variables) => {
+    onSuccess: (data) => {
       query.invalidateQueries(["project", data.projectId]);
     },
   });
@@ -58,9 +61,9 @@ export const useCreateTeam = () => {
 
 export const useApproveTeam = () => {
   const query = useQueryClient();
-  return useMutation(approveInvitation, {
-    onSuccess: (data, variables) => {
-      query.invalidateQueries(["project", data.projectId]);
+  return useMutation(updateTeamInvite, {
+    onSuccess: () => {
+      query.invalidateQueries(["project"]);
     },
   });
 };

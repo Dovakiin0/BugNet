@@ -11,6 +11,7 @@ type Props = {
   src: string;
   label: string;
   onDelete: () => void;
+  status?: string;
   props?: any;
   isOwner?: boolean;
 };
@@ -20,13 +21,20 @@ export default function AvatarChip({
   label,
   onDelete,
   props,
+  status,
   isOwner = true,
 }: Props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const color = {
+    Accepted: "brand.500",
+    Pending: "primary.500",
+    Rejected: "red.500",
+  };
+
   return (
     <Tag
       size="lg"
-      bg="brand.500"
+      bg={color[status as keyof typeof color]}
       color="primary.100"
       borderRadius="full"
       {...props}

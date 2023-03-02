@@ -21,6 +21,7 @@ import Chips from "../components/Chips";
 import { useCreateCategory, useDeleteCategory } from "../hooks/useCategory";
 import { useCreateTeam, useDeleteTeam } from "../hooks/useTeam";
 import io from "socket.io-client";
+import { useAuthStore } from "../../../store/useStore";
 
 export default function ProjectSettings({
   categories,
@@ -31,6 +32,7 @@ export default function ProjectSettings({
   const categoryPopOver = useDisclosure();
   const teamPopOver = useDisclosure();
   let socket = io("ws://localhost:3030");
+  const user = useAuthStore((state) => state.user);
   // category queries
   const categoryMutate = useCreateCategory();
   const categoryDelete = useDeleteCategory();
@@ -56,8 +58,14 @@ export default function ProjectSettings({
         { pid, email: e.target.value },
         {
           onSuccess: (data) => {
-            console.log(data);
-            socket.emit("TEAM_ADD", data);
+            let payload = {
+              ...data,
+              From: {
+                id: user?.id,
+                username: user?.username,
+              },
+            };
+            socket.emit("TEAM_ADD", payload);
           },
         }
       );
@@ -145,6 +153,7 @@ export default function ProjectSettings({
             {teams.length > 0 &&
               teams.map((t: any, i: number) => (
                 <AvatarChip
+                  status={t.status}
                   key={i}
                   isOwner={isOwner}
                   label={t.User.username}

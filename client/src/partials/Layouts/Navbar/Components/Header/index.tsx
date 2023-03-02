@@ -63,7 +63,7 @@ function Header({ children }: Props) {
           ))}
           <Spacer />
           <Flex marginRight={10} align="center" gap="3">
-            <Notification />
+            <Notification user={user} />
             <UserMenu user={user} logout={logout} />
           </Flex>
         </Flex>
