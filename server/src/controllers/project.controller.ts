@@ -7,10 +7,15 @@ const getAllProjects = async (req: Request, res: Response) => {
       where: {
         OR: [
           { ownerId: (req.user as User).id },
-          { Member: { some: { userId: (req.user as User).id } } },
+          {
+            Member: {
+              some: { userId: (req.user as User).id, status: "Accepted" },
+            },
+          },
         ],
       },
     });
+    if (projects.length <= 0) return res.status(200).send([]);
     res.status(200).json(projects);
   } catch (err) {
     res.status(400).json({ message: "Something went wrong", error: err });
@@ -61,6 +66,7 @@ const createProject = async (req: Request, res: Response) => {
         Member: {
           create: {
             userId: (req.user as User).id,
+            status: "Accepted",
           },
         },
       },

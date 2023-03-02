@@ -63,7 +63,7 @@ describe("Members", () => {
 
   it("PUT /approve - Should get 200 and approves request from a project", async () => {
     const res = await supertest(app)
-      .put(`/api/v1/projects/team/approve`)
+      .put(`/api/v1/projects/team/approve/${project.id}`)
       .set("Authorization", `Bearer ${token}`)
       .send({ status: "Accepted" });
     expect(res.status).toBe(200);

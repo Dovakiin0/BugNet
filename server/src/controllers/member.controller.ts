@@ -62,6 +62,7 @@ const updateMemberStatus = async (req: Request, res: Response) => {
     const member = await prisma.member.findFirst({
       where: {
         userId: (req.user as User).id,
+        projectId: Number(req.params.pid),
       },
     });
     if (!member) {
@@ -75,7 +76,9 @@ const updateMemberStatus = async (req: Request, res: Response) => {
         status: req.body.status,
       },
     });
-    res.status(200).json({ message: "Member Status updated successfully" });
+    res.status(200).json({
+      message: "Member Status updated successfully",
+    });
   } catch (err) {
     res.status(400).json({ message: "Something went wrong", error: err });
   }

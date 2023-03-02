@@ -128,12 +128,14 @@ model Github {
 }
 
 model Notification {
-  id   Int     @id @default(autoincrement())
-  from Int
-  to   Int
-  read Boolean @default(false)
-  From User    @relation("from_user", fields: [from], references: [id])
-  To   User    @relation("to_user", fields: [to], references: [id])
+  id        Int     @id @default(autoincrement())
+  from      Int
+  to        Int
+  read      Boolean @default(false)
+  target_id Int
+  message   String?
+  From      User    @relation("from_user", fields: [from], references: [id])
+  To        User    @relation("to_user", fields: [to], references: [id])
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

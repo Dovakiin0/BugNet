@@ -9,6 +9,6 @@ import {
 
 router.post("/:pid", createMember);
 router.delete("/:id", deleteMember);
-router.put("/approve", updateMemberStatus);
+router.put("/approve/:pid", updateMemberStatus);
 
 export default router;

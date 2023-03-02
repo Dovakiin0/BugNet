@@ -12,8 +12,10 @@ export default function InitializeSocket(io: Server) {
       try {
         const notification = await prisma.notification.create({
           data: {
-            from: data.from,
+            from: data.From.id,
             to: data.User.id,
+            message: `${data.From.username} invited you to project ${data.Project.title}`,
+            target_id: data.Project.id,
           },
           include: {
             From: {
