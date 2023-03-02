@@ -36,7 +36,7 @@ model Category {
 
 model Member {
   id        Int      @id @default(autoincrement())
-  accepted  Boolean  @default(false)
+  status    Status   @default(Pending)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -46,6 +46,12 @@ model Member {
   userId    Int
   User      User       @relation(fields: [userId], references: [id], onDelete: Cascade)
   Assignee  Assignee[]
+}
+
+enum Status {
+  Pending
+  Accepted
+  Rejected
 }
 
 model Bug {
@@ -122,12 +128,12 @@ model Github {
 }
 
 model Notification {
-  id   Int @id @default(autoincrement())
+  id   Int     @id @default(autoincrement())
   from Int
   to   Int
-
-  From User @relation("from_user", fields: [from], references: [id])
-  To   User @relation("to_user", fields: [to], references: [id])
+  read Boolean @default(false)
+  From User    @relation("from_user", fields: [from], references: [id])
+  To   User    @relation("to_user", fields: [to], references: [id])
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

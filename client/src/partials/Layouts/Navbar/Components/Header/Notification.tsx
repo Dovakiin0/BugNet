@@ -8,13 +8,15 @@ import {
   Avatar,
   AvatarBadge,
   Box,
+  Spacer,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-import { FaBell, FaCheck, FaCross } from "react-icons/fa";
+import { FaBell, FaCheck } from "react-icons/fa";
+import { RxCross2 } from "react-icons/rx";
 import io from "socket.io-client";
 
 export default function Notification() {
-  let [notifications, setNotifications] = useState<any | any[]>([]);
+  let [notifications, setNotifications] = useState<any | any[]>(["hello"]);
   let socket: any = null;
 
   useEffect(() => {
@@ -31,7 +33,7 @@ export default function Notification() {
           <AvatarBadge boxSize="1em" bg="red.500" borderColor="primary.900" />
         </Avatar>
       </MenuButton>
-      <MenuList bg="primary.700" border="none">
+      <MenuList bg="primary.700" border="none" width="400px">
         <Flex padding="10px" flexDir="column" gap="3">
           <Text color="primary.200" fontSize="sm">
             Notifications
@@ -40,14 +42,13 @@ export default function Notification() {
           {notifications.length > 0 &&
             notifications.map((n: any) => (
               <Flex flexDir="column" padding="5px" rounded="10" gap="2">
-                <Flex gap="2">
-                  <Text fontSize="sm">{n.User.username}</Text>
+                <Flex gap="2" align="center">
+                  <Text fontSize="sm">{"Bishal"}</Text>
                   <Text fontSize="sm" color="primary.200">
                     Invited you on Project
                   </Text>
-                  <Text fontSize="sm">{n.Project.title}</Text>
-                </Flex>
-                <Flex gap="3">
+                  <Text fontSize="sm">{"Bugnet"}</Text>
+                  <Spacer />
                   <IconButton
                     size="sm"
                     icon={<FaCheck />}
@@ -59,7 +60,7 @@ export default function Notification() {
 
                   <IconButton
                     size="sm"
-                    icon={<FaCross />}
+                    icon={<RxCross2 />}
                     aria-label="tick"
                     variant="outline"
                     color="red.500"
