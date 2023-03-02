@@ -22,6 +22,15 @@ const createMember = async (req: Request, res: Response) => {
         userId: user.id,
         projectId: Number(req.params.pid),
       },
+      include: {
+        Project: true,
+        User: {
+          select: {
+            username: true,
+            id: true,
+          },
+        },
+      },
     });
     if (!member) {
       return res.status(400).json({ message: "Error creating member" });

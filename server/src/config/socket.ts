@@ -7,7 +7,12 @@ export default function InitializeSocket(io: Server) {
     // });
 
     socket.on("TEAM_ADD", (data) => {
-      socket.emit("TEAM_ADD_RESPONSE", data);
+      console.log(data);
+      io.emit("TEAM_ADD_RESPONSE", data);
+    });
+
+    socket.on("COMMENT", (data) => {
+      io.emit("COMMENT_RESPONSE", data);
     });
   });
 }

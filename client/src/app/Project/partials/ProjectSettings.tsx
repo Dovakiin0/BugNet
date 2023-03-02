@@ -13,12 +13,14 @@ import {
   Box,
   useDisclosure,
 } from "@chakra-ui/react";
+import { useEffect } from "react";
 import { FaPlus } from "react-icons/fa";
 import NormalTextField from "../../../components/Forms/NormalTextField";
 import AvatarChip from "../components/AvatarChip";
 import Chips from "../components/Chips";
 import { useCreateCategory, useDeleteCategory } from "../hooks/useCategory";
 import { useCreateTeam, useDeleteTeam } from "../hooks/useTeam";
+import io from "socket.io-client";
 
 export default function ProjectSettings({
   categories,
@@ -28,7 +30,7 @@ export default function ProjectSettings({
 }: any) {
   const categoryPopOver = useDisclosure();
   const teamPopOver = useDisclosure();
-
+  let socket = io("ws://localhost:3030");
   // category queries
   const categoryMutate = useCreateCategory();
   const categoryDelete = useDeleteCategory();
@@ -50,7 +52,15 @@ export default function ProjectSettings({
 
   const onTeamAdd = (e: any) => {
     if (e.key === "Enter" && e.target.value !== "") {
-      teamMuteate.mutateAsync({ pid, email: e.target.value });
+      teamMuteate.mutateAsync(
+        { pid, email: e.target.value },
+        {
+          onSuccess: (data) => {
+            console.log(data);
+            socket.emit("TEAM_ADD", data);
+          },
+        }
+      );
       teamPopOver.onClose();
       e.target.value = "";
     }
