@@ -1,6 +1,42 @@
 import { Request, Response } from "express";
 import prisma, { User } from "../helper/prismaClient";
 
+const getAllComments = async (req: Request, res: Response) => {
+  try {
+    let comment = await prisma.comment.findMany({
+      where: {
+        Bug: {
+          Project: {
+            Member: {
+              some: { userId: (req.user as User).id, status: "Accepted" },
+            },
+          },
+        },
+      },
+      take: 10,
+      orderBy: { createdAt: "desc" },
+      include: {
+        User: {
+          select: {
+            username: true,
+            id: true,
+          },
+        },
+        Bug: {
+          include: {
+            Project: true,
+          },
+        },
+      },
+    });
+    if (comment.length <= 0) return res.status(200).send([]);
+    comment = comment.filter((c: any) => c.userId !== (req.user as User).id);
+    return res.status(200).json(comment);
+  } catch (error) {
+    res.status(400).json({ error });
+  }
+};
+
 const createComment = async (req: Request, res: Response) => {
   try {
     const comment = await prisma.comment.create({
@@ -47,4 +83,4 @@ const deleteComment = async (req: Request, res: Response) => {
   }
 };
 
-export { createComment, updateComment, deleteComment };
+export { createComment, updateComment, deleteComment, getAllComments };

@@ -1,5 +1,17 @@
 import axios from "axios";
-import { useMutation, useQueryClient } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
+
+async function getAllComment() {
+  const { data } = await axios.get(
+    `http://localhost:3030/api/v1/bugs/comment/recent`,
+    {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    }
+  );
+  return data;
+}
 
 async function createComment(params: any) {
   const { data } = await axios.post(
@@ -26,10 +38,14 @@ async function deleteComment(id: number) {
   return data;
 }
 
+export function useGetComment() {
+  return useQuery(["comment"], getAllComment);
+}
+
 export function useCreateComment() {
   const client = useQueryClient();
   return useMutation(createComment, {
-    onSuccess: (data, variables) => {
+    onSuccess: (_, variables) => {
       client.invalidateQueries(["bugs", variables.bid]);
     },
   });
@@ -38,7 +54,7 @@ export function useCreateComment() {
 export function useDeleteComment() {
   const client = useQueryClient();
   return useMutation(deleteComment, {
-    onSuccess: (data, variables) => {
+    onSuccess: () => {
       client.invalidateQueries(["bugs"]);
     },
   });

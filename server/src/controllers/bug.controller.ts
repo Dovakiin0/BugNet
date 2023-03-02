@@ -24,7 +24,13 @@ const getAllBugs = async (req: Request, res: Response) => {
       },
       include: {
         Project: true,
-        User: true,
+        User: {
+          select: {
+            username: true,
+            email: true,
+            id: true,
+          },
+        },
       },
       orderBy: {
         createdAt: "desc",
