@@ -57,7 +57,7 @@ const deleteMember = async (req: Request, res: Response) => {
   }
 };
 
-const approveMember = async (req: Request, res: Response) => {
+const updateMemberStatus = async (req: Request, res: Response) => {
   try {
     const member = await prisma.member.findFirst({
       where: {
@@ -72,13 +72,13 @@ const approveMember = async (req: Request, res: Response) => {
         id: member.id,
       },
       data: {
-        accepted: true,
+        status: req.body.status,
       },
     });
-    res.status(200).json({ message: "Member approved successfully" });
+    res.status(200).json({ message: "Member Status updated successfully" });
   } catch (err) {
     res.status(400).json({ message: "Something went wrong", error: err });
   }
 };
 
-export { createMember, deleteMember, approveMember };
+export { createMember, deleteMember, updateMemberStatus };

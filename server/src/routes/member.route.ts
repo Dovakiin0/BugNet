@@ -4,11 +4,11 @@ const router = express.Router();
 import {
   createMember,
   deleteMember,
-  approveMember,
+  updateMemberStatus,
 } from "../controllers/member.controller";
 
 router.post("/:pid", createMember);
 router.delete("/:id", deleteMember);
-router.put("/approve", approveMember);
+router.put("/approve", updateMemberStatus);
 
 export default router;

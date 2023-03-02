@@ -65,8 +65,8 @@ describe("Members", () => {
     const res = await supertest(app)
       .put(`/api/v1/projects/team/approve`)
       .set("Authorization", `Bearer ${token}`)
-      .send({});
+      .send({ status: "Accepted" });
     expect(res.status).toBe(200);
-    expect(res.body.message).toBe("Member approved successfully");
+    expect(res.body.message).toBe("Member Status updated successfully");
   });
 });
