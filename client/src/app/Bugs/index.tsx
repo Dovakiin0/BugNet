@@ -34,10 +34,12 @@ import { useFetchBugById, useToggleBug } from "./hooks/useBugs";
 import { useAuthStore } from "../../store/useStore";
 import Comment from "./components/Comment";
 import EditBugModal from "./components/EditBugModal";
+import io from "socket.io-client";
 
 function Bugs({ }) {
   const assigneePopover = useDisclosure();
   const editModal = useDisclosure();
+  let socket = io("ws://localhost:3030/");
 
   const { id } = useParams();
   const [comment, setComment] = useState<any>("");
@@ -104,7 +106,11 @@ function Bugs({ }) {
       bid: Number(id),
       content: comment,
     };
-    commentMutate.mutateAsync(payload);
+    commentMutate.mutateAsync(payload, {
+      onSuccess: (data) => {
+        socket.emit("COMMENT", data);
+      },
+    });
     setComment("");
   };
 

@@ -43,12 +43,7 @@ function Header({ children }: Props) {
       maxHeight={"100vh"}
       overflowY="auto"
     >
-      <Box
-        bgColor={"primary.800"}
-        height="60px"
-        padding="10px"
-        position={"sticky"}
-      >
+      <Box bgColor={"primary.800"} height="60px" padding="10px">
         <Flex align={"center"} gap="5">
           {HeaderRoutes.map((route, i) => (
             <NavLink key={i} to={route.path}>

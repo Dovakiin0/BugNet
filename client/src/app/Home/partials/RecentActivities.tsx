@@ -1,12 +1,24 @@
-import { Box, Text, Flex, Stack } from "@chakra-ui/react";
+import { Box, Text } from "@chakra-ui/react";
 import Skeleton from "../../../components/Skeleton";
 import { useGetComment } from "../../Bugs/hooks/useComments";
 import Activity from "../components/Activity";
 import Empty from "../../../components/Empty";
+import io from "socket.io-client";
+import { useEffect } from "react";
+import { useQueryClient } from "react-query";
 type Props = {};
 
 function RecentActivities({ }: Props) {
-    const { data, isLoading, isSuccess } = useGetComment();
+    const { data, isLoading } = useGetComment();
+    let socket: any;
+    let client = useQueryClient();
+    useEffect(() => {
+        socket = io("ws://localhost:3030/");
+        socket.on("COMMENT_RESPONSE", (_: any) => {
+            client.invalidateQueries(["comment"]);
+        });
+    }, [socket]);
+
     return (
         <Box
             margin="10px"

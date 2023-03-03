@@ -8,7 +8,7 @@ import {
 } from "@chakra-ui/react";
 import DeletePopOver from "../../../components/DeletePopOver";
 import MDEditor from "@uiw/react-md-editor";
-import { FaTrash, FaPen } from "react-icons/fa";
+import { FaTrash } from "react-icons/fa";
 import useToast from "../../../hooks/useToast";
 import { useDeleteComment } from "../hooks/useComments";
 

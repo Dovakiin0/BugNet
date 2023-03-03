@@ -59,7 +59,7 @@ export default function Notification({ user }: any) {
   };
 
   return (
-    <Menu offset={[30, 30]}>
+    <Menu>
       <MenuButton>
         <Avatar icon={<FaBell />} bg="primary.900">
           {notifications?.some((el: any) => !el.read) && (
