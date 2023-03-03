@@ -63,7 +63,10 @@ export const useApproveTeam = () => {
   const query = useQueryClient();
   return useMutation(updateTeamInvite, {
     onSuccess: () => {
-      query.invalidateQueries(["project"]);
+      Promise.all([
+        query.invalidateQueries(["project"]),
+        query.invalidateQueries(["bugs"]),
+      ]);
     },
   });
 };

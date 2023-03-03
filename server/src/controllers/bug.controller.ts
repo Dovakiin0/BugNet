@@ -16,6 +16,7 @@ const getAllBugs = async (req: Request, res: Response) => {
               Member: {
                 some: {
                   userId: (req.user as User).id,
+                  status: "Accepted",
                 },
               },
             },
