@@ -41,5 +41,21 @@ export default function InitializeSocket(io: Server) {
     socket.on("COMMENT", (data) => {
       io.emit("COMMENT_RESPONSE", data);
     });
+
+    socket.on("KANBAN", async (data) => {
+      try {
+        const bug = await prisma.bug.update({
+          where: {
+            id: data.bugId,
+          },
+          data: {
+            boardId: data.boardId,
+          },
+        });
+        io.emit("KANBAN_RESPONSE", bug);
+      } catch (error) {
+        console.log("Error changing bug board");
+      }
+    });
   });
 }

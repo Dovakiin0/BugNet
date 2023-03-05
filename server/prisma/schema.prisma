@@ -20,6 +20,7 @@ model Project {
   Category Category[]
   Member   Member[]
   Bug      Bug[]
+  Kanban   Kanban?
 }
 
 model Category {
@@ -64,6 +65,8 @@ model Bug {
   updatedAt   DateTime @updatedAt
 
   // relations
+  boardId    Int
+  Board      Board      @relation(fields: [boardId], references: [id])
   categoryId Int?
   Category   Category?  @relation(fields: [categoryId], references: [id])
   projectId  Int
@@ -139,4 +142,25 @@ model Notification {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model Kanban {
+  id        Int @id @default(autoincrement())
+  projectId Int @unique
+
+  Project   Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  Board     Board[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Board {
+  id       Int    @id @default(autoincrement())
+  kanbanId Int
+  title    String
+
+  Kanban    Kanban   @relation(fields: [kanbanId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  Bug       Bug[]
 }

@@ -37,6 +37,7 @@ export default function ProjectBugs({ isLoading, project }: any) {
         project={project}
       />
       <ImportGithub
+        project={project}
         isOpen={importModal.isOpen}
         onClose={importModal.onClose}
         pid={project.id}
@@ -84,7 +85,7 @@ export default function ProjectBugs({ isLoading, project }: any) {
         <Box margin="10px">
           <NormalTextField placeholder="Search in this project" size="md" />
         </Box>
-        <Tabs isFitted size="md" variant="soft-rounded">
+        <Tabs isFitted size="sm" variant="soft-rounded">
           <TabList>
             <Tab _selected={{ bg: "green.500", color: "white" }}>Open</Tab>
             <Tab _selected={{ bg: "red.500", color: "white" }}>Closed</Tab>

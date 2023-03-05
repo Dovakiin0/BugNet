@@ -38,6 +38,9 @@ export default function BugModal({ isOpen, onClose, project }: Props) {
   const { mutateAsync } = useCreateBug();
 
   function onSubmit(values: typeof initialValues, { setSubmitting }: any) {
+    let backLogId = project.Kanban.Board.filter(
+      (b: any) => b.title === "Backlog"
+    )[0].id;
     // perform api call
     let payload = {
       title: values.title,
@@ -45,6 +48,7 @@ export default function BugModal({ isOpen, onClose, project }: Props) {
       description: value,
       priority: priority,
       categoryId: categoryId,
+      boardId: backLogId,
     };
     mutateAsync(payload, {
       onSuccess: () => {

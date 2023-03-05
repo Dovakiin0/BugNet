@@ -142,6 +142,7 @@ const createBug = async (req: Request, res: Response) => {
         categoryId: Number(bugBody.categoryId) || null,
         status: "Open",
         openedBy: (req.user as User).id,
+        boardId: bugBody.boardId,
       },
     });
     if (!bug) return res.status(400).json({ message: "Error creating bug" });
@@ -172,6 +173,7 @@ const bulkCreateMany = async (req: Request, res: Response) => {
         description: bug.description,
         status: "Open",
         openedBy: (req.user as any).id,
+        boardId: bug.boardId,
       };
     });
 

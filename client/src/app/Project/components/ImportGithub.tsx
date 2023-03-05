@@ -13,9 +13,10 @@ type props = {
   isOpen: boolean;
   onClose: () => void;
   pid: number;
+  project: any;
 };
 
-export default function ImportGithub({ isOpen, onClose, pid }: props) {
+export default function ImportGithub({ isOpen, onClose, pid, project }: props) {
   const [selectedRepo, setSelectedRepo] = useState<string | null>(null);
   const [selectedIssues, setSelectedIssues] = useState<any | null>(null);
   const user = useAuthStore((state) => state.user);
@@ -55,10 +56,14 @@ export default function ImportGithub({ isOpen, onClose, pid }: props) {
 
   const onSubmit = (e: any) => {
     e.preventDefault();
+
     if (selectedIssues === null) {
       errorToast("No Issues Selected");
       return;
     }
+    let backLogId = project.Kanban.Board.filter(
+      (b: any) => b.title === "Backlog"
+    )[0].id;
     let payload: any[] = [];
     Object.keys(selectedIssues).map((key: any, index: any) => {
       if (selectedIssues[key].checked) {
@@ -66,6 +71,7 @@ export default function ImportGithub({ isOpen, onClose, pid }: props) {
           projectId: pid,
           title: selectedIssues[key].title,
           description: selectedIssues[key].description,
+          boardId: backLogId,
         });
       }
     });

@@ -1,5 +1,6 @@
 import { Flex, Divider, Text } from "@chakra-ui/react";
 import { useDrag, useDrop } from "react-dnd";
+import io from "socket.io-client";
 
 export default function BoardHolder({ info }: any) {
   const [config, drop] = useDrop(() => ({
@@ -9,15 +10,14 @@ export default function BoardHolder({ info }: any) {
       isOver: monitor.isOver();
     },
   }));
+  let socket = io("ws://localhost:3030");
 
   const addToBoard = (id: number) => {
-    console.log(id);
-  };
-
-  const bug = {
-    id: 1,
-    title: "Not working",
-    priority: 2,
+    let payload = {
+      bugId: id,
+      boardId: info.id,
+    };
+    socket.emit("KANBAN", payload);
   };
 
   return (
@@ -31,7 +31,9 @@ export default function BoardHolder({ info }: any) {
     >
       <Text>{info.title}</Text>
       <Divider />
-      <Draggable bug={bug} />
+      {info.Bug.map((bug: any) => (
+        <Draggable bug={bug} />
+      ))}
     </Flex>
   );
 }
@@ -64,7 +66,7 @@ function Draggable({ bug }: any) {
   return (
     <Flex
       ref={drag}
-      gap="3"
+      justify="space-between"
       bg="primary.700"
       padding="10px"
       marginTop="10px"
@@ -73,9 +75,11 @@ function Draggable({ bug }: any) {
       _hover={{ cursor: "pointer" }}
       rotate={config.isDragging ? "20deg" : "0"}
     >
-      <Text>#1/Not working</Text>
+      <Text>
+        #{bug.id}/{bug.title}
+      </Text>
       <Text
-        color={priorityList[0 as keyof typeof priorityList].color}
+        color={priorityList[bug.priority as keyof typeof priorityList].color}
         fontSize="sm"
       >
         Low

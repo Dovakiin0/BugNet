@@ -44,6 +44,11 @@ const getProjectById = async (req: Request, res: Response) => {
             },
           },
         },
+        Kanban: {
+          include: {
+            Board: true,
+          },
+        },
       },
     });
     if (!project) {
@@ -67,6 +72,28 @@ const createProject = async (req: Request, res: Response) => {
           create: {
             userId: (req.user as User).id,
             status: "Accepted",
+          },
+        },
+        Kanban: {
+          create: {
+            Board: {
+              createMany: {
+                data: [
+                  {
+                    title: "Backlog",
+                  },
+                  {
+                    title: "Todo",
+                  },
+                  {
+                    title: "Doing",
+                  },
+                  {
+                    title: "Completed",
+                  },
+                ],
+              },
+            },
           },
         },
       },
