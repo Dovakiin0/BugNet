@@ -1,8 +1,9 @@
 import { Flex, Text, Stack } from "@chakra-ui/react";
 import { useState } from "react";
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
 import { FaBook } from "react-icons/fa";
 import Skeleton from "../../components/Skeleton";
-import Loader from "../../partials/Loader";
 import { useProject } from "../Project/hooks/useProject";
 import Board from "./partials/Board";
 
@@ -35,6 +36,7 @@ function Kanban({ }: Props) {
         ) : (
           projectsQuery.data.map((project: any) => (
             <Flex
+              key={project.id}
               gap="3"
               align="center"
               bg="primary.900"
@@ -55,17 +57,13 @@ function Kanban({ }: Props) {
       </Flex>
       {/* Board */}
       {selectedProject ? (
-        <Flex bg="primary.800" rounded="10" width="full" maxHeight="90vh">
-          <Board id={selectedProject} />
+        <Flex rounded="10" width="full" maxHeight="90vh">
+          <DndProvider backend={HTML5Backend}>
+            <Board id={selectedProject} />
+          </DndProvider>
         </Flex>
       ) : (
-        <Flex
-          bg="primary.800"
-          rounded="10"
-          width="full"
-          maxHeight="90vh"
-          padding="20px"
-        >
+        <Flex rounded="10" width="full" maxHeight="90vh" padding="20px">
           <Text color="primary.200">Select a project</Text>
         </Flex>
       )}
