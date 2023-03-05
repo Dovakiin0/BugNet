@@ -8,7 +8,7 @@ import useToast from "../../../hooks/useToast";
 
 type Props = {};
 
-function HighPriorityBugs({}: Props) {
+function HighPriorityBugs({ }: Props) {
   const { isLoading, data, isError, error } = useBugs();
   const { errorToast } = useToast();
 
@@ -28,14 +28,17 @@ function HighPriorityBugs({}: Props) {
               <Skeleton height="60px" />
             </>
           ) : data.length > 0 ? (
-            data.map((bug: any) => (
-              <Bugs
-                key={bug.id}
-                projectTitle={bug.Project.title}
-                author={bug.User.username}
-                {...bug}
-              />
-            ))
+            data.map(
+              (bug: any) =>
+                bug.status === "Open" && (
+                  <Bugs
+                    key={bug.id}
+                    projectTitle={bug.Project.title}
+                    author={bug.User.username}
+                    {...bug}
+                  />
+                )
+            )
           ) : (
             <Empty message="Newly created bugs from across your projects will appear here" />
           )}

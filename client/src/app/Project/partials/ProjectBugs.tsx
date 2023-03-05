@@ -10,6 +10,11 @@ import {
   MenuButton,
   MenuList,
   MenuItem,
+  Tabs,
+  TabList,
+  TabPanels,
+  TabPanel,
+  Tab,
 } from "@chakra-ui/react";
 import { FaGithub, FaPlus } from "react-icons/fa";
 import Bugs from "../../../components/Bugs";
@@ -79,22 +84,56 @@ export default function ProjectBugs({ isLoading, project }: any) {
         <Box margin="10px">
           <NormalTextField placeholder="Search in this project" size="md" />
         </Box>
-        <Stack direction={"column"} spacing="4" padding="10px">
-          {isLoading ? (
-            <Skeleton height="40px" />
-          ) : project.Bug.length > 0 ? (
-            project.Bug.map((bug: any) => (
-              <Bugs
-                key={bug.id}
-                projectTitle={project.title}
-                author={bug.User.username}
-                {...bug}
-              />
-            ))
-          ) : (
-            <Empty message="Create a new bug to get started!" />
-          )}
-        </Stack>
+        <Tabs isFitted size="md" variant="soft-rounded">
+          <TabList>
+            <Tab _selected={{ bg: "green.500", color: "white" }}>Open</Tab>
+            <Tab _selected={{ bg: "red.500", color: "white" }}>Closed</Tab>
+          </TabList>
+          <TabPanels>
+            <TabPanel>
+              <Stack direction={"column"} spacing="4" padding="10px">
+                {isLoading ? (
+                  <Skeleton height="40px" />
+                ) : project.Bug.length > 0 ? (
+                  project.Bug.map(
+                    (bug: any) =>
+                      bug.status === "Open" && (
+                        <Bugs
+                          key={bug.id}
+                          projectTitle={project.title}
+                          author={bug.User.username}
+                          {...bug}
+                        />
+                      )
+                  )
+                ) : (
+                  <Empty message="Create a new bug to get started!" />
+                )}
+              </Stack>
+            </TabPanel>
+            <TabPanel>
+              <Stack direction={"column"} spacing="4" padding="10px">
+                {isLoading ? (
+                  <Skeleton height="40px" />
+                ) : project.Bug.length > 0 ? (
+                  project.Bug.map(
+                    (bug: any) =>
+                      bug.status === "Closed" && (
+                        <Bugs
+                          key={bug.id}
+                          projectTitle={project.title}
+                          author={bug.User.username}
+                          {...bug}
+                        />
+                      )
+                  )
+                ) : (
+                  <Empty message="Create a new bug to get started!" />
+                )}
+              </Stack>
+            </TabPanel>
+          </TabPanels>
+        </Tabs>
       </Box>
     </>
   );
