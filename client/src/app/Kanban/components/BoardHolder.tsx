@@ -1,4 +1,4 @@
-import { Flex, Divider, Text } from "@chakra-ui/react";
+import { Flex, Divider, Text, AvatarGroup, Avatar } from "@chakra-ui/react";
 import { useDrag, useDrop } from "react-dnd";
 import io from "socket.io-client";
 
@@ -18,6 +18,7 @@ export default function BoardHolder({ info }: any) {
       boardId: info.id,
     };
     socket.emit("KANBAN", payload);
+    socket.disconnect();
   };
 
   return (
@@ -66,24 +67,31 @@ function Draggable({ bug }: any) {
   return (
     <Flex
       ref={drag}
-      justify="space-between"
+      flexDir="column"
       bg="primary.700"
       padding="10px"
       marginTop="10px"
       rounded="3"
-      align="center"
       _hover={{ cursor: "pointer" }}
       rotate={config.isDragging ? "20deg" : "0"}
+      gap="1"
     >
-      <Text>
-        #{bug.id}/{bug.title}
-      </Text>
-      <Text
-        color={priorityList[bug.priority as keyof typeof priorityList].color}
-        fontSize="sm"
-      >
-        Low
-      </Text>
+      <Flex justify="space-between">
+        <Text>
+          #{bug.id}/{bug.title}
+        </Text>
+        <Text
+          color={priorityList[bug.priority as keyof typeof priorityList].color}
+          fontSize="sm"
+        >
+          {priorityList[bug.priority as keyof typeof priorityList].title}
+        </Text>
+      </Flex>
+      <AvatarGroup>
+        {bug.Assignee.map((user: any) => (
+          <Avatar size="sm" name={user.Member.User.username} />
+        ))}
+      </AvatarGroup>
     </Flex>
   );
 }

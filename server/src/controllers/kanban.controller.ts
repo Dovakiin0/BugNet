@@ -10,7 +10,17 @@ const getProjectBoard = async (req: Request, res: Response) => {
       include: {
         Board: {
           include: {
-            Bug: true,
+            Bug: {
+              include: {
+                Assignee: {
+                  include: {
+                    Member: {
+                      include: { User: { select: { username: true } } },
+                    },
+                  },
+                },
+              },
+            },
           },
         },
       },

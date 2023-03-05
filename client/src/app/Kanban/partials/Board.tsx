@@ -21,6 +21,9 @@ export default function Board({ id }: Props) {
     socket.on("KANBAN_RESPONSE", (_: any) => {
       query.invalidateQueries(["kanban", id]);
     });
+    return () => {
+      socket.disconnect();
+    };
   }, [socket]);
 
   return (
