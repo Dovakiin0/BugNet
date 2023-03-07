@@ -1,4 +1,4 @@
-import express, { Express } from "express";
+import express, { Express, Request, Response } from "express";
 import dotenv from "dotenv";
 import http from "http";
 import InjectRoutes from "./routes/router";
@@ -7,6 +7,7 @@ import session from "express-session";
 import passport from "passport";
 import { Server } from "socket.io";
 import InitializeSocket from "./config/socket";
+import path from "path";
 dotenv.config();
 
 const app: Express = express();
@@ -18,6 +19,12 @@ const io = new Server(server, {
   },
 });
 
+app.use(express.static(path.join(__dirname, "../", "client", "dist")));
+app.get("/*", (req: Request, res: Response) => {
+  res.sendFile(
+    path.join(__dirname, "../", "../", "client", "dist", "index.html")
+  );
+});
 // middlewares for the application
 app.use(
   cors({

@@ -4,10 +4,6 @@ import prisma from "../helper/prismaClient";
 
 export default function InitializeSocket(io: Server) {
   io.on("connection", (socket) => {
-    // socket.on("disconnect", () => {
-    //   console.log("User Disconnected");
-    // });
-
     socket.on("TEAM_ADD", async (data: any) => {
       try {
         const notification = await prisma.notification.create({
