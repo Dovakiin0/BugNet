@@ -1,5 +1,5 @@
 import app from "../config";
-import prisma, { Project, Bug, Comment } from "../helper/prismaClient";
+import prisma, { Project, Bug, Comment, Board } from "../helper/prismaClient";
 import supertest = require("supertest");
 import { verifyJWT } from "../helper/util";
 
@@ -8,6 +8,7 @@ describe("Comment", () => {
   let bug: Bug;
   let token: string;
   let comment: Comment;
+  let board: Board;
 
   beforeAll(async () => {
     // register a user
@@ -28,6 +29,17 @@ describe("Comment", () => {
       },
     });
 
+    board = await prisma.board.create({
+      data: {
+        title: "Todo",
+        Kanban: {
+          create: {
+            projectId: project.id,
+          },
+        },
+      },
+    });
+
     bug = await prisma.bug.create({
       data: {
         projectId: project.id,
@@ -36,6 +48,7 @@ describe("Comment", () => {
         priority: 0,
         status: "Open",
         openedBy: userId,
+        boardId: board.id,
       },
     });
 

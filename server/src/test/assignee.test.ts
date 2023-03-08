@@ -1,5 +1,11 @@
 import app from "../config";
-import prisma, { Project, Bug, Member, Assignee } from "../helper/prismaClient";
+import prisma, {
+  Project,
+  Bug,
+  Member,
+  Assignee,
+  Board,
+} from "../helper/prismaClient";
 import supertest from "supertest";
 import { verifyJWT } from "../helper/util";
 
@@ -9,6 +15,7 @@ describe("Assignee", () => {
   let token: string;
   let member: Member;
   let assignee: Assignee;
+  let board: Board;
 
   beforeAll(async () => {
     // register a user
@@ -29,6 +36,17 @@ describe("Assignee", () => {
       },
     });
 
+    board = await prisma.board.create({
+      data: {
+        title: "Todo",
+        Kanban: {
+          create: {
+            projectId: project.id,
+          },
+        },
+      },
+    });
+
     bug = await prisma.bug.create({
       data: {
         projectId: project.id,
@@ -37,6 +55,7 @@ describe("Assignee", () => {
         priority: 0,
         status: "Open",
         openedBy: userId,
+        boardId: board.id,
       },
     });
 

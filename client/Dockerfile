@@ -2,7 +2,7 @@ FROM node:16-alpine
 
 WORKDIR /app/Bugnet/client
 
-COPY package.json yarn.lock ./
+COPY package.json ./
 
 RUN npm install
 

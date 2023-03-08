@@ -1,5 +1,5 @@
 import app from "../config";
-import prisma, { Project, Bug, Category } from "../helper/prismaClient";
+import prisma, { Project, Bug, Category, Board } from "../helper/prismaClient";
 import supertest = require("supertest");
 import { verifyJWT } from "../helper/util";
 
@@ -8,6 +8,7 @@ describe("Bugs", () => {
   let bug: Bug;
   let token: string;
   let category: Category;
+  let board: Board;
 
   beforeAll(async () => {
     // register a user
@@ -28,6 +29,17 @@ describe("Bugs", () => {
       },
     });
 
+    board = await prisma.board.create({
+      data: {
+        title: "Todo",
+        Kanban: {
+          create: {
+            projectId: project.id,
+          },
+        },
+      },
+    });
+
     bug = await prisma.bug.create({
       data: {
         projectId: project.id,
@@ -36,6 +48,7 @@ describe("Bugs", () => {
         priority: 0,
         status: "Open",
         openedBy: userId,
+        boardId: board.id,
       },
     });
 
@@ -49,6 +62,7 @@ describe("Bugs", () => {
 
   afterAll(async () => {
     await prisma.bug.deleteMany();
+    await prisma.kanban.deleteMany();
     await prisma.project.deleteMany();
     await prisma.user.deleteMany();
   });

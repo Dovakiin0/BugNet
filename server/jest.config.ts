@@ -5,6 +5,7 @@ const config: Config.InitialOptions = {
   transform: {
     "^.*\\.(ts|tsx)$": "ts-jest",
   },
+  rootDir: ".",
   roots: ["<rootDir>/src"],
   testEnvironment: "node",
   setupFiles: ["<rootDir>/src/test/dotenv-config.ts"],

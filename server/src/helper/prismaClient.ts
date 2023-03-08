@@ -8,6 +8,8 @@ import {
   Comment,
   Assignee,
   Github,
+  Board,
+  Kanban,
 } from "@prisma/client";
 
 // export prisma client after initialization
@@ -25,5 +27,7 @@ export {
   Assignee,
   Github,
   OmitedUser,
+  Kanban,
+  Board,
 };
 export default prisma;

@@ -7,6 +7,8 @@ services:
     restart: always
     ports:
       - "3030:3030"
+    env_file:
+      - ./server/.env
     depends_on:
       - db
 
@@ -24,4 +26,4 @@ services:
       - db-data:/var/lib/postgresql/data
 
 volumes:
-  - db-data:
+  db-data:
