@@ -1,6 +1,6 @@
 import app from "../config";
 import prisma, { Project, Bug, Comment, Board } from "../helper/prismaClient";
-import supertest = require("supertest");
+import supertest from "supertest";
 import { verifyJWT } from "../helper/util";
 
 describe("Comment", () => {

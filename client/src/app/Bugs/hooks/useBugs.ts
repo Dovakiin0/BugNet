@@ -2,33 +2,26 @@ import { useQuery, useMutation, useQueryClient } from "react-query";
 import axios from "axios";
 
 async function fetchAssignedBugs() {
-  const { data } = await axios.get(
-    "http://localhost:3030/api/v1/bugs/@me/assigned",
-    {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-    }
-  );
+  const { data } = await axios.get("/api/v1/bugs/@me/assigned", {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+  });
   return data;
 }
 
 async function createBug(params: any) {
-  const { data } = await axios.post(
-    "http://localhost:3030/api/v1/bugs",
-    params,
-    {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-    }
-  );
+  const { data } = await axios.post("/api/v1/bugs", params, {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+  });
   return data;
 }
 
 async function createBulkBug(params: any) {
   const { data } = await axios.post(
-    "http://localhost:3030/api/v1/bugs/bulk",
+    "/api/v1/bugs/bulk",
     { payload: params.payload },
     {
       headers: {
@@ -40,7 +33,7 @@ async function createBulkBug(params: any) {
 }
 
 async function fetchBugsById(id: number) {
-  const { data } = await axios.get(`http://localhost:3030/api/v1/bugs/${id}`, {
+  const { data } = await axios.get(`/api/v1/bugs/${id}`, {
     headers: {
       Authorization: `Bearer ${localStorage.getItem("token")}`,
     },
@@ -49,28 +42,20 @@ async function fetchBugsById(id: number) {
 }
 
 async function editBug(params: any) {
-  const { data } = await axios.put(
-    `http://localhost:3030/api/v1/bugs/${params.id}`,
-    params,
-    {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-    }
-  );
+  const { data } = await axios.put(`/api/v1/bugs/${params.id}`, params, {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+  });
   return data;
 }
 
 async function toggleBug(params: any) {
-  const { data } = await axios.put(
-    `http://localhost:3030/api/v1/bugs/status/${params.id}`,
-    params,
-    {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-    }
-  );
+  const { data } = await axios.put(`/api/v1/bugs/status/${params.id}`, params, {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+  });
   return data;
 }
 

@@ -11,7 +11,7 @@ import { useEffect } from "react";
 
 type Props = {};
 
-function Login({ }: Props) {
+function Login({}: Props) {
   const { successToast, errorToast } = useToast();
   const navigate = useNavigate();
   const { mutateAsync } = useLogin();
@@ -41,7 +41,7 @@ function Login({ }: Props) {
 
   const oauthHandler = () => {
     const oauth = useOauth();
-    oauth.call();
+    oauth.call(import.meta.env.VITE_OAUTH_CALLBACK);
   };
 
   return (

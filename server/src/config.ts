@@ -19,12 +19,6 @@ const io = new Server(server, {
   },
 });
 
-app.use(express.static(path.join(__dirname, "../", "client", "dist")));
-app.get("/*", (req: Request, res: Response) => {
-  res.sendFile(
-    path.join(__dirname, "../", "../", "client", "dist", "index.html")
-  );
-});
 // middlewares for the application
 app.use(
   cors({
@@ -47,5 +41,8 @@ app.use(passport.session());
 InjectRoutes(app);
 // Initialize socket for the application
 InitializeSocket(io);
-
+app.use(express.static(path.join(__dirname, "../", "../", "dist")));
+app.get("/*", (req: Request, res: Response) => {
+  res.sendFile(path.join(__dirname, "../", "../", "dist", "index.html"));
+});
 export default server;

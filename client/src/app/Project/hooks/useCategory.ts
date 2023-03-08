@@ -3,7 +3,7 @@ import { useMutation, useQueryClient } from "react-query";
 
 async function createCategory(params: any) {
   const { data } = await axios.post(
-    `http://localhost:3030/api/v1/categories/${params.pid}`,
+    `/api/v1/categories/${params.pid}`,
     { title: params.title },
     {
       headers: {
@@ -15,14 +15,11 @@ async function createCategory(params: any) {
 }
 
 async function deleteCategory(id: number) {
-  const { data } = await axios.delete(
-    `http://localhost:3030/api/v1/categories/${id}`,
-    {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-    }
-  );
+  const { data } = await axios.delete(`/api/v1/categories/${id}`, {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+  });
   return data;
 }
 

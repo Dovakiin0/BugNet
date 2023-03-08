@@ -3,14 +3,11 @@ import { useQuery } from "react-query";
 
 async function getProjectBoard(id: number) {
   try {
-    const { data } = await axios.get(
-      `http://localhost:3030/api/v1/projects/${id}/board`,
-      {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      }
-    );
+    const { data } = await axios.get(`/api/v1/projects/${id}/board`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
     return data;
   } catch (error) {
     return error;

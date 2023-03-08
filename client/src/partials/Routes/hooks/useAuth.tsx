@@ -3,7 +3,7 @@ import { useQuery } from "react-query";
 
 async function getAuth() {
   try {
-    const { data } = await axios.get("http://localhost:3030/api/v1/auth/@me", {
+    const { data } = await axios.get("/api/v1/auth/@me", {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },

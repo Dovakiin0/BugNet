@@ -2,20 +2,17 @@ import axios from "axios";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 
 async function fetchNotification() {
-  const { data } = await axios.get(
-    "http://localhost:3030/api/v1/notification",
-    {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-    }
-  );
+  const { data } = await axios.get("/api/v1/notification", {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+  });
   return data;
 }
 
 async function readNotification(id: number) {
   const { data } = await axios.post(
-    `http://localhost:3030/api/v1/notification/${id}`,
+    `/api/v1/notification/${id}`,
     {},
     {
       headers: {

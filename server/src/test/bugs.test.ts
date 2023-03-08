@@ -1,6 +1,6 @@
 import app from "../config";
 import prisma, { Project, Bug, Category, Board } from "../helper/prismaClient";
-import supertest = require("supertest");
+import supertest from "supertest";
 import { verifyJWT } from "../helper/util";
 
 describe("Bugs", () => {
@@ -62,12 +62,11 @@ describe("Bugs", () => {
 
   afterAll(async () => {
     await prisma.bug.deleteMany();
-    await prisma.kanban.deleteMany();
     await prisma.project.deleteMany();
     await prisma.user.deleteMany();
   });
 
-  it("GET / - Should get 200 and get all the bugs from a project", async () => {
+  it("GET / - Should get 200 and get all the bugs from all participated project", async () => {
     const res = await supertest(app)
       .get("/api/v1/bugs/")
       .set("Authorization", `Bearer ${token}`);
@@ -90,6 +89,7 @@ describe("Bugs", () => {
       projectId: project.id,
       priority: 0,
       categoryId: category.id,
+      boardId: board.id,
     };
     const res = await supertest(app)
       .post(`/api/v1/bugs`)
@@ -107,6 +107,7 @@ describe("Bugs", () => {
         projectId: project.id,
         priority: 0,
         categoryId: category.id,
+        boardId: board.id,
       },
       {
         title: "test bug 102",
@@ -114,6 +115,7 @@ describe("Bugs", () => {
         projectId: project.id,
         priority: 0,
         categoryId: category.id,
+        boardId: board.id,
       },
     ];
     const res = await supertest(app)

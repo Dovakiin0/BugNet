@@ -3,7 +3,7 @@ import axios from "axios";
 
 async function getRepos() {
   // fetch all the repos from the user
-  const data = await axios.get(`http://localhost:3030/api/v1/github/repo`, {
+  const data = await axios.get(`/api/v1/github/repo`, {
     headers: {
       Authorization: `Bearer ${localStorage.getItem("token")}`,
     },
@@ -13,14 +13,11 @@ async function getRepos() {
 
 async function getIssues({ repo }: any) {
   // fetch all the issues from the repo
-  const data = await axios.get(
-    `http://localhost:3030/api/v1/github/issue/${repo}`,
-    {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-    }
-  );
+  const data = await axios.get(`/api/v1/github/issue/${repo}`, {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+  });
   return data;
 }
 

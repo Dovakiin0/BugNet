@@ -11,7 +11,7 @@ import { useEffect } from "react";
 
 type Props = {};
 
-function Register({ }: Props) {
+function Register({}: Props) {
   const { mutateAsync } = useRegister();
   const { successToast, errorToast } = useToast();
   const navigate = useNavigate();
@@ -43,7 +43,7 @@ function Register({ }: Props) {
 
   const oauthHandler = () => {
     const oauth = useOauth();
-    oauth.call();
+    oauth.call(import.meta.env.VITE_OAUTH_CALLBACK);
   };
 
   return (

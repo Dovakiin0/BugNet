@@ -3,7 +3,7 @@ import { useMutation, useQueryClient } from "react-query";
 
 async function createTeam(params: any) {
   const { data } = await axios.post(
-    `http://localhost:3030/api/v1/projects/team/${params.pid}`,
+    `/api/v1/projects/team/${params.pid}`,
     { email: params.email },
     {
       headers: {
@@ -15,20 +15,17 @@ async function createTeam(params: any) {
 }
 
 async function deleteTeam(id: number) {
-  const { data } = await axios.delete(
-    `http://localhost:3030/api/v1/projects/team/${id}`,
-    {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-    }
-  );
+  const { data } = await axios.delete(`/api/v1/projects/team/${id}`, {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+  });
   return data;
 }
 
 async function updateTeamInvite(params: any) {
   const { data } = await axios.put(
-    `http://localhost:3030/api/v1/projects/team/approve/${params.pid}`,
+    `/api/v1/projects/team/approve/${params.pid}`,
     {
       status: params.status,
     },
