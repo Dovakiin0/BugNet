@@ -114,10 +114,17 @@ function Bugs({ }) {
     setComment("");
   };
 
-  const onCloseBug = () => {
+  const onToggleBug = () => {
+    let backLogId = data.Board.Kanban.Board.filter(
+      (b: any) => b.title === "Backlog"
+    )[0].id;
+    let closedBoardId = data.Board.Kanban.Board.filter(
+      (b: any) => b.title === "Completed"
+    )[0].id;
     let payload = {
       id: id,
       status: data.status === "Open" ? "Closed" : "Open",
+      boardId: data.status === "Open" ? closedBoardId : backLogId,
     };
     mutateAsync(payload, {
       onSuccess: () => {
@@ -255,7 +262,7 @@ function Bugs({ }) {
                       colorScheme={data.status === "Open" ? "red" : "green"}
                       fontSize={"sm"}
                       size="sm"
-                      onClick={onCloseBug}
+                      onClick={onToggleBug}
                     >
                       {data.status === "Open" ? "Close Bug" : "Reopen Bug"}
                     </Button>

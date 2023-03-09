@@ -121,6 +121,15 @@ const getBugById = async (req: Request, res: Response) => {
           },
         },
         Category: true,
+        Board: {
+          include: {
+            Kanban: {
+              include: {
+                Board: true,
+              },
+            },
+          },
+        },
       },
     });
     if (!bug) return res.status(404).json({ message: "No Bug found" });
@@ -233,6 +242,7 @@ const toggleBugStatus = async (req: Request, res: Response) => {
       },
       data: {
         status: req.body.status === "Open" ? "Open" : "Closed",
+        boardId: req.body.boardId,
       },
     });
 

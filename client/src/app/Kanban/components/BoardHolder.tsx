@@ -1,5 +1,6 @@
 import { Flex, Divider, Text, AvatarGroup, Avatar } from "@chakra-ui/react";
 import { useDrag, useDrop } from "react-dnd";
+import { NavLink, useNavigate } from "react-router-dom";
 import io from "socket.io-client";
 
 export default function BoardHolder({ info }: any) {
@@ -77,9 +78,11 @@ function Draggable({ bug }: any) {
       gap="1"
     >
       <Flex justify="space-between">
-        <Text>
-          #{bug.id}/{bug.title}
-        </Text>
+        <NavLink to={`/bugs/${bug.id}`}>
+          <Text>
+            #{bug.id}/{bug.title}
+          </Text>
+        </NavLink>
         <Text
           color={priorityList[bug.priority as keyof typeof priorityList].color}
           fontSize="sm"
