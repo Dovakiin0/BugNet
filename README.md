@@ -36,7 +36,7 @@ Head over to `http://localhost:3000`
 
 **Docker**  
 You must have docker installed on your computer.
-open `/server/docker-compose.yml` and replace the database environments with your database credentials. then run
+open `/server/docker-compose-example.yml` and add your credentials to the environments and rename it to `docker-compose.yml`. The run
 
 ```
 docker compose up --build -d

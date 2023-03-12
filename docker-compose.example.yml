@@ -7,8 +7,14 @@ services:
     restart: always
     ports:
       - "3030:3030"
-    env_file:
-      - ./server/.env
+    environment:
+      - DATABASE_URL=postgresql://bugnet:bugnetpassword@Bugnet_Database:5432/bugnet?schema=public
+      - SESSION_SECRET=bugnet_session_secret
+      - JWT_SECRET=
+      - GITHUB_CLIENT=
+      - GITHUB_SECRET=
+      - GITHUB_CALLBACK=http://localhost:3030/api/v1/auth/github/callback
+      - CLIENT_OAUTH_CALLBACK=http://localhost:3000/auth/github/callback
     depends_on:
       - db
 
