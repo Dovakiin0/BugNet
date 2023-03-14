@@ -10,7 +10,7 @@
     "test": "jest --watchAll --verbose --forceExit --runInBand",
     "migrate": "prisma migrate dev",
     "migrate:test": "npx dotenv-cli -e .env.test prisma migrate dev --name init",
-    "build": "tsc"
+    "build": "tsc --project tsconfig.build.json"
   },
   "devDependencies": {
     "@types/axios": "^0.14.0",
