@@ -1,0 +1,1 @@
+import{a9 as t,r as o,j as r}from"./index-5dcf5472.js";import{B as a}from"./chunk-6CSUKJP7-77e68efb.js";function s(){const{search:e}=t();return o.useMemo(()=>new URLSearchParams(e),[e])}function u(){const e=s();return window.opener.authenticateCallback(e.get("token")),window.close(),r.jsx(a,{children:"Success"})}export{u as default};
