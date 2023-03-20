@@ -40,12 +40,20 @@ export default function InitializeSocket(io: Server) {
 
     socket.on("KANBAN", async (data) => {
       try {
+        const board = await prisma.board.findUnique({
+          where: { id: data.boardId },
+        });
+        let status = "Open";
+        if (board && board.title === "Completed") {
+          status = "Closed";
+        }
         const bug = await prisma.bug.update({
           where: {
             id: data.bugId,
           },
           data: {
             boardId: data.boardId,
+            status,
           },
         });
         io.emit("KANBAN_RESPONSE", bug);

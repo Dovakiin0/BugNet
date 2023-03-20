@@ -26,10 +26,14 @@ function Project({ }: Props) {
   const isOwner = data?.ownerId === user?.id;
 
   const criticalCount = data?.Bug.filter(
-    (bug: any) => bug.priority === 2
+    (bug: any) => bug.status === "Open" && bug.priority === 2
   ).length;
-  const highCount = data?.Bug.filter((bug: any) => bug.priority === 1).length;
-  const lowCount = data?.Bug.filter((bug: any) => bug.priority === 0).length;
+  const highCount = data?.Bug.filter(
+    (bug: any) => bug.status === "Open" && bug.priority === 1
+  ).length;
+  const lowCount = data?.Bug.filter(
+    (bug: any) => bug.status === "Open" && bug.priority === 0
+  ).length;
 
   return (
     <Flex flexDir="column" gap="10">
@@ -56,7 +60,9 @@ function Project({ }: Props) {
                     onClick={editProjectDisclosure.onOpen}
                   />
                 </Flex>
-                <Text fontSize={"sm"}>{data.description}</Text>
+                <Text fontSize={"sm"} color="gray.200">
+                  {data.description}
+                </Text>
               </Flex>
               <Flex margin="100px" gap="10">
                 <Flex align="center" flexDir="column">
