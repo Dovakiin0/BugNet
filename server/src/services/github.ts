@@ -52,10 +52,12 @@ passport.use(
               data: {
                 githubId: profile.id,
                 accessToken: accessToken,
+
                 User: {
                   create: {
                     username: profile.username,
                     email: profile.emails[0].value,
+                    avatar: profile.photos[0].value,
                   },
                 },
               },

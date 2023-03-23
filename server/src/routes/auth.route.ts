@@ -7,6 +7,7 @@ import {
   registerUser,
   getMe,
   loginOauth,
+  updateUser,
 } from "../controllers/auth.controller";
 import { auth } from "../middleware/auth";
 
@@ -22,6 +23,7 @@ router.get(
 
 router.post("/", loginUser);
 router.post("/register", registerUser);
+router.put("/", auth, updateUser);
 router.get("/@me", auth, getMe);
 
 export default router;

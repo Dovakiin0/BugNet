@@ -62,9 +62,32 @@ const getMe = async (req: Request, res: Response) => {
   res.status(200).json(req.user);
 };
 
+const updateUser = async (req: Request, res: Response) => {
+  try {
+    const userData = req.body;
+    const user = await prisma.user.findUnique({
+      where: { id: (req.user as any).id },
+    });
+    if (!user) {
+      return res.status(403).json({ message: "Forbidden" });
+    }
+    let updatedUser = await prisma.user.update({
+      where: {
+        id: user.id,
+      },
+      data: {
+        ...userData,
+      },
+    });
+    return res.status(200).json(updatedUser);
+  } catch (error) {
+    return res.status(400).json(error);
+  }
+};
+
 const loginOauth = (req: Request, res: Response) => {
   const token = generateJWT((req.user as any).id);
   res.redirect(`${process.env.CLIENT_OAUTH_CALLBACK}?token=${token}`);
 };
 
-export { loginUser, registerUser, getMe, loginOauth };
+export { loginUser, registerUser, getMe, loginOauth, updateUser };
