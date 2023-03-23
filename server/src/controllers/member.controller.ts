@@ -26,6 +26,7 @@ const createMember = async (req: Request, res: Response) => {
         Project: true,
         User: {
           select: {
+            avatar: true,
             username: true,
             id: true,
           },

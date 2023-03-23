@@ -32,13 +32,20 @@ const getProjectById = async (req: Request, res: Response) => {
         Category: true,
         Bug: {
           include: {
-            User: true,
+            User: {
+              select: {
+                id: true,
+                username: true,
+                avatar: true,
+              },
+            },
           },
         },
         Member: {
           include: {
             User: {
               select: {
+                avatar: true,
                 username: true,
               },
             },

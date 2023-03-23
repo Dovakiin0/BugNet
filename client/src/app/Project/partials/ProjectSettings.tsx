@@ -157,7 +157,7 @@ export default function ProjectSettings({
                   key={i}
                   isOwner={isOwner}
                   label={t.User.username}
-                  src={t.src}
+                  src={t.User.avatar}
                   onDelete={() => {
                     onTeamRemove(t.id);
                   }}

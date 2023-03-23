@@ -15,7 +15,9 @@ const getProjectBoard = async (req: Request, res: Response) => {
                 Assignee: {
                   include: {
                     Member: {
-                      include: { User: { select: { username: true } } },
+                      include: {
+                        User: { select: { username: true, avatar: true } },
+                      },
                     },
                   },
                 },

@@ -19,6 +19,7 @@ const getAllComments = async (req: Request, res: Response) => {
         User: {
           select: {
             username: true,
+            avatar: true,
             id: true,
           },
         },

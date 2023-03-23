@@ -61,7 +61,11 @@ export default function Comment({ comment, user }: any) {
         )}
       </Flex>
       <Flex gap="3" align="center" marginTop="10px">
-        <Avatar src="" name={comment.User.username} size="sm" />
+        <Avatar
+          src={comment.User.avatar}
+          name={comment.User.username}
+          size="sm"
+        />
         <Text fontSize="sm">{comment.User.username}</Text>
         <Text color="primary.200" fontSize={"sm"}>
           {new Date(comment.createdAt).toDateString()}

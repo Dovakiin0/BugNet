@@ -9,7 +9,12 @@ type Props = {
 function Activity({ comment }: Props) {
   return (
     <Flex marginTop="20px" gap="5" align="center">
-      <Avatar name={comment.User.username} width={10} height={10} />
+      <Avatar
+        name={comment.User.username}
+        src={comment.User.avatar}
+        width={10}
+        height={10}
+      />
       <Flex flexDir="column">
         <NavLink to={`/bugs/${comment.Bug.id}`}>
           <Text

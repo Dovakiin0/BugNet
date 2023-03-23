@@ -284,7 +284,7 @@ function Bugs({ }) {
                 {data.Assignee.map((assign: any, i: number) => (
                   <AvatarChip
                     key={i}
-                    src=""
+                    src={assign.Member.User.avatar}
                     label={assign.Member.User.username}
                     onDelete={() => onAssigneeDelete(assign.id)}
                     props={{ bg: "primary.900" }}

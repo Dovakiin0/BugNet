@@ -1,4 +1,11 @@
-import { Flex, Divider, Text, AvatarGroup, Avatar } from "@chakra-ui/react";
+import {
+  Flex,
+  Divider,
+  Text,
+  AvatarGroup,
+  Avatar,
+  Tooltip,
+} from "@chakra-ui/react";
 import { useDrag, useDrop } from "react-dnd";
 import { NavLink, useNavigate } from "react-router-dom";
 import io from "socket.io-client";
@@ -90,11 +97,23 @@ function Draggable({ bug }: any) {
           {priorityList[bug.priority as keyof typeof priorityList].title}
         </Text>
       </Flex>
-      <AvatarGroup>
-        {bug.Assignee.map((user: any) => (
-          <Avatar size="sm" name={user.Member.User.username} />
-        ))}
-      </AvatarGroup>
+      <Tooltip
+        hasArrow
+        label={bug.Assignee.map((user: any) => user.Member.User.username).join(
+          ", "
+        )}
+        placement="bottom"
+      >
+        <AvatarGroup>
+          {bug.Assignee.map((user: any) => (
+            <Avatar
+              size="sm"
+              name={user.Member.User.username}
+              src={user.Member.User.avatar}
+            />
+          ))}
+        </AvatarGroup>
+      </Tooltip>
     </Flex>
   );
 }

@@ -28,6 +28,7 @@ const getAllBugs = async (req: Request, res: Response) => {
         User: {
           select: {
             username: true,
+            avatar: true,
             email: true,
             id: true,
           },
@@ -79,6 +80,7 @@ const getBugById = async (req: Request, res: Response) => {
                 User: {
                   select: {
                     username: true,
+                    avatar: true,
                     email: true,
                     id: true,
                   },
@@ -92,6 +94,7 @@ const getBugById = async (req: Request, res: Response) => {
             User: {
               select: {
                 username: true,
+                avatar: true,
                 email: true,
                 id: true,
               },
@@ -106,6 +109,7 @@ const getBugById = async (req: Request, res: Response) => {
                 User: {
                   select: {
                     username: true,
+                    avatar: true,
                     email: true,
                     id: true,
                   },
@@ -117,6 +121,7 @@ const getBugById = async (req: Request, res: Response) => {
         User: {
           select: {
             id: true,
+            avatar: true,
             username: true,
           },
         },

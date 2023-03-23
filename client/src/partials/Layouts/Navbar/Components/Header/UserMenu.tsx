@@ -25,6 +25,7 @@ export default function UserMenu({ user, logout }: any) {
             bg="primary.100"
             color="black"
             name={user?.username}
+            src={user?.avatar}
             width={10}
             height={10}
           />

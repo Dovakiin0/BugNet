@@ -20,6 +20,7 @@ export const auth = async (req: Request, res: Response, next: NextFunction) => {
           id: true,
           username: true,
           email: true,
+          avatar: true,
           createdAt: true,
           updatedAt: true,
           Github: true,
