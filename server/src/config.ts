@@ -14,15 +14,14 @@ const app: Express = express();
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: process.env.DOMAIN_URI,
-    methods: ["GET", "POST"],
+    origin: "*",
   },
 });
 
 // middlewares for the application
 app.use(
   cors({
-    origin: process.env.DOMAIN_URI,
+    origin: "*",
   })
 );
 app.use(express.json());
