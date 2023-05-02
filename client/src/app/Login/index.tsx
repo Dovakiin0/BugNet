@@ -11,7 +11,7 @@ import { useEffect } from "react";
 
 type Props = {};
 
-function Login({}: Props) {
+function Login({ }: Props) {
   const { successToast, errorToast } = useToast();
   const navigate = useNavigate();
   const { mutateAsync } = useLogin();
@@ -110,13 +110,13 @@ function Login({}: Props) {
                   type="text"
                   name="email"
                   label="Email"
-                  placeholder="Your email address"
+                  placeholder="demo@bugnet.com"
                 />
                 <TextField
                   type="password"
                   name="password"
                   label="Password"
-                  placeholder="Your password"
+                  placeholder="bugnetdemo"
                 />
                 <Button
                   disabled={isSubmitting}

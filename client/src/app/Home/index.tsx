@@ -3,7 +3,7 @@ import HighPriorityBugs from "./partials/HighPriorityBugs";
 import RecentActivities from "./partials/RecentActivities";
 type Props = {};
 
-function Home({ }: Props) {
+function Home({}: Props) {
   return (
     <>
       <Flex flexGrow={"1"}>
