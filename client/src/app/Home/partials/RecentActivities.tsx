@@ -13,7 +13,7 @@ function RecentActivities({ }: Props) {
     let socket: any;
     let client = useQueryClient();
     useEffect(() => {
-        socket = io("ws://localhost:3030/");
+        socket = io(`ws://${import.meta.env.VITE_DOMAIN_URI}`);
         socket.on("COMMENT_RESPONSE", (_: any) => {
             client.invalidateQueries(["comment"]);
         });

@@ -18,7 +18,7 @@ export default function BoardHolder({ info }: any) {
       isOver: monitor.isOver();
     },
   }));
-  let socket = io("ws://localhost:3030");
+  let socket = io(`ws://${import.meta.env.VITE_DOMAIN_URI}`);
 
   const addToBoard = (id: number) => {
     let payload = {

@@ -13,7 +13,6 @@ import {
   Box,
   useDisclosure,
 } from "@chakra-ui/react";
-import { useEffect } from "react";
 import { FaPlus } from "react-icons/fa";
 import NormalTextField from "../../../components/Forms/NormalTextField";
 import AvatarChip from "../components/AvatarChip";
@@ -31,7 +30,7 @@ export default function ProjectSettings({
 }: any) {
   const categoryPopOver = useDisclosure();
   const teamPopOver = useDisclosure();
-  let socket = io("ws://localhost:3030");
+  let socket = io(`ws://${import.meta.env.VITE_DOMAIN_URI}`);
   const user = useAuthStore((state) => state.user);
   // category queries
   const categoryMutate = useCreateCategory();
