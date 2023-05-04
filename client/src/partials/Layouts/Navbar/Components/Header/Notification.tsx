@@ -36,7 +36,7 @@ export default function Notification({ user }: any) {
   }, [isSuccess, isLoading]);
 
   useEffect(() => {
-    socket = io(`ws://${import.meta.env.VITE_DOMAIN_URI}`);
+    socket = io(`wss://${import.meta.env.VITE_DOMAIN_URI}`);
     socket.on("TEAM_ADD_RESPONSE", (data: any) => {
       if (data.To.id !== user?.id) return;
       setNotifications([data, ...notifications]);

@@ -30,7 +30,7 @@ export default function ProjectSettings({
 }: any) {
   const categoryPopOver = useDisclosure();
   const teamPopOver = useDisclosure();
-  let socket = io(`ws://${import.meta.env.VITE_DOMAIN_URI}`);
+  let socket = io(`wss://${import.meta.env.VITE_DOMAIN_URI}`);
   const user = useAuthStore((state) => state.user);
   // category queries
   const categoryMutate = useCreateCategory();

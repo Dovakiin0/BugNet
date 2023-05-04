@@ -39,7 +39,7 @@ import io from "socket.io-client";
 function Bugs({ }) {
   const assigneePopover = useDisclosure();
   const editModal = useDisclosure();
-  let socket = io(`ws://${import.meta.env.VITE_DOMAIN_URI}`);
+  let socket = io(`wss://${import.meta.env.VITE_DOMAIN_URI}`);
 
   const { id } = useParams();
   const [comment, setComment] = useState<any>("");
