@@ -17,7 +17,7 @@ export default function Board({ id }: Props) {
 
   let socket: any;
   useEffect(() => {
-    socket = io(`wss://${import.meta.env.VITE_DOMAIN_URI}`);
+    socket = io(`${import.meta.env.VITE_SOCKET_DOMAIN_URI}`);
     socket.on("KANBAN_RESPONSE", (_: any) => {
       query.invalidateQueries(["kanban", id]);
     });
