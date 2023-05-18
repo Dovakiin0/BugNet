@@ -20,7 +20,7 @@ services:
 
   db:
     container_name: "Bugnet_Database"
-    image: postgres:13.2-alpine
+    image: postgres:13.11-alpine
     restart: always
     ports:
       - "5432:5432"
