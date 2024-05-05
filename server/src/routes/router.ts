@@ -1,4 +1,4 @@
-import { Express } from "express";
+import { Express, Response } from "express";
 // Routes
 import ProjectRouter from "./project.route";
 import CategoryRouter from "./category.route";
@@ -13,6 +13,11 @@ import NotificationRouter from "./notification.route";
 import { auth } from "../middleware/auth";
 
 export default function InjectRoutes(app: Express) {
+  // health Check
+  app.get("/health", (_, res: Response) => {
+    res.status(200).json({ message: "Server is running" });
+  });
+
   // Endpoints
   app.use("/api/v1/auth", AuthRouter);
   app.use("/api/v1/projects", auth, ProjectRouter);
