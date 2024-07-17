@@ -9,16 +9,18 @@ import {
   loginOauth,
   updateUser,
 } from "../controllers/auth.controller";
-import { auth } from "../middleware/auth";
+import { auth, partialAuth } from "../middleware/auth";
 
 router.get(
   "/github",
-  passport.authenticate("github", { scope: ["user:email", "repo"] })
+  partialAuth,
+  passport.authenticate("github", { scope: ["user:email", "repo"] }),
 );
+
 router.get(
   "/github/callback",
   passport.authenticate("github", { failureRedirect: "/login" }),
-  loginOauth
+  loginOauth,
 );
 
 router.post("/", loginUser);

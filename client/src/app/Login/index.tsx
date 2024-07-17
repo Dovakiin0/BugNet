@@ -6,7 +6,6 @@ import * as Yup from "yup";
 import { useLogin } from "./hooks/useLogin";
 import useToast from "../../hooks/useToast";
 import { FaGithub } from "react-icons/fa";
-import { useOauth } from "./hooks/useOauth";
 import { useEffect } from "react";
 
 type Props = {};
@@ -40,8 +39,7 @@ function Login({ }: Props) {
   }
 
   const oauthHandler = () => {
-    const oauth = useOauth();
-    oauth.call(import.meta.env.VITE_OAUTH_CALLBACK);
+    window.location.href = `${import.meta.env.VITE_OAUTH_CALLBACK}`;
   };
 
   return (

@@ -87,7 +87,9 @@ const updateUser = async (req: Request, res: Response) => {
 
 const loginOauth = (req: Request, res: Response) => {
   const token = generateJWT((req.user as any).id);
-  res.redirect(`${process.env.CLIENT_OAUTH_CALLBACK}?token=${token}`);
+  res.redirect(
+    `${process.env.CLIENT_OAUTH_CALLBACK}?token=${token}&from=${(req.session as any).from}`,
+  );
 };
 
 export { loginUser, registerUser, getMe, loginOauth, updateUser };

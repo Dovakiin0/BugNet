@@ -1,5 +1,4 @@
 import express, { Express, Request, Response } from "express";
-import dotenv from "dotenv";
 import http from "http";
 import InjectRoutes from "./routes/router";
 import cors from "cors";
@@ -8,7 +7,6 @@ import passport from "passport";
 import { Server } from "socket.io";
 import InitializeSocket from "./config/socket";
 import path from "path";
-dotenv.config();
 
 const app: Express = express();
 const server = http.createServer(app);
@@ -22,7 +20,7 @@ const io = new Server(server, {
 app.use(
   cors({
     origin: "*",
-  })
+  }),
 );
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -31,7 +29,7 @@ app.use(
     secret: process.env.SESSION_SECRET || "bugnet",
     resave: false,
     saveUninitialized: false,
-  })
+  }),
 );
 app.use(passport.initialize());
 app.use(passport.session());

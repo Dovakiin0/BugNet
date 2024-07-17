@@ -6,15 +6,15 @@ import * as Yup from "yup";
 import { useRegister } from "./hooks/useRegister";
 import useToast from "../../hooks/useToast";
 import { FaGithub } from "react-icons/fa";
-import { useOauth } from "../Login/hooks/useOauth";
 import { useEffect } from "react";
 
 type Props = {};
 
-function Register({}: Props) {
+function Register({ }: Props) {
   const { mutateAsync } = useRegister();
   const { successToast, errorToast } = useToast();
   const navigate = useNavigate();
+  const token = localStorage.getItem("token");
 
   const initialValues = {
     username: "",
@@ -24,8 +24,8 @@ function Register({}: Props) {
   };
 
   useEffect(() => {
-    if (localStorage.getItem("token")) navigate("/");
-  });
+    if (token) navigate("/");
+  }, []);
 
   function onSubmit(values: typeof initialValues, { setSubmitting }: any) {
     // perform api call
@@ -42,8 +42,7 @@ function Register({}: Props) {
   }
 
   const oauthHandler = () => {
-    const oauth = useOauth();
-    oauth.call(import.meta.env.VITE_OAUTH_CALLBACK);
+    window.location.href = `${import.meta.env.VITE_OAUTH_CALLBACK}`;
   };
 
   return (

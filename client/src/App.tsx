@@ -9,14 +9,12 @@ const Bugs = React.lazy(() => import("./app/Bugs"));
 const Kanban = React.lazy(() => import("./app/Kanban"));
 const Login = React.lazy(() => import("./app/Login"));
 const Register = React.lazy(() => import("./app/Register"));
-const OAuth = React.lazy(() => import("./app/OAuth"));
 
 function App() {
   return (
     <Routes>
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
-      <Route path="/auth/github/callback" element={<OAuth />} />
       <Route path="/" element={<Layout />}>
         <Route path="/" element={<Home />} />
         <Route path="/project/:id" element={<Project />} />

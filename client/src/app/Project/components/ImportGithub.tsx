@@ -62,7 +62,7 @@ export default function ImportGithub({ isOpen, onClose, pid, project }: props) {
       return;
     }
     let backLogId = project.Kanban.Board.filter(
-      (b: any) => b.title === "Backlog"
+      (b: any) => b.title === "Backlog",
     )[0].id;
     let payload: any[] = [];
     Object.keys(selectedIssues).map((key: any, index: any) => {
@@ -82,10 +82,15 @@ export default function ImportGithub({ isOpen, onClose, pid, project }: props) {
           successToast("All Bugs imported Successfully");
           onClose();
         },
-      }
+      },
     );
   };
-  const oauthHandler = () => { };
+
+  const oauthHandler = () => {
+    const token = localStorage.getItem("token");
+    const currentLocation = window.location.href;
+    window.location.href = `${import.meta.env.VITE_OAUTH_CALLBACK}?token=${token}&from=${currentLocation}`;
+  };
 
   return (
     <FullModal
