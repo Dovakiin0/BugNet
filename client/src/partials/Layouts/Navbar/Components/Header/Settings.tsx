@@ -45,7 +45,7 @@ export default function Settings({ isOpen, onClose, user }: Props) {
           successToast("Avatar Updated Successfully");
           onClose();
         },
-      }
+      },
     );
   };
 
@@ -80,9 +80,9 @@ export default function Settings({ isOpen, onClose, user }: Props) {
             <Flex flexDir="column" gap="5">
               <Text fontSize="2xl">Avatar</Text>
               <Avatar
-                name={user.username}
+                name={user?.username}
                 size="lg"
-                src={selected ? selected : user.avatar}
+                src={selected ? selected : user?.avatar}
               />
               <Text fontSize="2xl">Set New Avatar</Text>
               <Wrap spacing="30px">

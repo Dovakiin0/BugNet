@@ -8,6 +8,7 @@ import Loader from "../../../partials/Loader";
 import { useAuthStore } from "../../../store/useStore";
 import { useBulkCreateBug } from "../../Bugs/hooks/useBugs";
 import { useGetIssues, useGetRepos } from "../hooks/useGithub";
+import AvatarChip from "./AvatarChip";
 
 type props = {
   isOpen: boolean;
@@ -32,7 +33,11 @@ export default function ImportGithub({ isOpen, onClose, pid, project }: props) {
   });
 
   const onRepoSelect = (e: any) => {
-    if (e.target.value === "none") return;
+    if (e.target.value === "none") {
+      setSelectedRepo(null);
+      setSelectedIssues(null);
+      return;
+    }
     setSelectedRepo(e.target.value);
     setSelectedIssues(null);
     Promise.all([
@@ -191,8 +196,7 @@ export default function ImportGithub({ isOpen, onClose, pid, project }: props) {
       ) : (
         <Flex align="center" justify="center" height="90vh" width="full">
           <Button
-            bg="primary.500"
-            _hover={{ bg: "primary.900" }}
+            _hover={{ bg: "primary.200" }}
             leftIcon={<FaGithub />}
             onClick={oauthHandler}
             width="200px"

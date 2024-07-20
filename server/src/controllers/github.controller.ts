@@ -3,13 +3,14 @@ import axios from "axios";
 const getRepos = async (req: Request, res: Response) => {
   try {
     const { data, status } = await axios.get(
-      `https://api.github.com/search/repositories?q=user:${(req.user as any).username
+      `https://api.github.com/search/repositories?q=user:${
+        (req.user as any).Github.userName
       }`,
       {
         headers: {
-          Authorization: `token ${(req.user as any).Github.accessToken}`,
+          Authorization: `Bearer ${(req.user as any).Github.accessToken}`,
         },
-      }
+      },
     );
     return res.status(200).json(data);
   } catch (err) {
@@ -20,13 +21,14 @@ const getRepos = async (req: Request, res: Response) => {
 const getIssues = async (req: Request, res: Response) => {
   try {
     const { data, status } = await axios.get(
-      `https://api.github.com/repos/${(req.user as any).username}/${req.params.repo
+      `https://api.github.com/repos/${(req.user as any).Github.userName}/${
+        req.params.repo
       }/issues`,
       {
         headers: {
-          Authorization: `token ${(req.user as any).Github.accessToken}`,
+          Authorization: `Bearer ${(req.user as any).Github.accessToken}`,
         },
-      }
+      },
     );
     return res.status(200).json(data);
   } catch (err) {

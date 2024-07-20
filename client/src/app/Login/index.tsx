@@ -131,8 +131,7 @@ function Login({ }: Props) {
         </Formik>
         <Divider />
         <Button
-          bg="primary.800"
-          _hover={{ bg: "primary.900" }}
+          _hover={{ bg: "primary.200" }}
           leftIcon={<FaGithub />}
           onClick={oauthHandler}
         >

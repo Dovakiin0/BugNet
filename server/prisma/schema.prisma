@@ -125,6 +125,7 @@ model User {
 model Github {
   id          Int      @id @default(autoincrement())
   githubId    String   @unique
+  userName    String
   accessToken String?
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt

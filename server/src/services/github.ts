@@ -37,6 +37,7 @@ passport.use(
             select: { User: true },
           });
           done(null, githubUser.User);
+          return;
         }
 
         // if github account does not exist
@@ -48,6 +49,7 @@ passport.use(
             data: {
               githubId: profile.id,
               accessToken: accessToken,
+              userName: profile.username,
             },
           });
 
@@ -68,7 +70,7 @@ passport.use(
               data: {
                 githubId: profile.id,
                 accessToken: accessToken,
-
+                userName: profile.username,
                 User: {
                   create: {
                     username: profile.username,
