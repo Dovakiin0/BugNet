@@ -65,7 +65,7 @@ function Register({ }: Props) {
               fontSize={"2xl"}
               letterSpacing="4px"
             >
-              BUGNET
+              BUGLOG
             </Text>
           </Flex>
         </NavLink>

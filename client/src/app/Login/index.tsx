@@ -62,7 +62,7 @@ function Login({ }: Props) {
               fontSize={"2xl"}
               letterSpacing="4px"
             >
-              BUGNET
+              BUGLOG
             </Text>
           </Flex>
         </NavLink>
@@ -108,13 +108,13 @@ function Login({ }: Props) {
                   type="text"
                   name="email"
                   label="Email"
-                  placeholder="demo@bugnet.com"
+                  placeholder="Enter your email address"
                 />
                 <TextField
                   type="password"
                   name="password"
                   label="Password"
-                  placeholder="bugnetdemo"
+                  placeholder="Enter your password"
                 />
                 <Button
                   disabled={isSubmitting}

@@ -20,7 +20,7 @@ import Skeleton from "../../../../components/Skeleton";
 
 type Props = {};
 
-function SideNav({}: Props) {
+function SideNav({ }: Props) {
   const projectModal = useDisclosure();
   const { data, isLoading, isError } = useAssignedBugs();
 
@@ -50,7 +50,7 @@ function SideNav({}: Props) {
               fontSize={"2xl"}
               letterSpacing="4px"
             >
-              BUGNET
+              BUGLOG
             </Text>
           </Flex>
         </NavLink>
